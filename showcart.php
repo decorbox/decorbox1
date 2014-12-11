@@ -65,8 +65,8 @@ $display_block .= <<<END_OF_TEXT
 <form method="post" action="checkout.php">
 END_OF_TEXT;
 //send to db store_orders_items
-$get_store_order_items_sql = "SELECT * FROM store_orders_items WHERE sel_item_id = '" . (int)$sel_item_id . "'"; //pagal mane cia dar reiketu session ID bet duomenu bazej nera tokio lauko
-	$store_orders_query = mysqli_query($mysqli, $get_store_order_items_sql);										//kaip tada atskirs kieno uzsakymas?
+$get_store_order_items_sql = "SELECT * FROM store_orders_items WHERE sel_item_id = '" . (int)$sel_item_id . "'"; 
+	$store_orders_query = mysqli_query($mysqli, $get_store_order_items_sql);
     $store_orders = mysqli_fetch_assoc($store_orders_query);
 
     	if (isset($store_orders['sel_item_qty']) && $store_orders['sel_item_qty'] > 0) {
@@ -76,11 +76,11 @@ $get_store_order_items_sql = "SELECT * FROM store_orders_items WHERE sel_item_id
                 WHERE sel_item_id = '" . (int)$sel_item_id . "'";
                 $update_to_cart_res = mysqli_query($mysqli, $update_cart_sql) or die(mysqli_error($mysqli));
             } else {
-                //add info to cart table
+                //add info to cart table // del $id nesu tikras sqle
                 $addto_orders_items_sql = "INSERT INTO store_orders_items
-                    (id, order_id, sel_item_id, sel_item_price, sel_item_qty) VALUES (NULL, KA CIA RASYT,'".$sel_item_id."',
+                    (id, order_id, sel_item_id, sel_item_price, sel_item_qty) VALUES (NULL, '".$id."','".$sel_item_id."',
                     '".$item_price."',
-                    '".$item_qty."', now())";
+                    '".$item_qty."')";
                 $addtocart_res = mysqli_query($mysqli, $addto_orders_items_sql) or die(mysqli_error($mysqli));
             } 
 
