@@ -30,33 +30,23 @@
                 $item_title = stripslashes($item_info['item_title']);
             }
             //free result
-            mysqli_free_result($get_iteminfo_res);
-            // check if product already exits
-            $get_product_sql = "SELECT * FROM 'store_shoppertrack' WHERE 'sel_item_id' = '" . (int)$safe_sel_item_id . "' AND 'session_id' = '" . $_COOKIE['PHPSESSID'] . "'";
-            $product_query = mysqli_query($mysqli, $get_product_sql);
-            $product = mysqli_fetch_assoc($product_query);
-            if (isset($product['sel_item_qty']) && $product['sel_item_qty'] > 0) {
-               // update cart product
-               $update_cart_sql = "UPDATE 'store_shoppertrack'
-                    SET 'sel_item_qty' = 'sel_item_qty' + '" . (float)$safe_sel_item_qty . "'
-                    WHERE 'sel_item_id' = '" . (int)$safe_sel_item_id . "' AND 'session_id' = '" . $_COOKIE['PHPSESSID'] . "'";
-                $update_to_cart_res = mysqli_query($mysqli, $update_cart_sql) or die(mysqli_error($mysqli));
-            } else {
+            mysqli_free_result($get_iteminfo_res);        
                 //add info to cart table
                 $addtocart_sql = "INSERT INTO store_shoppertrack
                     (session_id, sel_item_id, sel_item_qty, date_added) VALUES ('".$_COOKIE['PHPSESSID']."',
                     '".$safe_sel_item_id."',
                     '".$safe_sel_item_qty."', now())";
                 $addtocart_res = mysqli_query($mysqli, $addtocart_sql) or die(mysqli_error($mysqli));
-            }
-
+            
+        
             //close connection to MySQL
             mysqli_close($mysqli);
             //redirect to showcart page
             header("Location: showcart.php");
             exit;
         }
-    } else {
+    }
+     else {
         //send them somewhere else
         header("Location: displayCategories.php");
         exit;
