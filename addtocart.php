@@ -9,7 +9,7 @@ $safe_sel_item_id = mysqli_real_escape_string($mysqli, $_POST['sel_item_id']);
 $safe_sel_item_qty = mysqli_real_escape_string($mysqli, $_POST['sel_item_qty']);
 
 
-$_SESSION['sel_item_id'] = $sel_item_id;// turi perduoti id i showcart.php
+$_SESSION['sel_item_id'] = $_POST['sel_item_id'];// turi perduoti id i showcart.php
 
 
 //validate item and get title and price
@@ -48,5 +48,5 @@ exit;
 //send them somewhere else
 header("Location: displayCategories.php");
 exit;
-} 
+}
 ?>
