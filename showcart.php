@@ -3,7 +3,7 @@ session_start();
 include 'connect.php';
 
 $sel_item_id = $_SESSION['sel_item_id']; //turi gauti id is addtocart.php
-echo $sel_item_id; //!!!nieko neatspaudsdina
+
 
 $display_block = "<h1>Your Shopping Cart</h1>";
 //check for cart items based on user session id
@@ -16,6 +16,8 @@ $display_block .= "<p>You have no items in your cart.
 Please <a href=\"displayCategories.php\">continue to shop</a>!</p>";
 } else {
 //get info and build cart display
+
+ 
 	
 $display_block .= <<<END_OF_TEXT
 <table>
@@ -62,21 +64,47 @@ $display_block .= $full_price;
 $display_block .= <<<END_OF_TEXT
 <form method="post" action="checkout.php">
 END_OF_TEXT;
-//send to db 
-// JEIGU ISKOMENTUOCIAU SITA RODYTU KLAIDA: "Column count doesn't match value count at row 1"
-// speju del to kad $sel_item_id negauna nieko. Nors kai irasau ir paprasta skaiciu vietoj $sel_item_id vistie meta
+//send to db store_orders_items
+$get_store_order_items_sql = "SELECT * FROM store_orders_items WHERE sel_item_id = '" . (int)$sel_item_id . "'"; //pagal mane cia dar reiketu session ID bet duomenu bazej nera tokio lauko
+	$store_orders_query = mysqli_query($mysqli, $get_store_order_items_sql);										//kaip tada atskirs kieno uzsakymas?
+    $store_orders = mysqli_fetch_assoc($store_orders_query);
 
-//NULL reiksme zemiau nes duomenu bazej padaryta AUTO INCREASE NUMBER - turbut veikia
-/*
-$addto_order_items_sql = "INSERT INTO store_orders_items
-(id, order_id, sel_item_id, sel_item_price, sel_item_qty) VALUES (
-'".$id."',
-NULL,
-'".$sel_item_id."',
-'".$item_price."',
-'".$item_qty."', now())";
-$addto_order_items_res = mysqli_query($mysqli, $addto_order_items_sql) or die(mysqli_error($mysqli));
-*/
+    	if (isset($store_orders['sel_item_qty']) && $store_orders['sel_item_qty'] > 0) {
+            // update cart product
+            $update_cart_sql = "UPDATE store_orders_items
+           	    SET sel_item_qty = 'sel_item_qty' + '" . (float)$item_qty . "'
+                WHERE sel_item_id = '" . (int)$sel_item_id . "'";
+                $update_to_cart_res = mysqli_query($mysqli, $update_cart_sql) or die(mysqli_error($mysqli));
+            } else {
+                //add info to cart table
+                $addto_orders_items_sql = "INSERT INTO store_orders_items
+                    (id, order_id, sel_item_id, sel_item_price, sel_item_qty) VALUES (NULL, KA CIA RASYT,'".$sel_item_id."',
+                    '".$item_price."',
+                    '".$item_qty."', now())";
+                $addtocart_res = mysqli_query($mysqli, $addto_orders_items_sql) or die(mysqli_error($mysqli));
+            } 
+
+ /*
+MINDAUGO
+// check if product already exits
++            $get_product_sql = "SELECT * FROM `store_shoppertrack` WHERE `sel_item_id` = '" . (int)$safe_sel_item_id . "' AND `session_id` = '" . $_COOKIE['PHPSESSID'] . "'";
++            $product_query = mysqli_query($mysqli, $get_product_sql);
++            $product = mysqli_fetch_assoc($product_query);
++            if (isset($product['sel_item_qty']) && $product['sel_item_qty'] > 0) {
++               // update cart product
++               $update_cart_sql = "UPDATE `store_shoppertrack`
++                    SET `sel_item_qty` = `sel_item_qty` + '" . (float)$safe_sel_item_qty . "'
++                    WHERE `sel_item_id` = '" . (int)$safe_sel_item_id . "' AND `session_id` = '" . $_COOKIE['PHPSESSID'] . "'";
++                $update_to_cart_res = mysqli_query($mysqli, $update_cart_sql) or die(mysqli_error($mysqli));
++            } else {
++                //add info to cart table
++                $addtocart_sql = "INSERT INTO store_shoppertrack
++                    (session_id, sel_item_id, sel_item_qty, date_added) VALUES ('".$_COOKIE['PHPSESSID']."',
++                    '".$safe_sel_item_id."',
++                    '".$safe_sel_item_qty."', now())";
++                $addtocart_res = mysqli_query($mysqli, $addtocart_sql) or die(mysqli_error($mysqli));
++            }
+*/           
 
 $display_block .= <<<END_OF_TEXT
 <button type="submit" name="submit" value="submit"> Checkout </button>
