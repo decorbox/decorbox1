@@ -51,17 +51,6 @@
                 $addtocart_res = mysqli_query($mysqli, $addtocart_sql) or die(mysqli_error($mysqli));
             }
 
-
-
-
-            /*
-                $addtocart_sql = "INSERT INTO store_shoppertrack
-                    (session_id, sel_item_id, sel_item_qty, date_added) VALUES ('".$_COOKIE['PHPSESSID']."',
-                    '".$safe_sel_item_id."',
-                    '".$safe_sel_item_qty."', now())";
-                $addtocart_res = mysqli_query($mysqli, $addtocart_sql) or die(mysqli_error($mysqli));
-            */
-        
             //close connection to MySQL
             mysqli_close($mysqli);
             //redirect to showcart page
