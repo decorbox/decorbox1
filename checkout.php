@@ -6,8 +6,6 @@ include 'connect.php';
 $sel_item_id = $_SESSION['sel_item_id']; //turi gauti id is addtocart.php
 
 
-
-
 /*
 MINDAUGO
 // check if product already exits
