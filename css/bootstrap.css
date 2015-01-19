@@ -5940,7 +5940,7 @@ button.close {
 .dl-horizontal dd:after,
 .container:after,
 .container-fluid:after,
-.row:after,
+/*.row:after,*/
 .form-horizontal .form-group:after,
 .btn-toolbar:after,
 .btn-group-vertical > .btn-group:after,

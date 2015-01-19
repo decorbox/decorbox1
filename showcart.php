@@ -28,20 +28,21 @@ $display_block .= <<<END_OF_TEXT
 </tr>
 END_OF_TEXT;
 	// info is shoppertrack
+	$full_qty=0;
 	$full_price=0; 
 	while ($cart_info = mysqli_fetch_array($get_cart_res)) {
 	$id = $cart_info['id'];
 	$item_title = stripslashes($cart_info['item_title']);
 	$item_price = $cart_info['item_price'];
 	$item_qty = $cart_info['sel_item_qty'];
+	$full_qty =  $full_qty + $item_qty;
 	$total_price = sprintf("%.02f", $item_price * $item_qty); 
 	$full_price = sprintf("%.02f", $full_price+$total_price); //galutine kaina
-
-
 
 	$select_item_id_sql = "SELECT sel_item_id FROM store_shoppertrack WHERE id = '".$id."'";
 	$item_id = mysqli_query($mysqli, $select_item_id_sql) or die($mysqli_query($mysqli));//
 	//$safe_item_id = mysqli_real_escape_string($mysqli, $_GET['sel_item_id']);
+
 
 $display_block .= <<<END_OF_TEXT
 <tr>
@@ -54,6 +55,11 @@ $display_block .= <<<END_OF_TEXT
 END_OF_TEXT;
 }
 
+
+
+
+//$_SESSION['$full_qty'] = $_POST['$full_qty'];//turi perduoti i checkout
+echo "qty - $full_qty";
 $display_block .= "</table>";
 
 }
@@ -101,8 +107,6 @@ END_OF_TEXT;
 
 //free result
 mysqli_free_result($get_cart_res);
-
-
 
 //close connection to MySQL
 mysqli_close($mysqli);

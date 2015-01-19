@@ -2,21 +2,39 @@
 <html>
 	<head>
 		<title>Bootstrap test</title>
-		<meta name "viewport" content "width=device-width, initial-scale=1.0">
-		<link href = "css/bootstrap.min.css" rel = "stylesheet">
-		<link href = "css/styles.css" rel = "stylesheet">
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="js/bootstrap.js"></script>
+		
 		<?php 
+			include 'library.php';
 			include 'connect.php';
 		?>
 	</head>
 	<body>
 <div class="container">
 	<div class="row">
-		<div class="col-lg-3">
-		<?php include 'displayCategories.php';?>
+		<div class="col-md-12 border-color">
+			<h1>Header</h1>
 		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 border-color">
+			<p>up meniu</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-3 border-color">
+			<?php include 'displayCategories.php';?>
+		</div>
+		<div class="col-md-6 border-color">
+			<?php include 'showCategoriesItems.php';
+			?>
+		</div>
+		<div class="col-md-3 border-color">
+			<?php include 'showPriceWidget.php';
+			?>
+		</div>
+
 	</div>
 </div>	
 	
