@@ -113,11 +113,12 @@ END_OF_TEXT;
                         echo $item_id; echo " - "; echo $cart_info1['sel_item_qty']; echo " - "; echo $total_price1;
 
 				}else{
-					
+				
 					while($get_id=mysqli_fetch_array($get_item_id_res)){//, item_price = '".$total_price1."'
 						//$check = false;
 						if($cart_info1['id']==$get_id['item_id']){
 							echo " updated";
+							//NEVISADA UPDEITINA!!!!!
 							$update_cart_sql = "UPDATE store_orders_items_item
 		                            SET item_qty =  '".$cart_info1['sel_item_qty']."', item_price = '".$total_price1."'
 		                            WHERE item_id = '" . $get_id['item_id'] . "' AND order_id = '".$order_id."'";
@@ -134,7 +135,8 @@ END_OF_TEXT;
 						 else if($cart_info1['id']!=$get_id['item_id']){
 						//if($check==false){
 						//else{	item_price ---'".$total_price1."'
-							
+
+							//BLOGAI IRASO I DUOMENU BAZE!!!!!!!!!!
 	 						$add_item_sql = "INSERT INTO store_orders_items_item
 	                            (order_id, item_id, item_qty, item_price ) VALUES ('".$order_id."',
 	                            '".$cart_info1['id']."',
