@@ -17,7 +17,7 @@ $display_block .= "<p><em>Invalid item selection.</em></p>";
 //valid item, get info
 while ($item_info = mysqli_fetch_array($get_item_res)) {
 $cat_id = $item_info['cat_id'];
-$cat_title = strtoupper(stripslashes($item_info['cat_title']));
+$cat_title = mb_strtoupper($item_info['cat_title'], 'UTF-8');//geras didziosios
 $item_title = stripslashes($item_info['item_title']);
 $item_price = $item_info['item_price'];
 $item_desc = stripslashes($item_info['item_desc']);
@@ -27,9 +27,9 @@ $item_image = $item_info['item_image'];
 //make breadcrumb trail rodo linkus kuriame esi & display of item
 $display_block .= <<<END_OF_TEXT
 <p><em>You are viewing:</em><br/>
-<strong><a href="displayCategories.php?cat_id=$cat_id">$cat_title</a> &gt;
+<strong><a href="index.php?cat_id=$cat_id">$cat_title</a> &gt;
 $item_title</strong></p>
-<div style="float: left;"><img src="$item_image" alt="$item_title"/></div>
+<div style="float: left;"><img src="$item_image" class="img-responsive imgSize" alt="$item_title"/></div>
 <div style="float: left; padding-left: 12px">
 <p><strong>Description:</strong><br/>$item_desc</p>
 <p><strong>Price:</strong> \$$item_price</p>
@@ -62,12 +62,38 @@ mysqli_close($mysqli);
 <!DOCTYPE html>
 <html>
 <head>
+	<?php include 'library.php' ?>
 <title>My Store</title>
 <style type="text/css">
         label {font-weight: bold;}
 </style>      
 </head>
 <body>
-<?php echo $display_block; ?>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 border-color">
+			<h1>Header</h1>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 border-color">
+			<p>up meniu</p>
+		</div>
+	</div>
+<!--<?php echo $display_block; ?>-->
+	<div class="row">
+		<div class="col-md-9 border-color">
+			<?php echo $display_block; ?>
+		</div>
+		<div class="col-md-3 border-color">
+			<?php include 'showPriceWidget.php' ?>
+		</div>
+		
+
+	</div>
+	</div>
 </body>
 </html>

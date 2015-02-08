@@ -1,9 +1,11 @@
 
 <?php
-session_start();
+//session_start();
 
 include 'connect.php';
+
 $safe_cat_id = mysqli_real_escape_string($mysqli, $_GET['cat_id']); //gaunu paspaustos categorijos id 
+
 //$safe_cats_id = $_SESSION['cat_id'];
 $get_cat_title_sql = "SELECT cat_title FROM store_categories WHERE id='".$safe_cat_id."'";
 $get_cat_title_res = mysqli_query($mysqli, $get_cat_title_sql) or die(mysqli_error($mysqli)); 
@@ -61,8 +63,10 @@ mysqli_free_result($get_items_res);
 	<head>
 	<?php include 'library.php';?>
 	</head>
-	<body>
-	<?php echo $display_block?>
+	<body><!-- kiekvienam puslapyje priskirti nuorodas kad rodytu nuorodoj id puslapio 
+	ir cia su echo atsvaizduos tam paciam puslapyje su if-->
+	
+		<?php echo $display_block?>
 
 	</body>
 </html>

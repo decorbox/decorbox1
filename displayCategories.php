@@ -15,7 +15,7 @@ $display_block = "<p><em>Sorry, no categories to browse.</em></p>";
 while ($cats = mysqli_fetch_array($get_cats_res)) //display categories
 	{
 	$cats_id = $cats['id'];
-	$cats_title = strtoupper(stripslashes($cats['cat_title'])); //didziosios raides ir ziuri ar ner slash'u
+	$cats_title = $cats['cat_title']; 
 	$display_block .= "<p><strong><a href=\"".$_SERVER['PHP_SELF']. "?cat_id=".$cats_id."\">".$cats_title."</a></strong><br/></p>"; 
 
 	}
@@ -29,10 +29,34 @@ mysqli_close($mysqli);
 <!DOCTYPE html>
 <html>
 <head>
-
+	<php include 'library.php';?>
+	
 <title>My Categories</title>
 </head>
 <body>
-<?php echo $display_block; ?>
+<!--<?php echo $display_block; ?> -->
+	<div class="row">
+		<div class="col-md-3 border-color">
+			<?php  
+				echo $display_block;
+				 ?>
+		</div>
+		<div class="col-md-6 border-color">
+			<?php  
+						//include 'mainContent.php'; kad roduty main is pradziu
+				
+						include 'showCategoriesItems.php';
+					
+					
+			?>
+		</div>
+		<div class="col-md-3 border-color">
+			<?php include 'login.php';  
+				include 'showPriceWidget.php';
+			?>
+		</div>
+
+	</div>
+</div>	
 </body>
 </html>
