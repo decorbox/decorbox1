@@ -4,6 +4,7 @@ include 'connect.php';
 
 $sel_item_id = $_SESSION['sel_item_id']; //turi gauti id is addtocart.php
 
+
 $display_block = "<p><em>You are viewing:</em><br/>
 <strong><a href='index.php'>Pagrindinis</a> &gt;
 krepšelis</strong></p>";
@@ -16,7 +17,7 @@ $session = mysqli_fetch_assoc($get_session_query);//tikrinu dabartine session IM
 
 if($session['session_id']==$_COOKIE['PHPSESSID']){
     $order_id=$session['id'];
-    echo "order_id = " + $order_id;
+   
                
 //DISPLAY TABLE
 //check for cart items based on user session id
@@ -99,13 +100,13 @@ END_OF_TEXT;
 			while ($cart_info1 = mysqli_fetch_array($get_cart_res1)) {
 				$full_qty1 =  $full_qty1 + $cart_info1['sel_item_qty'];
 				$total_price1 = sprintf("%.02f", $cart_info1['item_price'] * $cart_info1['sel_item_qty']); 
-
+				
 				if(mysqli_num_rows($get_item_id_res)==0){
-					echo "IDEJO NAUJA I TUSCIA DUOMBAZE";
+					echo "IDEJO NAUJA I TUSCIA DUOMBAZE<br>";
 						
  						$add_item_sql = "INSERT INTO store_orders_items_item
                             (order_id, item_id, item_qty, item_price) VALUES ('".$order_id."',
-                            '".$cart_info1['id']."',
+                            '".$cart_info1['sel_item_id']."',
                             '".$cart_info1['sel_item_qty']."', 
                             '".$total_price1."')";
                         $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
@@ -115,8 +116,10 @@ END_OF_TEXT;
 				}else{
 				
 					while($get_id=mysqli_fetch_array($get_item_id_res)){//, item_price = '".$total_price1."'
-						//$check = false;
-						if($cart_info1['id']==$get_id['item_id']){
+						$check = false;//tikrina ar buvo updare
+					//jei is shoppertrack items ID == order items item ID
+						if($cart_info1['sel_item_id']==$get_id['item_id']){
+							
 							echo " updated";
 							//NEVISADA UPDEITINA!!!!!
 							$update_cart_sql = "UPDATE store_orders_items_item
@@ -128,26 +131,29 @@ END_OF_TEXT;
 
 		                            echo $cart_info1['sel_item_qty'];
 		                            echo "----price:";
-		                            echo $total_price1;
+		                            echo $total_price1; echo "<br>";
 		                     
 		                     //$check=true;   
-						}
-						 else if($cart_info1['id']!=$get_id['item_id']){
-						//if($check==false){
-						//else{	item_price ---'".$total_price1."'
-
-							//BLOGAI IRASO I DUOMENU BAZE!!!!!!!!!!
+						//}
+						}//jei is shoppertrack items ID != order items item ID
+						 // if($check==false){
+						  	//BLOGAI IRASO t.y 
+						
+						else{//jei is shoppertrack items ID != order items item ID
+							if($cart_info1['sel_item_id']!=$get_id['item_id']){						
+							//$insert_new = mysqli_fetch_assoc($get_cart_res1);
+							//BLOGAI IRASO I DUOMENU BAZE!!!!!!!!!!!
 	 						$add_item_sql = "INSERT INTO store_orders_items_item
 	                            (order_id, item_id, item_qty, item_price ) VALUES ('".$order_id."',
-	                            '".$cart_info1['id']."',
+	                            '".$cart_info1['sel_item_id']."',
 	                            '".$cart_info1['sel_item_qty']."',
 	                            '".$total_price1."' 
 	                            )";
 	                        $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
 	                        echo " idejo nauja:";
-	                        echo $item_id; echo " - "; echo $cart_info1['sel_item_qty']; echo " - "; echo $total_price1;
+	                        echo $item_id; echo " - "; echo $cart_info1['sel_item_qty']; echo " - "; echo $total_price1; echo "<br>";
 	                       }
-
+	                  	 }
 	                  
 						}//end of while
 					
@@ -156,48 +162,7 @@ END_OF_TEXT;
 		}//end of if isset submit
 	}
 	 //}//end of if session					
-//send to db store_orders_items
 
-//padaryt kad imtu prekes is store orders items item
-//info is store_orders_items
-/*
-$get_store_order_items_sql = "SELECT * FROM store_orders_items_item WHERE item_id = '" . (int)$sel_item_id . "'"; 
-$store_orders_query = mysqli_query($mysqli, $get_store_order_items_sql);
-$store_orders = mysqli_fetch_assoc($store_orders_query);
-*/
-
-
-//add/update items to database
-
-//add or update info to store items item 
-
-                   /* $get_product_sql = "SELECT * FROM store_orders_items_item WHERE order_id = '" . $order_id . "'  ";
-                    $product_query = mysqli_query($mysqli, $get_product_sql) or die(mysqli_error($mysqli));
-                    //$products = mysqli_fetch_assoc($product_query);
-*/
-                    
-                   /* while($product = mysqli_fetch_array( $get_cart_res))      
-                    { 
-                    	$item_price1 = $product['item_price'];
-						$total_price1 = sprintf("%.02f", $item_price1 * $product['sel_item_qty']);
-					
-                        $add_item_sql = "INSERT INTO store_orders_items_item
-                            (order_id, item_id, item_qty, item_price) VALUES ('".$order_id."',
-                            '".$sel_item_id."',
-                            '".$product['sel_item_qty']."', 
-                            '".$total_price1."')";
-                        $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
-                        echo " idejo nauja";
-                        echo $sel_item_id; echo " - "; echo $item_qty; echo " - "; echo "$total_price";
-                    	}
-                   
-				*/
-               // }//end of if order_id
-              // }//end else up
-//delete zero values in database
-/*$delete_store_orders_zero_sql = "DELETE FROM store_orders_items_item WHERE order_id = 0";
-$delete_store_orders_zero_res = mysqli_query($mysqli, $delete_store_orders_zero_sql) or die(mysqli_query($mysqli)); 
-*/
 
 $display_block .= <<<END_OF_TEXT
 <input type="hidden" name="full_price" value="$full_price"/>
