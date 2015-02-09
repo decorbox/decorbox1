@@ -17,8 +17,8 @@ $session = mysqli_fetch_assoc($get_session_query);//tikrinu dabartine session IM
 
 if($session['session_id']==$_COOKIE['PHPSESSID']){
     $order_id=$session['id'];
-   
-               
+
+
 //DISPLAY TABLE
 //check for cart items based on user session id
 $get_cart_sql = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty FROM
@@ -41,24 +41,24 @@ $display_block .= <<<END_OF_TEXT
 <th>Action</th>
 </tr>
 END_OF_TEXT;
-				
+
 	// info is shoppertrack
 	$full_qty=0;
-	$full_price=0; 
+	$full_price=0;
 	while ($cart_info = mysqli_fetch_array($get_cart_res)) {
 	$item_id = $cart_info['id'];//nenaudojamas
 	$item_title = stripslashes($cart_info['item_title']);
 	$item_price = $cart_info['item_price'];
 	$item_qty = $cart_info['sel_item_qty'];
 	$full_qty =  $full_qty + $item_qty;
-	$total_price = sprintf("%.02f", $item_price * $item_qty); 
+	$total_price = sprintf("%.02f", $item_price * $item_qty);
 	$full_price = sprintf("%.02f", $full_price+$total_price); //galutine kaina
 
 	/*$select_item_id_sql = "SELECT sel_item_id FROM store_shoppertrack_items WHERE order_id = '".$id."'";
 	$item_id = mysqli_query($mysqli, $select_item_id_sql) or die($mysqli_query($mysqli));//
 */	//$safe_item_id = mysqli_real_escape_string($mysqli, $_GET['sel_item_id']);
 
-				
+
 
 
 
@@ -87,81 +87,30 @@ $display_block .= <<<END_OF_TEXT
 <form method="post" action="">
 END_OF_TEXT;
 //atvaizdavimas i lenteles baigiasi/ toliau irasymas i duombaze!!!
-			$get_cart_sql = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty, st.sel_item_id FROM
-			store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
-			$get_cart_res1 = mysqli_query($mysqli, $get_cart_sql) or die(mysqli_error($mysqli));
+$get_cart_sql = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty, st.sel_item_id FROM
+	store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
+$get_cart_res1 = mysqli_query($mysqli, $get_cart_sql) or die(mysqli_error($mysqli));
 
-			$get_item_id= "SELECT item_id FROM store_orders_items_item WHERE order_id= '".$order_id."'";
-			$get_item_id_res = mysqli_query($mysqli, $get_item_id) or die(mysqli_error($mysqli));
+//jei checkout irasom naujus uzsakymo duomenis
+if(isset($_POST['submit_form'])){
 
-			if(isset($_POST['submit_form'])){
-				$full_qty1=0;
-			
-			while ($cart_info1 = mysqli_fetch_array($get_cart_res1)) {
-				$full_qty1 =  $full_qty1 + $cart_info1['sel_item_qty'];
-				$total_price1 = sprintf("%.02f", $cart_info1['item_price'] * $cart_info1['sel_item_qty']); 
-				
-				if(mysqli_num_rows($get_item_id_res)==0){
-					echo "IDEJO NAUJA I TUSCIA DUOMBAZE<br>";
-						
- 						$add_item_sql = "INSERT INTO store_orders_items_item
-                            (order_id, item_id, item_qty, item_price) VALUES ('".$order_id."',
-                            '".$cart_info1['sel_item_id']."',
-                            '".$cart_info1['sel_item_qty']."', 
-                            '".$total_price1."')";
-                        $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
-                        
-                        echo $item_id; echo " - "; echo $cart_info1['sel_item_qty']; echo " - "; echo $total_price1;
+	//istrinam praeitus duomenis siame uzsakyme
+	$delete_previous_sql = "DELETE FROM store_orders_items_item WHERE order_id ='".(int)$order_id."'";
+	mysqli_query($mysqli, $delete_previous_sql) or die(mysqli_error($mysqli));
 
-				}else{
-				
-					while($get_id=mysqli_fetch_array($get_item_id_res)){//, item_price = '".$total_price1."'
-						$check = false;//tikrina ar buvo updare
-					//jei is shoppertrack items ID == order items item ID
-						if($cart_info1['sel_item_id']==$get_id['item_id']){
-							
-							echo " updated";
-							//NEVISADA UPDEITINA!!!!!
-							$update_cart_sql = "UPDATE store_orders_items_item
-		                            SET item_qty =  '".$cart_info1['sel_item_qty']."', item_price = '".$total_price1."'
-		                            WHERE item_id = '" . $get_id['item_id'] . "' AND order_id = '".$order_id."'";
-		                            $update_to_cart_res = mysqli_query($mysqli, $update_cart_sql) or die(mysqli_error($mysqli));
-		                          
-		                           echo"----qty:";
+	//irasome is naujos visus
+	while ($cart_info1 = mysqli_fetch_array($get_cart_res1)) {
 
-		                            echo $cart_info1['sel_item_qty'];
-		                            echo "----price:";
-		                            echo $total_price1; echo "<br>";
-		                     
-		                     //$check=true;   
-						//}
-						}//jei is shoppertrack items ID != order items item ID
-						 // if($check==false){
-						  	//BLOGAI IRASO t.y 
-						
-						else{//jei is shoppertrack items ID != order items item ID
-							if($cart_info1['sel_item_id']!=$get_id['item_id']){						
-							//$insert_new = mysqli_fetch_assoc($get_cart_res1);
-							//BLOGAI IRASO I DUOMENU BAZE!!!!!!!!!!!
-	 						$add_item_sql = "INSERT INTO store_orders_items_item
-	                            (order_id, item_id, item_qty, item_price ) VALUES ('".$order_id."',
-	                            '".$cart_info1['sel_item_id']."',
-	                            '".$cart_info1['sel_item_qty']."',
-	                            '".$total_price1."' 
-	                            )";
-	                        $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
-	                        echo " idejo nauja:";
-	                        echo $item_id; echo " - "; echo $cart_info1['sel_item_qty']; echo " - "; echo $total_price1; echo "<br>";
-	                       }
-	                  	 }
-	                  
-						}//end of while
-					
-					}//end of else	
-			}//end of main while
-		}//end of if isset submit
-	}
-	 //}//end of if session					
+		$add_item_sql = "INSERT INTO store_orders_items_item
+	        (order_id, item_id, item_qty, item_price) VALUES ('".$order_id."',
+	        '".$cart_info1['sel_item_id']."',
+	        '".$cart_info1['sel_item_qty']."',
+	        '".$cart_info1['item_price'] * $cart_info1['sel_item_qty']."')";
+	    $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
+
+	}//end of main while
+}//end of if isset submit
+}//}//end of if session
 
 
 $display_block .= <<<END_OF_TEXT
@@ -221,7 +170,7 @@ table {
 		<div class="col-md-12 border-color">
 			<?php echo $display_block; ?>
 		</div>
-		
+
 
 	</div>
 	</div>
