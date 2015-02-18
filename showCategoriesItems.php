@@ -32,7 +32,7 @@ if (isset($_GET['cat_id'])) {
 	//pagination
 
 	//gets current page number
-	$items_per_page = 1;
+	$items_per_page = 2;
 	if(isset($_GET['page'])) {
 		$current_page = $_GET['page'];
 	} else {
@@ -51,7 +51,7 @@ if (isset($_GET['cat_id'])) {
 	$query = mysqli_query($mysqli, $get_total_num_sql) or die(mysql_error($mysqli));
 	$result = mysqli_fetch_array($query);
 	$total = $result['total'];
-	$total_pages = (int)($total / $items_per_page); 
+	$total_pages = ceil($total / $items_per_page);
 
 	//form the page link
 	$url = $_SERVER['PHP_SELF'] . "?cat_id=" . $safe_cat_id;
