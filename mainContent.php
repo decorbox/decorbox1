@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -12,11 +14,12 @@
 <div class="container">
 	
 
-	<p>main Content page</p>
+	<p>main Content page <a href="index.php">index</a></p>
+
 </div>
 	
 	<!--<?php /*include 'displayCategories.php'*/ ?>-->
-		
+
 	</body>
 
 </html>

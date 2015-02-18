@@ -206,11 +206,14 @@ if(isset($_POST['submitForm'])){// TEST JEI neuzpildyta
  			$order_id = $info['id'];
  		} 
 
+ 	$insert_orders_items = "INSERT INTO store_orders_items (order_id, sel_item_qty, sel_item_price) VALUES ('".$order_id."', '".$item_total_qty."', '".$shipping_total."')";
+ 	$insert_orders_items_res = mysqli_query($mysqli, $insert_orders_items) or die(mysqli_error($mysqli));
+
 
 	$sql = "INSERT INTO store_orders (authorization, item_total, order_address, order_city, order_date, order_email,
 		order_name, order_tel, order_zip, shipping_total, order_id,status) VALUES ('".$_COOKIE['PHPSESSID']."', 
 											
-		'".$item_total_qty."',
+		'".(int)$item_total_qty."',
 		'".$address."',
 		'".$city."',
 		now(),
@@ -223,17 +226,46 @@ if(isset($_POST['submitForm'])){// TEST JEI neuzpildyta
 		'2')";
 
 	$write_in_db = mysqli_query($mysqli, $sql) or die(mysqli_error($mysqli));
+//ikopijuota
+	$get_cart_sql = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty, st.sel_item_id FROM
+	store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
+$get_cart_res1 = mysqli_query($mysqli, $get_cart_sql) or die(mysqli_error($mysqli));
+
+//jei checkout irasom naujus uzsakymo duomenis
+
+
+	//istrinam praeitus duomenis siame uzsakyme
+	$delete_previous_sql = "DELETE FROM store_orders_items_item WHERE order_id ='".(int)$order_id."'";
+	mysqli_query($mysqli, $delete_previous_sql) or die(mysqli_error($mysqli));
+
+	//irasome is naujos visus
+	while ($cart_info1 = mysqli_fetch_array($get_cart_res1)) {
+
+		$add_item_sql = "INSERT INTO store_orders_items_item
+	        (order_id, item_id, item_qty, item_price) VALUES ('".$order_id."',
+	        '".$cart_info1['sel_item_id']."',
+	        '".$cart_info1['sel_item_qty']."',
+	        '".$cart_info1['item_price'] * $cart_info1['sel_item_qty']."')";
+	    $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
+
+	}//end of main while
+
 	//delete items from shoppertrack when order is completed
+	$delete_shoppertrack_tems = "DELETE FROM store_shoppertrack_items WHERE order_id ='".$order_id."'";
+	$delete_items_rez = mysqli_query($mysqli, $delete_shoppertrack_tems);
+
 	$delete_compeleted_items_sql = "DELETE FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."' ";
 	$delete_rez = mysqli_query($mysqli, $delete_compeleted_items_sql);
+
 	header('Location: checkout_success.php');
 	}
 }
 
 //delete zero values in database
+/* GERAS
 $delete_orders_zero_sql = "DELETE FROM store_orders WHERE order_name = '' AND order_address='' AND order_email='' ";
 $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(mysqli_error($mysqli)); 
-
+*/
 
 
  ?>

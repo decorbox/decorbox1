@@ -43,9 +43,12 @@ mysqli_close($mysqli);
 		</div>
 		<div class="col-md-6 border-color">
 			<?php  
-						//include 'mainContent.php'; kad roduty main is pradziu
+					
 				
-						include 'showCategoriesItems.php';
+					include 'showCategoriesItems.php';
+
+					//include 'mainContent.php';// kad roduty main is pradziu
+					
 					
 					
 			?>

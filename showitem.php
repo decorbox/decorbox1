@@ -3,7 +3,7 @@ session_start();
  // gera knyga 23 skyrius
  //connected to displayCategories
 include 'connect.php';
-$display_block = "<h1>My Store - Item Detail</h1>";
+
 //create safe values for use
 $safe_item_id = mysqli_real_escape_string($mysqli, $_GET['item_id']);
  //validate item
@@ -12,7 +12,7 @@ AS si LEFT JOIN store_categories AS c on c.id = si.cat_id WHERE si.id = '".$safe
 $get_item_res = mysqli_query($mysqli, $get_item_sql) or die(mysqli_error($mysqli));
 if (mysqli_num_rows($get_item_res) < 1) {
 //invalid item
-$display_block .= "<p><em>Invalid item selection.</em></p>";
+$display_block = "<p><em>Invalid item selection.</em></p>";
 } else {
 //valid item, get info
 while ($item_info = mysqli_fetch_array($get_item_res)) {
@@ -23,17 +23,20 @@ $item_price = $item_info['item_price'];
 $item_desc = stripslashes($item_info['item_desc']);
 $item_image = $item_info['item_image'];
 }
- 
+$display_block = "<p><em>Žiūrite:</em><br/>
+<strong><a href='index.php?cat_id=$cat_id'>$cat_title</a> &gt;
+$item_title</strong></p>";
+$display_block .= "<div class='text-center'><h1>$item_title</h1><hr></div>";
 //make breadcrumb trail rodo linkus kuriame esi & display of item
 $display_block .= <<<END_OF_TEXT
-<p><em>You are viewing:</em><br/>
-<strong><a href="index.php?cat_id=$cat_id">$cat_title</a> &gt;
-$item_title</strong></p>
-<div style="float: left;"><img src="$item_image" class="img-responsive imgSize" alt="$item_title"/></div>
-<div style="float: left; padding-left: 12px">
-<p><strong>Description:</strong><br/>$item_desc</p>
-<p><strong>Price:</strong> \$$item_price</p>
-<form method="post" action="addtocart.php">
+
+<div class="row">
+	<div class="col-md-6 ">
+		<div><img src="$item_image" class="img-responsive " alt="$item_title"/></div>
+	</div>
+	<div class="col-md-6">
+		<p><strong>Price:</strong> &euro; $item_price</p>
+		<form method="post" action="addtocart.php">
 END_OF_TEXT;
  
 //free result
@@ -49,11 +52,17 @@ mysqli_free_result($get_item_res);
         }
        
  $display_block .= <<<END_OF_TEXT
-</select></p>
-<input type="hidden" name="sel_item_id" value="$_GET[item_id]" />
-<button type="submit" name="submit" value="submit"> Add to Cart</button>
-</form>
+		</select></p>
+
+		<input type="hidden" name="sel_item_id" value="$_GET[item_id]" />
+		<button class='btn btn-success' type='submit' name='submit' value='submit'>Įdėti į krepšelį</button>
+		</form>
+		<div class="row margin-top border-color">
+			<p><strong>Description:</strong><br/>$item_desc</p>
+		</div>
+	</div>
 </div>
+
 END_OF_TEXT;
 }
 //close connection to MySQL
@@ -89,7 +98,8 @@ mysqli_close($mysqli);
 			<?php echo $display_block; ?>
 		</div>
 		<div class="col-md-3 border-color">
-			<?php include 'showPriceWidget.php' ?>
+			<?php include 'login.php';
+			include 'showPriceWidget.php'; ?>
 		</div>
 		
 

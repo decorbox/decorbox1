@@ -43,9 +43,15 @@
 	</div> 
 </div>	-->
 	
-	<?php 
-		include 'displayCategories.php' 
-
+	<?php  
+		
+			//include 'mainContent.php';// kad roduty main is pradziu
+		
+		
+			
+		
+			include 'displayCategories.php'; 
+		
 	?>
 		
 	</body>

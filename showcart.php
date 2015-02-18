@@ -5,10 +5,10 @@ include 'connect.php';
 $sel_item_id = $_SESSION['sel_item_id']; //turi gauti id is addtocart.php
 
 
-$display_block = "<p><em>You are viewing:</em><br/>
+$display_block = "<p><em>Žiūrite:</em><br/>
 <strong><a href='index.php'>Pagrindinis</a> &gt;
 krepšelis</strong></p>";
-$display_block .= "<h1>Your Shopping Cart</h1>";
+$display_block .= "<div class='text-center'> <h1>Your Shopping Cart</h1></div>";
 
 
 $get_session_sql = "SELECT * FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
@@ -17,6 +17,8 @@ $session = mysqli_fetch_assoc($get_session_query);//tikrinu dabartine session IM
 
 if($session['session_id']==$_COOKIE['PHPSESSID']){
     $order_id=$session['id'];
+    $_SESSION['order_id'] = $order_id;//perduoda i removecart.php
+
 
 
 //DISPLAY TABLE
@@ -34,11 +36,11 @@ if (mysqli_num_rows($get_cart_res) < 1) {
 $display_block .= <<<END_OF_TEXT
 <table class="table table-bordered table-hover table-condensed">
 <tr>
-<th>Title</th>
-<th>Price</th>
-<th>Qty</th>
-<th>Total Price</th>
-<th>Action</th>
+<th class="text-center">Title</th>
+<th class="text-center">Price</th>
+<th class="text-center">Qty</th>
+<th class="text-center">Total Price</th>
+<th class="text-center">Action</th>
 </tr>
 END_OF_TEXT;
 
@@ -63,12 +65,13 @@ END_OF_TEXT;
 
 
 $display_block .= <<<END_OF_TEXT
-<tr>
+<tr class="text-center">
 <td>$item_title <br></td>
-<td>\$ $item_price <br></td>
+<td>&euro; $item_price <br></td>
 <td>$item_qty <br></td>
-<td>\$ $total_price</td>
-<td><a href="removefromcart.php?id=$item_id">remove</a></td>
+<td>&euro; $total_price</td>
+<td><a class="btn btn-danger" type="button" href="removefromcart.php?id=$item_id">Remove</a></td>
+
 </tr>
 END_OF_TEXT;
 }//end of while
@@ -84,38 +87,16 @@ $display_block .= "</table>";
 }//end of else
 $display_block .= $full_price;//checkout.php idet i action
 $display_block .= <<<END_OF_TEXT
-<form method="post" action="">
+<form method="post" action="checkout.php">
 END_OF_TEXT;
-//atvaizdavimas i lenteles baigiasi/ toliau irasymas i duombaze!!!
-$get_cart_sql = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty, st.sel_item_id FROM
-	store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
-$get_cart_res1 = mysqli_query($mysqli, $get_cart_sql) or die(mysqli_error($mysqli));
 
-//jei checkout irasom naujus uzsakymo duomenis
-if(isset($_POST['submit_form'])){
 
-	//istrinam praeitus duomenis siame uzsakyme
-	$delete_previous_sql = "DELETE FROM store_orders_items_item WHERE order_id ='".(int)$order_id."'";
-	mysqli_query($mysqli, $delete_previous_sql) or die(mysqli_error($mysqli));
-
-	//irasome is naujos visus
-	while ($cart_info1 = mysqli_fetch_array($get_cart_res1)) {
-
-		$add_item_sql = "INSERT INTO store_orders_items_item
-	        (order_id, item_id, item_qty, item_price) VALUES ('".$order_id."',
-	        '".$cart_info1['sel_item_id']."',
-	        '".$cart_info1['sel_item_qty']."',
-	        '".$cart_info1['item_price'] * $cart_info1['sel_item_qty']."')";
-	    $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
-
-	}//end of main while
-}//end of if isset submit
 }//}//end of if session
 
 
 $display_block .= <<<END_OF_TEXT
 <input type="hidden" name="full_price" value="$full_price"/>
-<button type="submit" name="submit_form" value="submit"> Checkout </button>
+<button class="btn btn-success btn-lg" type="submit" name="submit_form" value="submit">Checkout</button>
 
 </form>
 END_OF_TEXT;
@@ -132,25 +113,7 @@ mysqli_close($mysqli);
 <head>
 	<?php include 'library.php' ?>
 <title>My Store</title>
-<style type="text/css">
-table {
-	border: 1px solid black;
-	border-collapse: collapse;
-	}
-	th {
-	border: 1px solid black;
-	padding: 6px;
-	font-weight: bold;
-	background: #ccc;
-	text-align: center;
-	}
-	td {
-	border: 1px solid black;
-	padding: 6px;
-	vertical-align: top;
-	text-align: center;
-	}
-</style>
+
 </head>
 <body>
 <div class="container">
