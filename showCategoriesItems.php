@@ -164,7 +164,11 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 
 	//pagination
 	//gets current page number
+<<<<<<< HEAD
 	
+=======
+	$items_per_page = 2;
+>>>>>>> 433f2addddc4fd4475815b93c949d17488fd7428
 	if(isset($_GET['page'])) {
 		$current_page = $_GET['page'];
 	} else {
@@ -183,10 +187,15 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 	$query = mysqli_query($mysqli, $get_total_num_sql) or die(mysql_error($mysqli));
 	$result = mysqli_fetch_array($query);
 	$total = $result['total'];
+<<<<<<< HEAD
 	$total_pages = ceil($total / $items_per_page); 
 	$total_items = $result['total'];
 	
 	
+=======
+	$total_pages = ceil($total / $items_per_page);
+
+>>>>>>> 433f2addddc4fd4475815b93c949d17488fd7428
 	//form the page link
 	//link of displayint categories
 	$url = $_SERVER['PHP_SELF'] . "?cat_id=" . $safe_cat_id;
