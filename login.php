@@ -1,8 +1,8 @@
 <?php 
 //http://php.about.com/od/finishedphp1/ss/php_login_code.htm
 //Connects to your Database 
-include 'connect.php';
-
+include_once 'connect.php';
+include_once 'library.php';
 $passErr = $userErr = '';
  
 if(isset($_COOKIE['ID_my_site']))
@@ -80,13 +80,11 @@ if(isset($_COOKIE['ID_my_site'])){
 	include 'members.php';
 }	 
 else {
-
+	
  ?> 
  <!DOCTYPE HTML>
 <html>
-<head>
-	<?php include 'library.php' ?>
-</head>
+
 <body>
 <div class="row">
 	<div class="col-md-12">
@@ -120,4 +118,5 @@ else {
 </div>
 </body>
 </html>
-<?php } ?>
+<?php } 
+?>

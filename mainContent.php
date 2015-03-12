@@ -11,12 +11,24 @@
 		?>
 	</head>
 	<body>
-<div class="container">
+
+	<div class="row">
+		<div class="col-md-5 border-color">
+			
+				tadas
+			
+		</div>
+
+		<div class="col-md-5 border-color">
+			
+				jonas
+			
+		</div>
+	</div>
+
 	
 
-	<p>main Content page <a href="index.php">index</a></p>
 
-</div>
 	
 	<!--<?php /*include 'displayCategories.php'*/ ?>-->
 

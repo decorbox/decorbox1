@@ -23,9 +23,13 @@ $item_price = $item_info['item_price'];
 $item_desc = stripslashes($item_info['item_desc']);
 $item_image = $item_info['item_image'];
 }
-$display_block = "<p><em>Žiūrite:</em><br/>
-<strong><a href='index.php?cat_id=$cat_id'>$cat_title</a> &gt;
-$item_title</strong></p>";
+
+$display_block = "
+<ol class='breadcrumb'>
+  <li><a href='index.php?cat_id=$cat_id'>$cat_title</a></li>
+  <li class='active'>$item_title</li>
+</ol>";
+
 $display_block .= "<div class='text-center'><h1>$item_title</h1><hr></div>";
 //make breadcrumb trail rodo linkus kuriame esi & display of item
 $display_block .= <<<END_OF_TEXT
@@ -45,7 +49,7 @@ mysqli_free_result($get_item_res);
 
 
         $display_block .= "<p><label for=\"sel_item_qty\">Select Quantity:</label>
-       <select id=\"sel_item_qty\" name=\"sel_item_qty\">";
+       <select class='selectOption' id=\"sel_item_qty\" name=\"sel_item_qty\">";
        
         for($i=1; $i<20; $i++){
                 $display_block .= "<option value=\"".$i ."\">".$i."</option>";
@@ -66,12 +70,16 @@ mysqli_free_result($get_item_res);
 END_OF_TEXT;
 }
 //close connection to MySQL
-mysqli_close($mysqli);
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<?php include 'library.php' ?>
+	<script type="text/javascript">$(document).ready(function() {
+  	$(".selectOption").select2({ minimumResultsForSearch: Infinity });//run sorting, INFINITY PASLEPE SEARCH BAR
+
+});</script>
 <title>My Store</title>
 <style type="text/css">
         label {font-weight: bold;}

@@ -10,5 +10,106 @@
 	margin-right: 0px;
 }
 .imgSize{
-	width:200px;
+	max-width: 100px;
+	max-height: 100px;
+	min-width: 100px;
+	min-height: 100px;
 }
+
+.ulclass{
+	height: 100px;
+	background-color: blue;
+}
+
+.margin-top20{
+	margin-top: 20px;
+}
+.margin-bottom15{
+	margin-bottom: 15px;
+}
+.margin-left20 {
+	margin-left: -30px;
+}
+.labelHeight{
+	min-height: 40px;
+	max-height: 40px;
+	overflow: hidden;
+}
+
+@media (min-width: 980px) and (max-width: 1200px) {
+  .margin-left20{
+  	margin-left: -25px;
+  }	
+   .imgLeft{
+  	margin-left: -10px;
+  }
+}
+
+.fullWidthButton{
+	display: block;
+	width: 100%;
+}
+.fullWidthSelect{
+	width: 100% !important; 
+}
+
+/*size for items price*/
+.labelSize{
+	font-size: 15pt;
+	color: red;
+}
+/*display categories*/
+.list-group-margin {
+  padding-left: 0;
+  margin-bottom: 0px !important;
+}
+.submenuBody{
+	width: 90%;
+	margin-top: 2px;
+}
+.float-right{
+	float: right;
+}
+.list-subitem{
+	padding: 2px 5px 5px 5px !important;
+	/*padding-right: 5px;
+	padding-left: 2px !important;*/
+}
+.menuBody{
+
+}
+.list-menuitem{
+	padding-right: 2px;
+	padding-left: 2px;
+}
+.categ-width{
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+/*admin page*/
+.adminImgSize{
+	max-width: 50px;
+	max-height: 50px;
+	min-width: 50px;
+	min-height: 50px;
+	margin:auto;
+}
+.inputImage{
+	width:200px;
+	height:200px;
+}
+
+.row_width{
+	max-width: 130px !important;
+	word-wrap: break-word;
+}
+.btnLeft{
+	margin-left: -15px;
+}
+.btnLeft1{
+	margin-left: -12px;
+}
+
+
+

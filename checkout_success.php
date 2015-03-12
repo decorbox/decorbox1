@@ -1,15 +1,14 @@
 <?php 
 session_start();
 include 'connect.php';
+//include 'library.php';
 
 ?>
 
 
 <!DOCTYPE HTML>
 <html>
-<head>
-<?php include 'library.php';?>
-</head>
+
 <body>
 <div class="container">
 	<div class="row"><!-- header-->

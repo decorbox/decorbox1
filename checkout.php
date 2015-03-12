@@ -1,6 +1,7 @@
 <?php 
 session_start();
 include 'connect.php';
+include 'library.php';
 
 $safe_sel_item_authorization = $_COOKIE['PHPSESSID']; //reikia vartotojo login arba session id kai nesiregistruoja
 $item_total_price= $_SESSION['full_price']; // ir total_qty suskaiciuot
@@ -8,13 +9,14 @@ $shipping_total = $item_total_price;//prideti skaiciu galima tai bus- siuntimo k
 //$full_qty = $_POST['full_qty'];
 $item_total_qty= $_SESSION['full_qty']; //$_POST['item_total'];
 
-	
- 		
 
-$display_block = "<p><em>You are viewing:</em><br/>
-<strong><a href='index.php'>Pagrindinis</a> &gt;
-<a href='showcart.php'>krepšelis</a> &gt;
-siuntimas</strong></p>";
+
+$display_block = "
+<ol class='breadcrumb'>
+  <li><a href='index.php'>Pagrindinis</a></li>
+  <li><a href='showcart.php'>Krepšelis</a></li>
+  <li class='active'>Siuntimas</li>
+</ol>";
 //$iraso=false;//iduom baze
 
 // ir sql pakeist i login id
@@ -273,9 +275,7 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 
 <!DOCTYPE HTML>
 <html>
-<head>
-<?php include 'library.php';?>
-</head>
+
 <body>
 <div class="container">
 	<div class="row"><!-- header-->

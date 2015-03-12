@@ -2,7 +2,15 @@
 
 //Connects to your Database 
 include 'connect.php';
- 
+
+?>
+<script type="text/javascript">
+	$(document).ready(function() {
+$('.tableStuff').dataTable();
+});
+
+</script>
+<?php
 
 //update user info
 if(isset($_POST['submitUpdate'])){
@@ -56,7 +64,7 @@ if(isset($_COOKIE['ID_my_site']))
 
 
 	 		echo"<br>	
-				<button type='button' class='btn btn-primary btn-lg' data-toggle='modal' data-target='#myModal'>
+				<button type='button' class='btn btn-primary btn-lg' style='display: block; width: 100%;' data-toggle='modal' data-target='#myModal'>
 				  Mano meniu
 				</button>
 
@@ -143,14 +151,17 @@ if(isset($_COOKIE['ID_my_site']))
 				      			</div> <!-- end of profile tab -->
 				     <!--UZSAKYMAI-->   
 				        		<div class='tab-pane' id='užsakymai'>
-				       			<table class='table table-bordered table-hover table-condensed'>
-									<tr>
-										<th class='text-center'>Pavadinimas</th>
-										<th class='text-center'>Kiekis</th>
-										<th class='text-center'>Kaina</th>
-										<th class='text-center'>Užsakymo data</th>
-										<th class='text-center'>Statusas</th>
-									</tr>";
+				       			<table class='table tableStuff table-bordered table-hover table-condensed'>
+				       				<thead>
+										<tr>
+											<th class='text-center'>Pavadinimas</th>
+											<th class='text-center'>Kiekis</th>
+											<th class='text-center'>Kaina</th>
+											<th class='text-center'>Užsakymo data</th>
+											<th class='text-center'>Statusas</th>
+										</tr>
+									</thead>
+									<tbody>";
 									//atvaizduoja uzsakymus
 									$get_order_id_by_username = "SELECT order_id, status, order_date FROM store_orders WHERE authorization = '".$username."' ORDER BY order_date";
  									$get_id_by_username_res= mysqli_query($mysqli, $get_order_id_by_username);
@@ -168,16 +179,17 @@ if(isset($_COOKIE['ID_my_site']))
 										$item_qty=$show_items['item_qty'];
 										$item_price=$show_items['item_price'];
 										
-								echo"	<tr class='text-center'>
+								echo"<tr class='text-center'>
 										<td>$item_title</td>
 										<td>$item_qty</td>
-										<td>$item_price</td>
+										<td>&euro;$item_price</td>
 										<td>$order_date</td>
 										<td>$status</td>
 									</tr>";
 									 	}//end of while show items 
 									}//end of while order id 
-								echo"</table>	
+								echo"</tbody>
+								</table>	
 				       			</div> 
 
 				        		
@@ -185,7 +197,7 @@ if(isset($_COOKIE['ID_my_site']))
 				      </div>
 
 				      <div class='modal-footer'>
-				        <button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button>
+				        <button type='button' class='btn btn-primary' data-dismiss='modal'>Uždaryti</button>
 				        
 				      </div>
 				    </div>
@@ -193,12 +205,13 @@ if(isset($_COOKIE['ID_my_site']))
 				</div>";
 			
 		
- 			echo "<a href=logout.php>Logout</a><br>"; 
+ 			 
  			} 
  			//admin menu button
  			if($info['role']=="Admin"){
- 				echo "<a class='btn btn-lg btn-danger' type='button' href='#'>Admin menu</a>";
+ 				echo "<a class='btn btn-lg btn-danger' style='display: block; width: 100%;' type='button' href='adminMenu.php'>Admin menu</a>";
  			}
+ 			echo "<a href=logout.php>Logout</a>";
  		}//end of while check 
 
  	}//end of IF ID_my_site 
