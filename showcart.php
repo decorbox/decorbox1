@@ -10,7 +10,7 @@ $display_block = "
   <li><a href='index.php'>Pagrindinis</a></li>
   <li class='active'>Krepšelis</li>
 </ol>";
-$display_block .= "<div class='text-center'> <h1>Your Shopping Cart</h1></div>";
+$display_block .= "<div class='text-center'> <h1>Pirkinių krepšelis</h1></div>";
 
 
 $get_session_sql = "SELECT * FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
@@ -36,11 +36,11 @@ if($session['session_id']==$_COOKIE['PHPSESSID']){
 	$display_block .= "
 	<table class='table table-bordered table-hover table-condensed'>
 	<tr>
-	<th class='text-center'>Title</th>
-	<th class='text-center'>Price</th>
-	<th class='text-center'>Qty</th>
-	<th class='text-center'>Total Price</th>
-	<th class='text-center'>Action</th>
+	<th class='text-center'>Pavadinimas</th>
+	<th class='text-center'>Kaina</th>
+	<th class='text-center'>Kiekis</th>
+	<th class='text-center'>Visa kaina</th>
+	<th class='text-center'>Veiksmai</th>
 	</tr>";
 
 		// info is shoppertrack
@@ -69,7 +69,7 @@ if($session['session_id']==$_COOKIE['PHPSESSID']){
 	<td>&euro; $item_price <br></td>
 	<td>$item_qty <br></td>
 	<td>&euro; $total_price</td>
-	<td><a class='btn btn-danger' type='button' href='removefromcart.php?id=$item_id'>Remove</a></td>
+	<td><a class='btn btn-danger' type='button' href='removefromcart.php?id=$item_id'>Pašalinti</a></td>
 	</tr>";
 	}//end of while
 
@@ -94,7 +94,7 @@ if($session['session_id']==$_COOKIE['PHPSESSID']){
 if(isset($full_price)){
 $display_block .= "
 <input type='hidden' name='full_price' value='$full_price'/>
-<button class='btn btn-success btn-lg' type='submit' name='submit_form' value='submit'>Checkout</button>
+<button class='btn btn-success btn-lg' type='submit' name='submit_form' value='submit'>Siuntimas</button>
 </form>";
 }
 

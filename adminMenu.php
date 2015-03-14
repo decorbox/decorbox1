@@ -52,20 +52,44 @@ if(isset($_COOKIE['ID_my_site']))
 	 					</div>
 	 					<div class='row'>
 	 						<div class='col-md-2 border-color'>
-	 							<div class='list-group'>
-	 								<a href='".$_SERVER['PHP_SELF']. "?menu=vartotojai' class='list-group-item '>
+	 							<div class='list-group'>";
+	 							if(isset($_GET['menu']) && $_GET['menu']=='vartotojai'){
+	 				$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=vartotojai' class='list-group-item active'>
 							            <span class='glyphicon glyphicon-user'></span> Vartotojai
-							        </a>
-							        <a href='".$_SERVER['PHP_SELF']. "?menu=prekes' class='list-group-item'>
+							        </a>";
+	 							}else{
+	 				$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=vartotojai' class='list-group-item '>
+							            <span class='glyphicon glyphicon-user'></span> Vartotojai
+							        </a>";
+							    }
+							    if(isset($_GET['menu']) && $_GET['menu']=='prekes'){
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=prekes' class='list-group-item active'>
 							            <span class='glyphicon glyphicon-file'></span> Prekės
-							        </a>
-							        <a href='".$_SERVER['PHP_SELF']. "?menu=kategorijos' class='list-group-item'>
+							        </a>";
+							    }else{
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=prekes' class='list-group-item'>
+							            <span class='glyphicon glyphicon-file'></span> Prekės
+							        </a>";
+							    }
+							    if(isset($_GET['menu']) && $_GET['menu']=='kategorijos'){
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=kategorijos' class='list-group-item active'>
 							            <span class='glyphicon glyphicon-th-list'></span> Kategorijos
-							        </a>
-							        <a href='".$_SERVER['PHP_SELF']. "?menu=uzsakymai' class='list-group-item'>
+							        </a>";
+							    }else{
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=kategorijos' class='list-group-item'>
+							            <span class='glyphicon glyphicon-th-list'></span> Kategorijos
+							        </a>";
+							    }
+							    if(isset($_GET['menu']) && $_GET['menu']=='uzsakymai'){
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=uzsakymai' class='list-group-item active'>
 							            <span class='glyphicon glyphicon-shopping-cart'></span> Užsakymai
-							        </a>
-	 							</div>
+							        </a>";	    	
+							    }else{
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=uzsakymai' class='list-group-item'>
+							            <span class='glyphicon glyphicon-shopping-cart'></span> Užsakymai
+							        </a>";
+							    }
+	 			$display_block.="</div>
 	 						</div>
 	 				
 	 						<div class='col-md-10 border-color'>";
@@ -277,17 +301,18 @@ $display_block.="<!-- add item Modal -->
 <script type="text/javascript">
 $(document).ready(function() {
 
-	$('#show_heading').hide();
-	$('#search_category_id').change(function(){
-		$('#show_sub_categories').fadeOut();
-		//$('#loader').show();
+	$('#show_heading');//.hide();
+	$('#search_category_id<?php echo $item_id ?>').change(function(){
+		$('#show_sub_categories<?php echo $item_id ?>');//.fadeOut();
 		$.post("ajaxSubcategories.php", {
-			parent_id: $('#search_category_id').val(),
+			
+			parent_id: $('#search_category_id<?php echo $item_id ?>').val(),
 			
 		}, function(response){
 			
-			setTimeout("finishAjax('show_sub_categories', '"+escape(response)+"')", 400);
-		});
+			setTimeout("finishAjax('show_sub_categories<?php echo $item_id ?>', '"+escape(response)+"')");
+		}
+		);
 		return false;
 	});
 });
@@ -296,6 +321,7 @@ function finishAjax(id, response){
   $('#show_heading').show();
   $('#'+id).html(unescape(response));
   $('#'+id).fadeIn();
+
 } 
 
 function alert_id()
@@ -307,7 +333,7 @@ function alert_id()
 	return false;
 }
 </script>
-<?php		
+<?php	
 							            //modals area
 $display_block.="<!-- edit item Modal -->
 <div class='modal fade' id='".$item_id."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
@@ -332,41 +358,39 @@ $display_block.="<!-- edit item Modal -->
 								<div class='row margin-top'>
 									<label for='inputName3' class='col-md-4 control-label'>Pavadinimas</label>
 									<div class='col-md-8'>
-										<input type='text' name='pavadinimas' value='$item_title' class='form-control' id='inputName3' >							
+										<input type='text' name='title' value='$item_title' class='form-control' id='inputName3' >							
 									</div>
 								</div>
 
 								<div class='row margin-top'>	
 									<label for='inputPrice' class='col-md-4 control-label'>Kaina</label>
 									<div class='col-md-8'>
-										<input type='text' name='price' value='$item_price' class='form-control' id='inputPrice' >
+										<input type='number' min='0' step='any' name='price' value='$item_price' class='form-control' id='inputPrice' >
 									</div>
 								</div>	
 
 								<div class='row margin-top'>	
 									<label for='inputCategory' class='col-md-4 control-label'>Kategorija</label>
 									<div class='col-md-8'>
-									<select class='selectOption' id='search_category_id' style='width:100%'  name='category'>";
-										//prie kategorijos ir subkateg SELECT pridet $item_id, ir java scripte			
-										
-							
+			<!--  KATEGORIJOS	-->		<select class='selectOption' id='search_category_id".$item_id."' style='width:100%'  name='category'>";
+													
+
 										//get all categories for select option
 										
 										$select_cat_sql = "SELECT * FROM store_categories";
 										$select_cat_res = mysqli_query($mysqli, $select_cat_sql) or die(mysqli_error($mysqli));
-										//get subcat for select option
-										//$select_subcat_sql = "SELECT * FROM store_subcategories";
-										//$select_subcat_res = mysqli_query($mysqli, $select_subcat_sql) or die(mysqli_error($mysqli));
 										
-										//$display_block .="<option value='".$item_cat_id."'>$cat_title</option>";
-										//categories
+										//selected category
+										$display_block .="<option value='".$item_cat_id."'>$cat_title</option>";
+										//other categories
 											while($cat = mysqli_fetch_array($select_cat_res)){
 
-												//if($item_cat_id != $cat['id']){
+												if($item_cat_id != $cat['id']){
 													$cat_id = $cat['id'];
 													$cat_title = $cat['cat_title'];
 													$display_block .="<option  value='".$cat_id."'>$cat_title</option>";
-													//}
+													}
+												
 												} 									
 						$display_block .="
 										</select>
@@ -379,8 +403,10 @@ $display_block.="<!-- edit item Modal -->
 									<div class='col-md-8'>
 						<!--subcategories-->				
 
-										<div id='show_sub_categories'></div>
+										<div id='show_sub_categories".$item_id."'></div>
+											
 
+											
 									</div>
 								</div>	
 
@@ -402,6 +428,7 @@ $display_block.="<!-- edit item Modal -->
 				</div>
 		 	</div>
 		</div>";
+
 			  					}//end of main fetch array $get_items_res
 
 					$display_block.="</tbody>
@@ -472,12 +499,30 @@ if(isset($_POST["submitEditItem"])) {
 		        echo"<div class='alert alert-danger alert-dismissible' role='alert'>
 				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				Nutiko klaida atnaujinant paveikslėlį.
-			</div>";;
+			</div>";
 		    }
 		}
 	}//end of upload image
 	//update item content
+	//check for input errors
 
+	$input_error = false;
+
+	if(isset($_POST['title']) && $_POST['title']==''){
+		$input_error = true;
+	}
+	
+	if(isset($_POST['price']) && $_POST['price']==''){
+		$input_error = true;
+	}
+
+	if($input_error == false){
+		echo "AND";
+		//echo $_POST['sub_category'];
+		//echo $('#sub_category_id').val(); 
+		echo "<script> $('#sub_category_id').val(); </script>";
+		echo "<script> alert_id(); </script>";
+	}
 }//end of submitEdit item
 							    }//END OF ITEMS PAGE
 	//------------KATEGORIJOS PUSLAPIS
@@ -823,61 +868,59 @@ if(isset($_POST['submitDelete'])){
 				       			</table>
 				       		</div>
 				       				";
-					//if is submited edit category
-						if(isset($_POST['submitEditCategory'])){
+//if is submited edit category
+if(isset($_POST['submitEditCategory'])){
 
-							$subcats_sql="SELECT * FROM store_subcategories where cat_id='".$_POST['editCategoryId']."'";
-							$subcts_res= mysqli_query($mysqli, $subcats_sql) or die(mysqli_error($mysqli));
+	$subcats_sql="SELECT * FROM store_subcategories where cat_id='".$_POST['editCategoryId']."'";
+	$subcts_res= mysqli_query($mysqli, $subcats_sql) or die(mysqli_error($mysqli));
 							
-							while($sub = mysqli_fetch_array($subcts_res)){
-								$sub_id = $sub['subcat_id'];
-								$sub_title = $sub['subcat_title'];
-							
-							//check input	
-								//if subcat input is empty write only subcategory title
-								if($_POST['editSubcategory'.$sub_id.'']==''){
-									//write only category title
-									$update_cats = "UPDATE store_categories SET cat_title ='".$_POST['editCategory']."' WHERE id='".$_POST['editCategoryId']."'";
-									$update_cats_res = mysqli_query($mysqli, $update_cats) or die(mysqli_error($mysqli));
-									echo("<meta http-equiv='refresh' content='0'>");//reflesh page
-									//alert
-									echo"<div class='alert alert-danger alert-dismissible' role='alert'>
-										  	<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-										  	<strong>Dėmesio!</strong> Buvo palikti tušti laukai sub kategorijose, tie laukai nebuvo atnaujinti.
-										</div>";
+	while($sub = mysqli_fetch_array($subcts_res)){
+		$sub_id = $sub['subcat_id'];
+		$sub_title = $sub['subcat_title'];
+	
+	//check input	
+		//if subcat input is empty write only subcategory title
+		if($_POST['editSubcategory'.$sub_id.'']==''){
+			//write only category title
+			$update_cats = "UPDATE store_categories SET cat_title ='".$_POST['editCategory']."' WHERE id='".$_POST['editCategoryId']."'";
+			$update_cats_res = mysqli_query($mysqli, $update_cats) or die(mysqli_error($mysqli));
+			echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+			//alert
+			echo"<div class='alert alert-danger alert-dismissible' role='alert'>
+			<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+			<strong>Dėmesio!</strong> Buvo palikti tušti laukai sub kategorijose, tie laukai nebuvo atnaujinti.
+			</div>";
 										//if category title is empty
-								}else if($_POST['editCategory']==''){
-									//no data because ALERTS IS DOUBLEING
-								}	//if everything ir good, update all
-								else if(mysqli_num_rows($subcts_res)>=1){
-							
-									echo $_POST['editSubcategory'.$sub_id.''];
-									echo "-->";
-									echo $_POST['editSubcategoryId'.$sub_id.''];
-									echo "<br>";
-									$update_cats = "UPDATE store_categories SET cat_title ='".$_POST['editCategory']."' WHERE id='".$_POST['editCategoryId']."'";
-									$update_cats_res = mysqli_query($mysqli, $update_cats) or die(mysqli_error($mysqli));
+		}else if($_POST['editCategory']==''){
+			//no data because ALERTS IS DOUBLEING
+		}	//if everything ir good, update all
+		else if(mysqli_num_rows($subcts_res)>=1){
+			echo $_POST['editSubcategory'.$sub_id.''];
+			echo "-->";
+			echo $_POST['editSubcategoryId'.$sub_id.''];
+			echo "<br>";
+			$update_cats = "UPDATE store_categories SET cat_title ='".$_POST['editCategory']."' WHERE id='".$_POST['editCategoryId']."'";
+			$update_cats_res = mysqli_query($mysqli, $update_cats) or die(mysqli_error($mysqli));
 
-									$update_subcats = "UPDATE store_subcategories SET subcat_title ='".$_POST['editSubcategory'.$sub_id.'']."' WHERE cat_id='".$_POST['editCategoryId']."' AND subcat_id='".$_POST['editSubcategoryId'.$sub_id.'']."'"; 
-									$update_subcats_res = mysqli_query($mysqli, $update_subcats) or die(mysqli_error($mysqli));
-									echo("<meta http-equiv='refresh' content='0'>");//reflesh page
-								}//end of else
-								
-							}//end of while
-						//when is no subcategories
-								//is category title is empty	
-								if($_POST['editCategory']==''){
-									echo"<div class='alert alert-danger alert-dismissible' role='alert'>
-										  	<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-										  	<strong>Dėmesio!</strong> Kategorijos pavadinime buvo palikta tuščia eilute, pavadinimas nepakeistas.
-										</div>";
-								}//update category title	
-								else if(mysqli_num_rows($subcts_res)==0){
-									$update_cats = "UPDATE store_categories SET cat_title ='".$_POST['editCategory']."' WHERE id='".$_POST['editCategoryId']."'";
-									$update_cats_res = mysqli_query($mysqli, $update_cats) or die(mysqli_error($mysqli));	
-									echo("<meta http-equiv='refresh' content='0'>");//reflesh page
-								}
-						}//end if isset submitEditCategory
+			$update_subcats = "UPDATE store_subcategories SET subcat_title ='".$_POST['editSubcategory'.$sub_id.'']."' WHERE cat_id='".$_POST['editCategoryId']."' AND subcat_id='".$_POST['editSubcategoryId'.$sub_id.'']."'"; 
+			$update_subcats_res = mysqli_query($mysqli, $update_subcats) or die(mysqli_error($mysqli));
+			echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+		}//end of else
+	}//end of while
+		
+	//is category title is empty	
+	if($_POST['editCategory']==''){
+		echo"<div class='alert alert-danger alert-dismissible' role='alert'>
+			  	<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+			  	<strong>Dėmesio!</strong> Kategorijos pavadinime buvo palikta tuščia eilute, pavadinimas nepakeistas.
+			</div>";
+	}//update category title	
+	else if(mysqli_num_rows($subcts_res)==0){
+		$update_cats = "UPDATE store_categories SET cat_title ='".$_POST['editCategory']."' WHERE id='".$_POST['editCategoryId']."'";
+		$update_cats_res = mysqli_query($mysqli, $update_cats) or die(mysqli_error($mysqli));	
+		echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+	}
+}//end if isset submitEditCategory
 
 
 					    }//END OF CATEGORIES PAGE

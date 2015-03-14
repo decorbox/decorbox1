@@ -4,7 +4,7 @@
 include 'connect.php';
 
 
-	$display_block = "<h3>Your shopping cart</h3>";
+	$display_block = "<h3>Pirkinių krepšelis</h3>";
                 
 //get order_id
 $get_order_id_sql = "SELECT id FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
@@ -23,7 +23,7 @@ if (isset($order_id)) {
 					
 	if (mysqli_num_rows($get_cart_res) < 1) {
 		//print message
-		$display_block .= "<p>You have no items in your cart.</p>";
+		$display_block .= "<p>Krepšelyje prekių nėra</p>";
 	}
 	else {
 		$full_price=0; 
@@ -36,9 +36,9 @@ if (isset($order_id)) {
 			$total_price = sprintf("%.02f", $item_price * $item_qty); 
 			$full_price = sprintf("%.02f", $full_price+$total_price); //galutine kaina
 		}
-		$display_block .= "Total qty: $full_qty <br>";
-		$display_block .= "Total price: $full_price <br>";
-		$display_block .= "<a href='showcart.php'>Show Cart</a>";	
+		$display_block .= "Prekių kiekis: $full_qty <br>";
+		$display_block .= "Galutinė kaina: $full_price <br>";
+		$display_block .= "<a href='showcart.php'>Rodyti krepšelį</a>";	
 	}
 
 

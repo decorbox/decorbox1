@@ -1,5 +1,11 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+  	$(".selectOption").select2({ minimumResultsForSearch: Infinity });//run sorting, INFINITY PASLEPE SEARCH BAR
+});
+</script>
 <?php
 include 'connect.php';
+
 
 if($_REQUEST)
 {
@@ -8,16 +14,18 @@ if($_REQUEST)
 	$select_subcat_res = mysqli_query($mysqli, $select_subcat_sql) or die(mysqli_error($mysqli));
 
 echo"	
-	<select name='sub_category' class='selectOption' id='sub_category_id'>
+	<select name='sub_category' class='selectOption' style='width:100%' id='sub_category_id'>
 	";
 	
 	while($categ = mysqli_fetch_array($select_subcat_res)){
 	$subcat_id = $categ['subcat_id'];
 	$subcat_title = $categ['subcat_title'];
-	echo"<option value='".$subcat_id."'>$subcat_title</option>";
+	
+		echo"<option value='".$subcat_id."'>$subcat_title</option>";
 	}
 	
 echo"</select>";
+
 
 }
 

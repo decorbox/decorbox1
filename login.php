@@ -107,8 +107,9 @@ else {
 					<div>
 						
 						<a href="register.php">
-						   <button type="link" class="btn btn-default" value="Registruotis" />Registruotis
+						   <button type="link" class="btn btn-default" value="Registruotis" >Registruotis
 						</a>
+							
 						<button type="submit" value"Register" name="submitLog" class="btn btn-default">Prisijunkti</button>
 					</div> <!-- padaryt kai submitinu kad rodytu pop up windows http://nakupanda.github.io/bootstrap3-dialog/ -->
 				</div>
