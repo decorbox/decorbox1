@@ -16,7 +16,7 @@ include 'connect.php';
 		$('#amount'+id).val(y);
 		var total = x * y;
 		total = roundToPosition(total, 2);
-		$('#total'+id).val(total);
+		$('#total'+id).text(total);
 		var all_total = calculateAllTotal();
 		all_total = roundToPosition(all_total, 2);
 		$('#all-total').text(all_total);
@@ -36,8 +36,8 @@ include 'connect.php';
 	
 	function calculateAllTotal() {
 		var total = 0.0;
-		$("input[id^='total']").each(function(){
-			total += parseFloat($(this).val());
+		$("span[id^='total']").each(function(){
+			total += parseFloat($(this).text());
 		});
 		return total;
 	}
@@ -112,7 +112,7 @@ if($session['session_id']==$_COOKIE['PHPSESSID']){
 		<td>&euro; $item_price <br></td>
 		<input type='hidden' id='cost".$item_id."' value='".$item_price."' onchange='totalSum($item_id)' name='price".$item_id."'/>
 		<td> <input type='number' min='1' step='any' id='amount".$item_id."'  onchange='sum($item_id)'  value='$item_qty'></td>
-		<td>&euro; <input type='text' disabled id='total".$item_id."' value='".$total_price."'></td>
+		<td><span id='total".$item_id."' >" . $full_price . "</span> &euro;</td>
 		<td><a class='btn btn-danger' type='button' href='removefromcart.php?id=$item_id'>Pašalinti</a></td>
 	</tr>";
 
