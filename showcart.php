@@ -9,15 +9,35 @@ include 'connect.php';
 		var y = document.getElementById('amount' + itemId).value;
 		var total = parseFloat(x) * parseFloat(y);
 		document.getElementById('total' + itemId).value = total;*/
-		var x = isNumber(document.getElementById('cost'+id).value) ? document.getElementById('cost'+id).value : 0;
-		var y = isNumber(document.getElementById('amount'+id).value) ? document.getElementById('amount'+id).value : 0;
+		var x = isNumber($('#cost'+id).val()) ? $('#cost'+id).val() : 0;
+		var y = isNumber($('#amount'+id).val()) ? $('#amount'+id).val() : 0;
 		var total = parseFloat(x) * parseFloat(y);
-		document.getElementById('total'+id).value = total;
+		total = roundToPosition(total);
+		$('#total'+id).val(total);
+		var all_total = calculateAllTotal();
+		all_total = roundToPosition(all_total);
+		$('#all-total').text(all_total);
 	}
+
 	function isNumber(n) {
   		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
+
+	function roundToPosition(number, position = 2) {
+		number = parseFloat(number);
+		number = number * (Math.pow(10, position));
+		number = Math.round(number);
+		number = number / (Math.pow(10, position));
+		return number;
+	}
 	
+	function calculateAllTotal() {
+		var total = 0.0;
+		$("input[id^='total']").each(function(){
+			total += parseFloat($(this).val());
+		});
+		return total;
+	}
 
 </script>
 <?php
@@ -106,7 +126,7 @@ if($session['session_id']==$_COOKIE['PHPSESSID']){
 
 	}//end of else
 	if(isset($full_price)){
-		$display_block .= $full_price;//checkout.php idet i action
+		$display_block .= '<div id="all-total">' . $full_price . '</div>';//checkout.php idet i action
 	}
 	
 
