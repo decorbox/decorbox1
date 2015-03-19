@@ -7,9 +7,7 @@ include 'library.php';
 ?>
 <!DOCTYPE HTML>
 <html>
-<script type="text/javascript">$(document).ready(function() {
-  	$(".selectOption").select2({ minimumResultsForSearch: Infinity });//run sorting, INFINITY PASLEPE SEARCH BAR
-});</script>
+
 <body>
 
 <?php
@@ -127,11 +125,8 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 			        			<div class=' col-lg-12 col-md-12 col-sm-6 col-xs-6 '>
 				        			<form method='post' style='weigth:500px' action='addtocart.php'>
 										<label class=' margin-top20' for='sel_item_qty'>Kiekis:</label>
-										<select class='selectOption control-label fullWidthSelect'  id='sel_item_qty' name='sel_item_qty'>";
-				        				for($i=1; $i<11; $i++) {
-										 	$display_block .= "<option value=\"".$i."\">".$i."</option><br>";
-										} 
-				     $display_block.="  </select>
+										<input type='number' min='1' value='1' class='fullWidthSelect' name='sel_item_qty' id='sel_item_qty'>
+					
 				     					<div class='row'>
 				        					<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
 				        						<label class='labelSize margin-left20'>&euro;".$item_price."</label>
@@ -261,11 +256,8 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 			        			<div class=' col-lg-12 col-md-12 col-sm-6 col-xs-6 '>
 				        			<form method='post' style='weigth:500px' action='addtocart.php'>
 										<label class=' margin-top20' for='sel_item_qty'>Kiekis:</label>
-										<select class='selectOption control-label fullWidthSelect'  id='sel_item_qty' name='sel_item_qty'>";
-				        				for($i=1; $i<11; $i++) {
-										 	$display_block .= "<option value=\"".$i."\">".$i."</option><br>";
-										} 
-				     $display_block.="  </select>
+										<input type='number' min='1' value='1' class='fullWidthSelect' name='sel_item_qty' id='sel_item_qty'>
+										
 				     					<div class='row'>
 				        					<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
 				        						<label class='labelSize margin-left20'>&euro;".$item_price."</label>

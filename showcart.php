@@ -2,6 +2,27 @@
 session_start();
 include 'connect.php';
 
+?>
+<script type="text/javascript"> //table
+	function sum(id) {
+		/*var x = document.getElementById('cost' + itemId).value;
+		var y = document.getElementById('amount' + itemId).value;
+		var total = parseFloat(x) * parseFloat(y);
+		document.getElementById('total' + itemId).value = total;*/
+		var x = isNumber(document.getElementById('cost'+id).value) ? document.getElementById('cost'+id).value : 0;
+		var y = isNumber(document.getElementById('amount'+id).value) ? document.getElementById('amount'+id).value : 0;
+		var total = parseFloat(x) * parseFloat(y);
+		document.getElementById('total'+id).value = total;
+	}
+	function isNumber(n) {
+  		return !isNaN(parseFloat(n)) && isFinite(n);
+	}
+	
+
+</script>
+<?php
+
+
 $sel_item_id = $_SESSION['sel_item_id']; //turi gauti id is addtocart.php
 
 
@@ -32,16 +53,18 @@ if($session['session_id']==$_COOKIE['PHPSESSID']){
 		$display_block .= "<p>Nėra prekių jūsų krepšelyje.
 		Prašome <a href=\"index.php\">tęsti apsipirkimą</a>!</p>";
 	} else {
-	//get info and build cart display
+	//get info and build cart display action='checkout.php' 
 	$display_block .= "
-	<table class='table table-bordered table-hover table-condensed'>
-	<tr>
-	<th class='text-center'>Pavadinimas</th>
-	<th class='text-center'>Kaina</th>
-	<th class='text-center'>Kiekis</th>
-	<th class='text-center'>Visa kaina</th>
-	<th class='text-center'>Veiksmai</th>
-	</tr>";
+	<form method='post' >
+		<table class='table table-bordered table-hover table-condensed'>
+			<tr>
+				<th class='text-center'>Pavadinimas</th>
+				<th class='text-center'>Kaina</th>
+				<th class='text-center'>Kiekis</th>
+				<th class='text-center'>Visa kaina</th>
+				<th class='text-center'>Veiksmai</th>
+			</tr>";
+
 
 		// info is shoppertrack
 		$full_qty=0;
@@ -59,18 +82,18 @@ if($session['session_id']==$_COOKIE['PHPSESSID']){
 		$item_id = mysqli_query($mysqli, $select_item_id_sql) or die($mysqli_query($mysqli));//
 	*/	//$safe_item_id = mysqli_real_escape_string($mysqli, $_GET['sel_item_id']);
 
-
-
-
-
+//TABLE DATA
 	$display_block .= "
 	<tr class='text-center'>
-	<td>$item_title <br></td>
-	<td>&euro; $item_price <br></td>
-	<td>$item_qty <br></td>
-	<td>&euro; $total_price</td>
-	<td><a class='btn btn-danger' type='button' href='removefromcart.php?id=$item_id'>Pašalinti</a></td>
+		<td>$item_title <br></td>
+		<td>&euro; $item_price <br></td>
+		<input type='hidden' id='cost".$item_id."' value='".$item_price."' onchange='totalSum($item_id)' name='price".$item_id."'/>
+		<td> <input type='number' min='1' step='any' id='amount".$item_id."'  onchange='sum($item_id)'  value='$item_qty'></td>
+		<td>&euro; <input type='text' disabled id='total".$item_id."' value='".$total_price."'></td>
+		<td><a class='btn btn-danger' type='button' href='removefromcart.php?id=$item_id'>Pašalinti</a></td>
 	</tr>";
+
+	
 	}//end of while
 
 
@@ -85,8 +108,7 @@ if($session['session_id']==$_COOKIE['PHPSESSID']){
 	if(isset($full_price)){
 		$display_block .= $full_price;//checkout.php idet i action
 	}
-	$display_block .= "
-	<form method='post' action='checkout.php'>";
+	
 
 
 }//}//end of if session
@@ -119,11 +141,7 @@ mysqli_close($mysqli);
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="col-md-12 border-color">
-			<p>up meniu</p>
-		</div>
-	</div>
+	
 <!--<?php echo $display_block; ?>-->
 	<div class="row">
 		<div class="col-md-12 border-color">

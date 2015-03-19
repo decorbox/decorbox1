@@ -1,6 +1,7 @@
 <?php 
 //http://php.about.com/od/finishedphp1/ss/php_login_code.htm
 //Connects to your Database 
+ob_start();
 include_once 'connect.php';
 include_once 'library.php';
 $passErr = $userErr = '';
@@ -61,7 +62,7 @@ else if (isset($_POST['submitLog'])) { // if form has been submitted
 		 		
 			 // if login is ok then we add a cookie 
 			$_POST['username'] = stripslashes($_POST['username']); 
-			$hour = time() + 3600;  
+			$hour = time() + 20000;  
 			setcookie('ID_my_site', $_POST['username'], $hour); 
 			setcookie('Key_my_site', $_POST['pass'], $hour);
 			//then redirect them to the members area 
@@ -105,13 +106,10 @@ else {
 				</div>
 				<div class="row margin-top">
 					<div>
-						
-						<a href="register.php">
-						   <button type="link" class="btn btn-default" value="Registruotis" >Registruotis
-						</a>
-							
+
+						<a href='register.php' role='button' class='btn btn-default'>Registruotis</a>
 						<button type="submit" value"Register" name="submitLog" class="btn btn-default">Prisijunkti</button>
-					</div> <!-- padaryt kai submitinu kad rodytu pop up windows http://nakupanda.github.io/bootstrap3-dialog/ -->
+					</div>
 				</div>
 			</div>
 		</form>

@@ -284,12 +284,6 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 		</div>
 	</div>
 
-	<div class="row"><!--meniu-->
-		<div class="col-md-12 border-color">
-			<p>up meniu</p>
-		</div>
-	</div>
-
 	<div class="row">
 		<div class="col-md-12 border-color">	<!--body-->
 		<?php echo $display_block ?>
@@ -308,7 +302,7 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 						<div class="form-group">
 							<div class="row margin-top">
 							<h4>Pirkti be registracijos <hr></h4>
-								<label for="inputName3" class="col-md-4 control-label">Vardas ir pavardė</label>
+								<label for="inputName3" class="col-md-4 control-label">Vardas ir pavardė<span style='color: red; padding-left: 2px;'>*</span></label>
 								<div class="col-md-8">
 									<input type="text" name="name" value="<?php echo $_SESSION['name'];?>" class="form-control" id="inputName3" placeholder="Vardas ir pavardė">							
 									<span class="error"><?php echo $nameErr;?></span>
@@ -316,7 +310,7 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 							</div>
 
 							<div class="row margin-top">	
-								<label for="inputCity3" class="col-md-4 control-label">Miestas</label>
+								<label for="inputCity3" class="col-md-4 control-label">Miestas<span style='color: red; padding-left: 2px;'>*</span></label>
 								<div class="col-md-8">
 									<input type="text" name="city" value="<?php echo $_SESSION['city']; ?>" class="form-control" id="inputCity3" placeholder="Miestas">
 									<span class="error"><?php echo $cityErr ;?></span>
@@ -324,7 +318,7 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 							</div>	
 
 							<div class="row margin-top">	
-								<label for="inputAddress3" class="col-md-4 control-label">Adresas</label>
+								<label for="inputAddress3" class="col-md-4 control-label">Adresas<span style='color: red; padding-left: 2px;'>*</span></label>
 								<div class="col-md-8">
 									<input type="text" name="address" value="<?php echo $_SESSION['address']; ?>" class="form-control" id="inputAddress3" placeholder="Adresas">
 									<span class="error"><?php echo $addressErr;?></span>
@@ -332,7 +326,7 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 							</div>	
 
 							<div class="row margin-top">	
-								<label for="inputEmail3" class="col-md-4 control-label">El.Pašto adresas</label>
+								<label for="inputEmail3" class="col-md-4 control-label">El.Pašto adresas<span style='color: red; padding-left: 2px;'>*</span></label>
 								<div class="col-md-8">
 									<input type="email" name="email" value="<?php echo $_SESSION['email']; ?>" class="form-control" id="inputEmail3" placeholder="El.Pašto adresas">
 									<span class="error"><?php echo $emailErr;?></span>
@@ -340,7 +334,7 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 							</div>	
 
 							<div class="row margin-top">	
-								<label for="inputPhone3" class="col-md-4 control-label">Telefono numeris</label>
+								<label for="inputPhone3" class="col-md-4 control-label">Telefono numeris<span style='color: red; padding-left: 2px;'>*</span></label>
 								<div class="col-md-8">
 									<input type="text" name="tel" value="<?php echo $_SESSION['tel']; ?>" class="form-control" id="inputPhone3" placeholder="Telefono numeris">
 									<span class="error"><?php echo $phoneErr;?></span>

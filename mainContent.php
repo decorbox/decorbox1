@@ -13,20 +13,27 @@
 	<body>
 
 	<div class="row">
-		<div class="col-md-5 border-color">
-			
-				tadas
-			
-		</div>
+		<div class="col-md-12 border-color">
+			<h1>Pagrindinis puslapis</h1>
+				
 
+
+			
+		</div>	
+	</div>
+<!--
+	<div class="row">
+		<div class="row">
+		<label> Produktu skirtymai</label>
+		</div>
 		<div class="col-md-5 border-color">
-			
-				jonas
-			
+			cia paveikslelis ir nuoroda i kategorija arba subkategorija, išdėstymas bus toks pats kaip ir prekių
+		</div>
+		<div class="col-md-5 border-color">
+			cia paveikslelis ir nuoroda i kategorija arba subkategorija, išdėstymas bus toks pats kaip ir prekių
 		</div>
 	</div>
-
-	
+-->
 
 
 	

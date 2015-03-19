@@ -15,7 +15,7 @@
 
 		<link href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" type="text/css" href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/css/fileinput.css">
-
+		
 
 <link  type="text/javascript" href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js">
 <link  type="text/javascript" href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.min.js">

@@ -25,7 +25,7 @@ include 'connect.php';
 
 	<div class="row">
 		<div class="col-md-12 border-color">	<!--body-->
-			<p>Sveikiname nusipirke preke. Čia bus banko informacija. <a href="index.php"> Grįžkite į pagrindinį puslapį</a></p>
+			<h1>Sveikiname nusipirke preke. Čia bus banko informacija. <a href="index.php"> Grįžkite į pagrindinį puslapį</a></h4>
 
 			
 		</div>
