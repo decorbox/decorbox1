@@ -10,12 +10,15 @@ include 'connect.php';
 		var total = parseFloat(x) * parseFloat(y);
 		document.getElementById('total' + itemId).value = total;*/
 		var x = isNumber($('#cost'+id).val()) ? $('#cost'+id).val() : 0;
-		var y = isNumber($('#amount'+id).val()) ? $('#amount'+id).val() : 0;
-		var total = parseFloat(x) * parseFloat(y);
-		total = roundToPosition(total);
+		var y = isNumber($('#amount'+id).val()) ? $('#amount'+id).val() : 1;
+		x = parseFloat(x);
+		y = parseInt(y) < 1 ? 1 : parseInt(y);
+		$('#amount'+id).val(y);
+		var total = x * y;
+		total = roundToPosition(total, 2);
 		$('#total'+id).val(total);
 		var all_total = calculateAllTotal();
-		all_total = roundToPosition(all_total);
+		all_total = roundToPosition(all_total, 2);
 		$('#all-total').text(all_total);
 	}
 
@@ -23,7 +26,7 @@ include 'connect.php';
   		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 
-	function roundToPosition(number, position = 2) {
+	function roundToPosition(number, position) {
 		number = parseFloat(number);
 		number = number * (Math.pow(10, position));
 		number = Math.round(number);
