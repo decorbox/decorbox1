@@ -10,7 +10,7 @@ $_SESSION['shippingEuropean'] = $shippingEuropean;
 
 ?>
 <script type="text/javascript"> //table
-	function sum(id) {
+	function updateProductPrice(id) {
 		var x = isNumber($('#cost'+id).val()) ? $('#cost'+id).val() : 0;
 		var y = isNumber($('#amount'+id).val()) ? $('#amount'+id).val() : 1;
 		x = parseFloat(x);
@@ -19,10 +19,22 @@ $_SESSION['shippingEuropean'] = $shippingEuropean;
 		var total = x * y;
 		total = roundToPosition(total, 2);
 		$('#total'+id).text(total);
-		var all_total = calculateAllTotal();
-		all_total = roundToPosition(all_total, 2);
-		$('#all-total').text(all_total);
-	
+		updateTotalPrices();	
+	}
+
+	function updateTotalPrices() {
+		var total_price = getTotalPrice();
+		var shipping_lt = 0;
+		if ($('input[name="sendEurope"]').prop('checked')) {
+			total_price += getShippingEU();
+		} else {
+			shipping_lt = getShippingLT(total_price);
+			total_price += shipping_lt;
+		}
+		shipping_lt = roundToPosition(shipping_lt, 2);
+		$('#shipping').text(shipping_lt);
+		total_price = roundToPosition(total_price, 2);
+		$('#all-total').text(total_price);
 	}
 
 	function isNumber(n) {
@@ -36,22 +48,28 @@ $_SESSION['shippingEuropean'] = $shippingEuropean;
 		number = number / (Math.pow(10, position));
 		return number;
 	}
-	
-	function calculateAllTotal() {
-		var total = 0.0;
-		$("span[id^='total']").each(function(){
-			total += parseFloat($(this).text());
+
+	function getTotalPrice() {
+		var total_price = 0.0;
+		$('span[id^="total"]').each(function(){
+			total_price += parseFloat($(this).text());
 		});
-		if(total<<?php echo $totalShippingPrice; ?>){//30 kaina , jei kaina maziau uz 30euru + siuntimo kaina
-			//var shipping = calculateAllTotal();
-			$('#shipping').text(<?php echo $shipping ?>);//rodo siuntimo kaina
-			return (total + <?php echo $shipping ?> );
-		}else{
-			//var shipping = calculateAllTotal();
-			$('#shipping').text(0);//siuntimo kaina 0
-			return (total);
-		}
+		return total_price;
 	}
+
+	function getShippingEU() {
+		return  <?php echo $shippingEuropean; ?>;
+	}
+
+	function getShippingLT(total_price) {
+		if (total_price < <?php echo $totalShippingPrice; ?>) {
+			return <?php echo $shipping; ?>;
+		} else {
+			return 0;
+		}
+
+	}
+
 
 </script>
 <?php
@@ -117,8 +135,8 @@ if($session['session_id']==$_COOKIE['PHPSESSID']){
 	<tr class='text-center'>
 		<td>$item_title <br></td>
 		<td>&euro; $item_price <br></td>
-		<input type='hidden' id='cost".$item_id."' value='".$item_price."' onchange='totalSum($item_id)' name='price".$item_id."'/>
-		<td> <input type='number' class='text-center' min='1' step='any' id='amount".$item_id."'  onchange='sum($item_id)' name='qty".$item_id."' value='$item_qty'></td>
+		<input type='hidden' id='cost".$item_id."' value='".$item_price."' name='price".$item_id."'/>
+		<td> <input type='number' class='text-center' min='1' step='any' id='amount".$item_id."'  onchange='updateProductPrice($item_id)' name='qty".$item_id."' value='$item_qty'></td>
 		<td><span id='total".$item_id."' >" . $total_price . "</span> &euro;</td>
 		<td><a class='btn btn-danger' type='button' href='removefromcart.php?id=$item_id'>Pašalinti</a></td>
 	</tr>";
@@ -146,7 +164,7 @@ $display_block.="
 			
 		<td class='text-center'>
 			<label>
-				<input type='checkbox' name='sendEurope' value='1'> <strong> &euro;<span>" . $shippingEuropean .  "</span></strong>
+				<input type='checkbox' name='sendEurope' value='1' onchange='updateTotalPrices();'> <strong> &euro;<span>" . $shippingEuropean .  "</span></strong>
 			</label>
 		</td>
 
