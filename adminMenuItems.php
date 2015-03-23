@@ -36,7 +36,7 @@ $display_block.="<!-- add item Modal -->
 		<div class='modal-content'>
 			<div class='modal-header'>
 				<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-				<h4 class='modal-title text-center' id='myModalLabel'>Įdėti naują prekę</h4>
+				<h4 class='modal-title text-center'>Įdėti naują prekę</h4>
 			</div>
 
 			<form class='form-horizontal'  method='post' enctype='multipart/form-data'>
@@ -52,9 +52,16 @@ $display_block.="<!-- add item Modal -->
 						</div>	
 
 						<div class='row margin-top'>
-							<label for='inputName3' class='col-md-4 control-label'>Pavadinimas<span style='color: red; padding-left: 2px;'>*</span></label>
+							<label for='inputName3' class='col-md-4 control-label'>Pavadinimas LT<span style='color: red; padding-left: 2px;'>*</span></label>
 							<div class='col-md-8'>
 								<input type='text' required name='addTitle' class='form-control' >							
+							</div>
+						</div>
+
+						<div class='row margin-top'>
+							<label for='inputName5' class='col-md-4 control-label'>Pavadinimas EN<span style='color: red; padding-left: 2px;'>*</span></label>
+							<div class='col-md-8'>
+								<input type='text' required name='addTitleEn' class='form-control' >							
 							</div>
 						</div>
 
@@ -98,13 +105,19 @@ $display_block.="<!-- add item Modal -->
 						</div>	
 
 						<div class='row margin-top'>	
-
-							<label for='inputDescription' class='col-md-4 control-label'>Apibūdinimas</label>
+							<label for='inputDescription' class='col-md-4 control-label'>Apibūdinimas LT</label>
 							<div class='col-md-8'>
 								
 								<textarea  class='form-control' name='addDescription' rows='3'></textarea>
 							</div>
 						</div>	
+						<div class='row margin-top'>	
+							<label for='inputDescription' class='col-md-4 control-label'>Apibūdinimas EN</label>
+							<div class='col-md-8'>
+								
+								<textarea  class='form-control' name='addDescriptionEN' rows='3'></textarea>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class='modal-footer'>
@@ -172,22 +185,28 @@ if(isset($_POST["submitAddItem"])) {
 		        //update item content
 				//check for input errors
 				if(isset($_POST['addSubCategories'])){
-					$update_store_item = "INSERT INTO store_items (cat_id, item_title, item_price, item_desc, item_image, subcat_id)VALUES(
+					$update_store_item = "INSERT INTO store_items (cat_id, item_title, item_price, item_desc, item_image, subcat_id, item_title_EN, item_desc_EN, item_price_old)VALUES(
 					'".$_POST['addItemCategory']."',
 					'".$_POST['addTitle']."',
 					'".$_POST['addPrice']."',
 					'".$_POST['addDescription']."',
 					'images/".basename( $_FILES["addIMG"]["name"])."',
-					'".$_POST['addSubCategories']."')";
+					'".$_POST['addSubCategories']."',
+					'".$_POST['addTitleEn']."',
+					'".$_POST['addDescriptionEN']."',
+					NULL)";
 	
 					$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 				}else{
-					$update_store_item = "INSERT INTO store_items (cat_id, item_title, item_price, item_desc, item_image)VALUES(
+					$update_store_item = "INSERT INTO store_items (cat_id, item_title, item_price, item_desc, item_image, item_title_EN, item_desc_EN, item_price_old)VALUES(
 					'".$_POST['addItemCategory']."',
 					'".$_POST['addTitle']."',
 					'".$_POST['addPrice']."',
 					'".$_POST['addDescription']."',
-					'images/".basename( $_FILES["addIMG"]["name"])."')";
+					'images/".basename( $_FILES["addIMG"]["name"])."',
+					'".$_POST['addTitleEn']."',
+					'".$_POST['addDescriptionEN']."',
+					NULL)";
 					$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 				}
 						
@@ -237,8 +256,11 @@ if(isset($_POST["submitAddItem"])) {
 	 							$item_id = $item['id'];
 	 							$item_cat_id = $item['cat_id'];
 	 							$item_title = $item['item_title'];
+	 							$item_title_EN = $item['item_title_EN'];
 	 							$item_price = $item['item_price'];
+	 							$item_price_old = $item['item_price_old'];
 	 							$item_desc = $item['item_desc'];
+	 							$item_desc_EN = $item['item_desc_EN'];
 	 							$item_image = $item['item_image'];
 	 							$item_subcat_id = $item['subcat_id'];
 
@@ -338,9 +360,16 @@ $display_block.="<!-- edit item Modal -->
 								</div>	
 
 								<div class='row margin-top'>
-									<label for='inputName3' class='col-md-4 control-label'>Pavadinimas<span style='color: red; padding-left: 2px;'>*</span></label>
+									<label for='inputName3' class='col-md-4 control-label'>Pavadinimas LT<span style='color: red; padding-left: 2px;'>*</span></label>
 									<div class='col-md-8'>
-										<input type='text' name='title' required value='$item_title' class='form-control' id='inputName3' >							
+										<input type='text' name='title' required value='$item_title' class='form-control'  >							
+									</div>
+								</div>
+
+								<div class='row margin-top'>
+									<label for='inputName3' class='col-md-4 control-label'>Pavadinimas EN<span style='color: red; padding-left: 2px;'>*</span></label>
+									<div class='col-md-8'>
+										<input type='text' name='titleEN' required value='$item_title_EN' class='form-control' >							
 									</div>
 								</div>
 
@@ -348,6 +377,13 @@ $display_block.="<!-- edit item Modal -->
 									<label for='inputPrice' class='col-md-4 control-label'>Kaina<span style='color: red; padding-left: 2px;'>*</span></label>
 									<div class='col-md-8'>
 										<input type='number' min='0' step='any' required name='price' value='$item_price' class='form-control' id='inputPrice' >
+									</div>
+								</div>	
+
+								<div class='row margin-top'>	
+									<label for='inputPrice' class='col-md-4 control-label'>Sena kaina</label>
+									<div class='col-md-8'>
+										<input type='number' step='any' name='priceOld' value='$item_price_old' class='form-control'  >
 									</div>
 								</div>	
 
@@ -393,10 +429,16 @@ $display_block.="<!-- edit item Modal -->
 								</div>	
 
 								<div class='row margin-top'>	
-									<label for='inputDescription' class='col-md-4 control-label'>Apibūdinimas</label>
+									<label for='inputDescription' class='col-md-4 control-label'>Apibūdinimas LT</label>
 									<div class='col-md-8'>
-										
 										<textarea class='form-control' value='$item_desc' name='description' rows='3'>$item_desc</textarea>
+									</div>
+								</div>
+
+								<div class='row margin-top'>	
+									<label for='inputDescriptionEN' class='col-md-4 control-label'>Apibūdinimas EN</label>
+									<div class='col-md-8'>
+										<textarea class='form-control' value='$item_desc_EN' name='descriptionEN' rows='3'>$item_desc_EN</textarea>
 									</div>
 								</div>	
 							</div>
@@ -501,32 +543,30 @@ if(isset($_POST["submitEditItem"])) {
 
 	$input_error = false;
 
-	if(isset($_POST['title']) && $_POST['title']==''){
-		$input_error = true;
-		echo"<div class='alert alert-danger alert-dismissible' role='alert'>
-				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-				Prekės pavadinimo laukelis buvo paliktas tuščias. Informacija nebuvo atnaujinta.
-			</div>";
-	}
-	
-	if(isset($_POST['price']) && $_POST['price']==''){
-		$input_error = true;
-		echo"<div class='alert alert-danger alert-dismissible' role='alert'>
-				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-				Neįvesta prekės kaina. Informacija nebuvo atnaujinta.
-			</div>";
-	}
-
-	if($input_error == false){
+	if(isset($_POST['priceOld']) && $_POST['priceOld']==''){
 		if(isset($_POST['show_sub_categories'])){
-			$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."',
-			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', subcat_id = '".$_POST['show_sub_categories']."' WHERE id='".$_POST['getItem_id']."'";
+			$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
+			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', subcat_id = '".$_POST['show_sub_categories']."', item_price_old=NULL WHERE id='".$_POST['getItem_id']."'";
 			$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 		}else{
-			$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."',
-			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."' WHERE id='".$_POST['getItem_id']."'";
+			$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
+			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', item_price_old=NULL WHERE id='".$_POST['getItem_id']."'";
 			$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 		}
 		echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+	}else
+		{
+		if($input_error == false){
+			if(isset($_POST['show_sub_categories'])){
+				$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
+				item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', subcat_id = '".$_POST['show_sub_categories']."', item_price_old='".$_POST['priceOld']."' WHERE id='".$_POST['getItem_id']."'";
+				$update_store_item_res = mysqli_query($mysqli, $update_store_item);
+			}else{
+				$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
+				item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', item_price_old='".$_POST['priceOld']."' WHERE id='".$_POST['getItem_id']."'";
+				$update_store_item_res = mysqli_query($mysqli, $update_store_item);
+			}
+			echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+		}
 	}
 }//end of submitEdit item

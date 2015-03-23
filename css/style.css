@@ -1,5 +1,6 @@
 .border-color{
-	border:1px solid black;
+	border:1px solid #F888BB;
+
 }
 .margin-top{
 	margin-top:5px;
@@ -25,6 +26,7 @@
 .margin-top20{
 	margin-top: 20px;
 }
+
 .margin-bottom15{
 	margin-bottom: 15px;
 }
@@ -76,9 +78,7 @@
 	/*padding-right: 5px;
 	padding-left: 2px !important;*/
 }
-.menuBody{
 
-}
 .list-menuitem{
 	padding-right: 2px;
 	padding-left: 2px;
@@ -111,4 +111,68 @@
 .btnLeft1{
 	margin-left: -12px;
 }
+
+
+
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+#sortable li { margin: 35 3px 3px 3px; cursor:move; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+#sortable li span { position: absolute; margin-left: -1.3em; }
+
+
+
+/*show items Bootstrap correction*/
+
+.panel-success > a > .panel-heading {
+  color: #3F1515;
+  font-size: 17px;
+  background-color: #FBDAED;/*ruzava*/
+  border-color: #FBDAED;
+} 
+.panel-success > .panel-heading {
+  color: white;
+  font-color: #FBDAED;
+  background-color: #FBDAED;
+  border-color: #FBDAED;
+} 
+
+.panel{
+	border-color: #FBDAED;
+	
+}
+.panel-title {
+	color: #3F1515;
+	font-size: 17px;
+	font-family: Georgia;
+	font-weight: bold;
+}
+.btn-success{
+	background-color: #3F1515;
+  border-color: #3F1515;
+}
+.btn-primary{
+	background-color: #3F1515;/*ruda*/
+  border-color: #3F1515;
+}
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus{
+	background-color: #3F1515;
+  border-color: #F888BB;
+}
+.list-group-item, .list-group-item.active:hover, .list-group-item.active:focus{
+background-color: #F888BB;
+  border-color: #F888BB;
+}
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus{
+	background-color: #3F1515;
+  border-color: #FBDAED;
+}
+.list-group-item, .list-group-item.active:hover, .list-group-item.active:focus{
+background-color: white;
+  border-color: #3F1515;
+}
+.list-group-title-color{
+	color: #3F1515;
+}
+
+
 

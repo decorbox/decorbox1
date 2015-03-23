@@ -54,21 +54,13 @@ if(isset($_COOKIE['ID_my_site']))
 				$phone= $user_info['phone'];
 				$email= $user_info['email'];
 				}
- 			echo "Sveiki, "; 
- 			echo $username;
+ 			
 
  			//ziuri kiek order id usernamas turi
  		
 			/*<!-- Button  modal -->*/
-			
-
-
-	 		echo"<br>	
-				<button type='button' class='btn btn-primary btn-lg' style='display: block; width: 100%;' data-toggle='modal' data-target='#myModal'>
-				  Mano meniu
-				</button>
-
-				<!-- Modal -->
+			echo"			
+			<!-- Modal -->
 				<div class='modal fade' id='myModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 				  <div class='modal-dialog modal-lg'>
 				    <div class='modal-content'>
@@ -203,15 +195,29 @@ if(isset($_COOKIE['ID_my_site']))
 				    </div>
 				  </div>
 				</div>";
+
+	 		echo"<br>
+	 		<div class='panel panel-success'>
+		 		<div class='panel-heading'>
+			 		<h3 class='panel-title'>Sveiki, $username</h3>
+				</div>	
+				<div class='panel-body'>
+					<button type='button' class='btn btn-primary btn-lg' style='display: block; width: 100%;' data-toggle='modal' data-target='#myModal'>
+						Mano meniu
+					</button><br>
+
+				";
 			
 		
  			 
  			} 
  			//admin menu button
  			if($info['role']=="Admin"){
- 				echo "<a class='btn btn-lg btn-danger' style='display: block; width: 100%;' type='button' href='adminMenu.php'>Admin menu</a>";
+ 				echo "<a class='btn btn-lg btn-primary' style='display: block; width: 100%;' type='button' href='adminMenu.php'>Admin menu</a><br>";
  			}
- 			echo "<a href=logout.php>Logout</a>";
+ 			//echo "<a href=logout.php>Logout</a>";
+ 		echo"<div class='pull-right' ><a href='logout.php' role='button' class='btn btn-default'>Atsijungti</a></div>";
+ 		echo "</div></div>";
  		}//end of while check 
 
  	}//end of IF ID_my_site 

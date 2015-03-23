@@ -54,7 +54,7 @@ mysqli_free_result($get_item_res);
 		<button class='btn btn-success' type='submit' name='submit' value='submit'>Įdėti į krepšelį</button>
 		</form>
 		<div class='row margin-top '>
-			<p><strong>Aprašymas:</strong><br/>$item_desc</p>n
+			<p><strong>Aprašymas:</strong><br/>$item_desc</p>
 		</div>
 	</div>
 </div>";

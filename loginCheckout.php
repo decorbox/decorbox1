@@ -58,9 +58,9 @@ else if (isset($_POST['submitLog'])) { // if form has been submitted
 		 		
 			 // if login is ok then we add a cookie 
 			$_POST['username'] = stripslashes($_POST['username']); 
-			$hour = time() + 3600;  
-			setcookie('ID_my_site', $_POST['username'], $hour); 
-			setcookie('Key_my_site', $_POST['pass'], $hour);
+			//$hour = time() + 360000;  
+			setcookie('ID_my_site', $_POST['username']); 
+			setcookie('Key_my_site', $_POST['pass']);
 			//then redirect them to the members area 
 			//header("Location: members.php"); 
 			//include 'members.php';
@@ -75,7 +75,7 @@ else if (isset($_POST['submitLog'])) { // if form has been submitted
 
 if(isset($_COOKIE['ID_my_site'])){
 	
-	echo "Tavo siuntimo informacija: <hr>";
+	echo "is loginTavo siuntimo informacija: <hr>";
 	$sql = "SELECT * FROM users WHERE username = '$username' ";
 	$user_info_res = mysqli_query($mysqli, $sql) or die(mysql_error($mysqli));
 	while ($user_info = mysqli_fetch_array($user_info_res)) {
@@ -93,16 +93,17 @@ if(isset($_COOKIE['ID_my_site'])){
  		{ 
  			$order_id = $info['id'];
  		} 
-
+ 		setcookie("order_id", $order_id); //perduoda i checkout success
+print_r($_SESSION);
 	if(isset($_POST['submitLogin'])){
 		
-		$insert_orders_items = "INSERT INTO store_orders_items (order_id, sel_item_qty, sel_item_price) VALUES ('".$order_id."', '".$_SESSION['full_qty']."', '".$shipping_total."')";
+		$insert_orders_items = "INSERT INTO store_orders_items (order_id, sel_item_qty, sel_item_price) VALUES ('".$order_id."', '".$_COOKIE['full_qty']."', '".$shipping_total."')";
  		$insert_orders_items_res = mysqli_query($mysqli, $insert_orders_items) or die(mysqli_error($mysqli));
 		
 		$sql = "INSERT INTO store_orders (authorization, item_total, order_address, order_city, order_date, order_email,
 		order_name, order_tel, order_zip, shipping_total, order_id,status) VALUES ('".$username."', 
 											
-		'".$_SESSION['full_qty']."',
+		'".$_COOKIE['full_qty']."',
 		'".$adresas."',
 		'".$city."',
 		now(),
@@ -138,7 +139,71 @@ if(isset($_COOKIE['ID_my_site'])){
 	    $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
 
 	}//end of main while
+//send email
+/*$to = "deivassx@gmail.com, ".$email."";//buyer email and admin
+$subject = "Prekė užsakyta";
 
+$get_cart_email_sql = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty FROM
+	store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
+$get_cart_email_res = mysqli_query($mysqli, $get_cart_email_sql) or die(mysqli_error($mysqli));
+$email="";
+$email .= "
+		<table class='table table-bordered table-condensed'>
+			<tr>
+				<th class='text-center'>Pavadinimas</th>
+				<th class='text-center'>Kaina</th>
+				<th class='text-center'>Kiekis</th>
+				<th class='text-center'>Visa kaina</th>
+			</tr>";
+
+
+		// info is shoppertrack
+		$full2_qty=0;
+		$full2_price=0;
+		while ($cart2_info = mysqli_fetch_array($get_cart_email_res)) {
+		$item2_id = $cart2_info['id'];//nenaudojamas
+		$item2_title = stripslashes($cart2_info['item_title']);
+		$item2_price = $cart2_info['item_price'];
+		$item2_qty = $cart2_info['sel_item_qty'];
+		$full2_qty =  $full2_qty + $item2_qty;
+		$total2_price = sprintf("%.02f", $item2_price * $item2_qty);
+		$full2_price = sprintf("%.02f", $full2_price+$total2_price); //galutine kaina
+
+//TABLE DATA
+	$email .= "
+	<tr class='text-center'>
+		<td>$item2_title</td>
+		<td>&euro; $item2_price</td>
+		<td>$item2_qty</td>
+		<td>&euro; $total2_price </td>
+	</tr>";
+
+	
+	}//end of while
+
+$email.="
+	<tr style='color:red;'>
+		<td class='text-right' colspan='3'><div><label>Siuntimo kaina:</label></div></td>
+		<td class='text-center'><strong>&euro;<span>" . $_SESSION['shipping'] .  "</span></strong></td>
+	</tr>
+	<tr style='color:red;'>
+		<td class='text-right' colspan='3'><div><label>Galutinė kaina:</label></div></td>
+		<td class='text-center'><strong >&euro;<span  id='all-total'>" . ($full2_price + $_SESSION['shipping']) .  "</span></strong></td>
+	</tr>
+</table>
+<p>Banko informacija</p>
+
+";
+// Always set content-type when sending HTML email
+$headers = "MIME-Version: 1.0" . "\r\n";
+$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+// More headers
+$headers .= 'From: <decorbox@gmail.com>' . "\r\n";
+
+mail($to,$subject,$email,$headers);*/
+//end of email
+//echo $email;
 //delete items from shoppertrack when order is completed
 	$delete_shoppertrack_tems = "DELETE FROM store_shoppertrack_items WHERE order_id ='".$order_id."'";
 	$delete_items_rez = mysqli_query($mysqli, $delete_shoppertrack_tems);
@@ -188,7 +253,7 @@ if(isset($_COOKIE['ID_my_site'])){
 		<div class='row'>
 			<form method='post'action=".$_SERVER['PHP_SELF']. " >
 					<div>
-						<button type='submit' value'Reg' class='btn btn-default' name='submitLogin' >Užsakyti</button>
+						<button type='submit' value'Reg' class='btn btn-primary' name='submitLogin' >Užsakyti</button>
 					</div> </form>
 				</div>";
 	

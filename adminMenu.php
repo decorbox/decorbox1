@@ -93,6 +93,16 @@ if(isset($_COOKIE['ID_my_site']))
 							            <span class='glyphicon glyphicon-shopping-cart'></span> Užsakymai
 							        </a>";
 							    }
+							     if(isset($_GET['menu']) && $_GET['menu']=='galerija'){
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=galerija' class='list-group-item active'>
+							            <span class='glyphicon glyphicon-shopping-cart'></span> Nuotraukų galerija
+							        </a>";	    	
+							    }else{
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=galerija' class='list-group-item'>
+							            <span class='glyphicon glyphicon-shopping-cart'></span> Nuotraukų galerija
+							        </a>";
+							    }
+
 	 			$display_block.="</div>
 	 						</div>
 	 				
@@ -114,9 +124,35 @@ if(isset($_COOKIE['ID_my_site']))
 					    if(isset($_GET['menu']) && $_GET['menu']=='uzsakymai'){
 					    	include 'adminMenuOrders.php';
 					    }
-					    else{
-					    	
-							}
+	//-------------GALERIJA PUSLAPIS				    
+					    if(isset($_GET['menu']) && $_GET['menu']=='galerija'){
+					    	include 'adminMenuPhotoGallery.php';
+/*					    	$display_block.= "<h1 class='text-center'>Nuotraukų galerija</h1>";
+
+							$display_block.="
+							<div class='row'>
+								<div class='col-md-10'>
+									<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#addPhoto'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span>Įdėti nuotrauką</button>
+								</div>
+							</div>
+
+							<div class='row'>
+								<div class='col-md-10'>
+									";
+									$show_image="SELECT * FROM store_items";
+									$show_image_res = mysqli_query($mysqli, $show_image);
+									while($img = mysqli_fetch_array($show_image_res)){
+										$image = $img['item_image'];
+								$display_block.="<img width='200px' height='200px' src='$image'></img>";
+
+									}
+
+							$display_block.="		
+								</div>
+							</div>
+							";
+*/
+						}
 					
 
 

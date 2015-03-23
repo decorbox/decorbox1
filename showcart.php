@@ -1,14 +1,16 @@
 <?php
 session_start();
 include 'connect.php';
+$shipping = 2.70;//shipping price LT
+$totalShippingPrice= 30; //shipping discounts over 30eur
+$shippingEuropean = 16.40; //shipping price EU
+$_SESSION['totalShippingPrice']= $totalShippingPrice;
+$_SESSION['shipping'] = $shipping;//perduoda i checkout_proccess
+$_SESSION['shippingEuropean'] = $shippingEuropean;
 
 ?>
 <script type="text/javascript"> //table
 	function sum(id) {
-		/*var x = document.getElementById('cost' + itemId).value;
-		var y = document.getElementById('amount' + itemId).value;
-		var total = parseFloat(x) * parseFloat(y);
-		document.getElementById('total' + itemId).value = total;*/
 		var x = isNumber($('#cost'+id).val()) ? $('#cost'+id).val() : 0;
 		var y = isNumber($('#amount'+id).val()) ? $('#amount'+id).val() : 1;
 		x = parseFloat(x);
@@ -20,6 +22,7 @@ include 'connect.php';
 		var all_total = calculateAllTotal();
 		all_total = roundToPosition(all_total, 2);
 		$('#all-total').text(all_total);
+	
 	}
 
 	function isNumber(n) {
@@ -39,7 +42,15 @@ include 'connect.php';
 		$("span[id^='total']").each(function(){
 			total += parseFloat($(this).text());
 		});
-		return total;
+		if(total<<?php echo $totalShippingPrice; ?>){//30 kaina , jei kaina maziau uz 30euru + siuntimo kaina
+			//var shipping = calculateAllTotal();
+			$('#shipping').text(<?php echo $shipping ?>);//rodo siuntimo kaina
+			return (total + <?php echo $shipping ?> );
+		}else{
+			//var shipping = calculateAllTotal();
+			$('#shipping').text(0);//siuntimo kaina 0
+			return (total);
+		}
 	}
 
 </script>
@@ -78,7 +89,7 @@ if($session['session_id']==$_COOKIE['PHPSESSID']){
 	} else {
 	//get info and build cart display action='checkout.php' 
 	$display_block .= "
-	<form method='post' >
+	<form method='post' action='checkout_proccess.php' >
 		<table class='table table-bordered table-hover table-condensed'>
 			<tr>
 				<th class='text-center'>Pavadinimas</th>
@@ -101,50 +112,65 @@ if($session['session_id']==$_COOKIE['PHPSESSID']){
 		$total_price = sprintf("%.02f", $item_price * $item_qty);
 		$full_price = sprintf("%.02f", $full_price+$total_price); //galutine kaina
 
-		/*$select_item_id_sql = "SELECT sel_item_id FROM store_shoppertrack_items WHERE order_id = '".$id."'";
-		$item_id = mysqli_query($mysqli, $select_item_id_sql) or die($mysqli_query($mysqli));//
-	*/	//$safe_item_id = mysqli_real_escape_string($mysqli, $_GET['sel_item_id']);
-
 //TABLE DATA
 	$display_block .= "
 	<tr class='text-center'>
 		<td>$item_title <br></td>
 		<td>&euro; $item_price <br></td>
 		<input type='hidden' id='cost".$item_id."' value='".$item_price."' onchange='totalSum($item_id)' name='price".$item_id."'/>
-		<td> <input type='number' min='1' step='any' id='amount".$item_id."'  onchange='sum($item_id)'  value='$item_qty'></td>
-		<td><span id='total".$item_id."' >" . $full_price . "</span> &euro;</td>
+		<td> <input type='number' class='text-center' min='1' step='any' id='amount".$item_id."'  onchange='sum($item_id)' name='qty".$item_id."' value='$item_qty'></td>
+		<td><span id='total".$item_id."' >" . $total_price . "</span> &euro;</td>
 		<td><a class='btn btn-danger' type='button' href='removefromcart.php?id=$item_id'>Pašalinti</a></td>
 	</tr>";
 
 	
 	}//end of while
+	if(isset($full_price)){
+		$shipping_check=0;
+		if($full_price<$totalShippingPrice){
+			$shipping_check += $shipping;
+		}
+$display_block.="
 
+	<tr>
+		<td class='text-right' colspan='3'><div><label>Siuntimo kaina Lietuvoje (nuo &euro;30 siuntimas NEMOKAMAS!):</label></div></td>
+		<td style='color:red;' class='text-center'><strong>&euro;<span id='shipping'>" . $shipping_check .  "</span></strong></td>
+	</tr>
+	<tr>
+		<td class='text-right' colspan='3'><div><label>Galutinė siuntimo kaina Lietuvoje:</label></div></td>
+		<td style='color:red;' class='text-center'><strong >&euro;<span  id='all-total'>" . ($full_price + $shipping_check) .  "</span></strong></td>
+	</tr>
+	<div class='row'>
+		<td class='text-right' colspan='3'><div><label>Siuntimo kaina kitose ES šalyse:</label></div></td>
+		<div class='checkbox'>
+			
+		<td class='text-center'>
+			<label>
+				<input type='checkbox' name='sendEurope' value='1'> <strong> &euro;<span>" . $shippingEuropean .  "</span></strong>
+			</label>
+		</td>
 
-
-
-	$_SESSION['full_qty'] = $full_qty;//turi perduoti i checkout
-	$_SESSION['full_price'] = $full_price;
-	//setcookie('total_item_qty', $full_qty);//perduoda i checkout
+	</tr>";
+	
+	}
 	$display_block .= "</table>";
 
-	}//end of else
-	if(isset($full_price)){
-		$display_block .= '<div id="all-total">' . $full_price . '</div>';//checkout.php idet i action
 	}
+	$display_block.="
+
+	";
 	
 
 
-}//}//end of if session
-
+}
 if(isset($full_price)){
 $display_block .= "
 <input type='hidden' name='full_price' value='$full_price'/>
-<button class='btn btn-success btn-lg' type='submit' name='submit_form' value='submit'>Siuntimas</button>
+	<button class='btn btn-success col-md-offset-10 text-center btn-lg' type='submit' name='submit_form' value='submit'>Siuntimas</button>
 </form>";
 }
-
 //free result
-mysqli_free_result($get_cart_res);
+//mysqli_free_result($get_cart_res);
 
 //close connection to MySQL
 mysqli_close($mysqli);

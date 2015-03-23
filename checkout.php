@@ -2,13 +2,55 @@
 session_start();
 include 'connect.php';
 include 'library.php';
-
+print_r($_COOKIE);
 $safe_sel_item_authorization = $_COOKIE['PHPSESSID']; //reikia vartotojo login arba session id kai nesiregistruoja
-$item_total_price= $_SESSION['full_price']; // ir total_qty suskaiciuot
-$shipping_total = $item_total_price;//prideti skaiciu galima tai bus- siuntimo kaina
-//$full_qty = $_POST['full_qty'];
-$item_total_qty= $_SESSION['full_qty']; //$_POST['item_total'];
+//$item_total_price= $_SESSION['full_price']; // ir total_qty suskaiciuot
+//select order_id from database
+	$get_order_id_sql = "SELECT id FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
+	$run_order_id_res = mysqli_query($mysqli, $get_order_id_sql) or die(mysqli_error($mysqli));
+	while($info = mysqli_fetch_array( $run_order_id_res)) 	 
+ 		{ 
+ 			$order_id = $info['id'];
+ 		} 
+ 	setcookie("order_id", $order_id); //perduoda i checkout success
 
+ 	$get_cart_sql1 = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty FROM
+	store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
+	$get_cart_res1 = mysqli_query($mysqli, $get_cart_sql1) or die(mysqli_error($mysqli));
+
+	$full_price1=0;
+	$totalShippingPrice = $_SESSION['totalShippingPrice'];//gauna max kaina nuo kurios nereik moket shipping
+	$full_qty1=0;
+	while ($cart1_info = mysqli_fetch_array($get_cart_res1)) {
+		$item_id1 = $cart1_info['id'];//nenaudojamas
+		//$item_title = stripslashes($cart1_info['item_title']);
+		//$item_price1 = $item_price1 + $_POST["price$item_id1"];
+		$item_qty1 = $cart1_info['sel_item_qty'];
+		$full_qty1 =  $full_qty1 + $item_qty1;
+		$total_price1 = sprintf("%.02f", $cart1_info['item_price'] * $cart1_info['sel_item_qty']);
+		$full_price1 = sprintf("%.02f", $full_price1+$total_price1);
+
+	}
+
+	//jei yra siuntimas i uzsienio salis pridet kaina uzsienyje
+	if(isset($_COOKIE['europeShip'])){
+		$full_price1 += $_SESSION['shippingEuropean'];
+	}else{//jei i lietuva pridet lietuvos kaina
+		if($full_price1<$totalShippingPrice){
+			$full_price1 += $_SESSION['shipping'];
+		}
+	}
+
+ 	
+
+//$item_total_price = $full_price1;
+//$shipping_total =0;
+$shipping_total = $full_price1;//prideti skaiciu galima tai bus- siuntimo kaina
+
+//$full_qty = $_POST['full_qty'];
+//$item_total_qty= $_SESSION['full_qty']; //$_POST['item_total'];
+setcookie("full_qty", $full_qty1);
+$item_total_qty = $full_qty1;
 
 
 $display_block = "
@@ -25,6 +67,8 @@ $input_error=false;
 // define variables and set to empty values
 $nameErr = $phoneErr = $zipErr =$emailErr = $addressErr=$cityErr= "";
 $name = $email= $address =$city= $tel = $zip= "";
+
+
 $_SESSION['name'] = $name;
 $_SESSION['email'] = $email;
 $_SESSION['address'] = $address;
@@ -190,24 +234,20 @@ if(isset($_POST['submitForm'])){// TEST JEI neuzpildyta
 	<p>Blogas pašto kodas</p>
 	</div>";
 	}*/
+
 	if($input_error!=true){// jei nera input error iraso i duombaze
-		unset($_COOKIE[$name]);
-		unset($_COOKIE[$email]);//isima cookies kad einant antra karta ir spaudus submit ant tusciu lauku rodytu klaidas
-		unset($_COOKIE[$address]);
-		unset($_COOKIE[$tel]);
-		unset($_COOKIE[$zip]);
-		unset($_COOKIE[$city]);
+		
 		//$iraso=true;
 	//insert into DB//id isemiau is sql
 
 	//select order_id from database
-	$get_order_id_sql = "SELECT id FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
+/*	$get_order_id_sql = "SELECT id FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
 	$run_order_id_res = mysqli_query($mysqli, $get_order_id_sql) or die(mysqli_error($mysqli));
 	while($info = mysqli_fetch_array( $run_order_id_res)) 	 
  		{ 
  			$order_id = $info['id'];
  		} 
-
+*/
  	$insert_orders_items = "INSERT INTO store_orders_items (order_id, sel_item_qty, sel_item_price) VALUES ('".$order_id."', '".$item_total_qty."', '".$shipping_total."')";
  	$insert_orders_items_res = mysqli_query($mysqli, $insert_orders_items) or die(mysqli_error($mysqli));
 
@@ -251,13 +291,85 @@ $get_cart_res1 = mysqli_query($mysqli, $get_cart_sql) or die(mysqli_error($mysql
 	    $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
 
 	}//end of main while
+//send email
+/*$to = "deivassx@gmail.com, ".$_POST['email'].")";//admin and buyer email
+$subject = "Prekė užsakyta";
 
+$get_cart_email_sql = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty FROM
+	store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
+$get_cart_email_res = mysqli_query($mysqli, $get_cart_email_sql) or die(mysqli_error($mysqli));
+$email="";
+$email .= "
+		<table class='table table-bordered table-condensed'>
+			<tr>
+				<th class='text-center'>Pavadinimas</th>
+				<th class='text-center'>Kaina</th>
+				<th class='text-center'>Kiekis</th>
+				<th class='text-center'>Visa kaina</th>
+			</tr>";
+
+
+		// info is shoppertrack
+		$full2_qty=0;
+		$full2_price=0;
+		while ($cart2_info = mysqli_fetch_array($get_cart_email_res)) {
+		$item2_id = $cart2_info['id'];//nenaudojamas
+		$item2_title = stripslashes($cart2_info['item_title']);
+		$item2_price = $cart2_info['item_price'];
+		$item2_qty = $cart2_info['sel_item_qty'];
+		$full2_qty =  $full2_qty + $item2_qty;
+		$total2_price = sprintf("%.02f", $item2_price * $item2_qty);
+		$full2_price = sprintf("%.02f", $full2_price+$total2_price); //galutine kaina
+
+//TABLE DATA
+	$email .= "
+	<tr class='text-center'>
+		<td>$item2_title</td>
+		<td>&euro; $item2_price</td>
+		<td>$item2_qty</td>
+		<td>&euro; $total2_price </td>
+	</tr>";
+	}//end of while
+if($full2_price<$_SESSION['totalShippingPrice']){
+	$full2_price += $_SESSION['totalShippingPrice'];
+}
+$email.="
+	<tr style='color:red;'>
+		<td class='text-right' colspan='3'><div><label>Siuntimo kaina:</label></div></td>
+		<td class='text-center'><strong>&euro;<span>" . $_SESSION['shipping'] .  "</span></strong></td>
+	</tr>
+	<tr style='color:red;'>
+		<td class='text-right' colspan='3'><div><label>Galutinė kaina:</label></div></td>
+		<td class='text-center'><strong >&euro;<span>" . $full2_price .  "</span></strong></td>
+	</tr>
+</table>
+<p>Banko informacija</p>
+
+";
+// Always set content-type when sending HTML email
+$headers = "MIME-Version: 1.0" . "\r\n";
+$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+// More headers
+$headers .= 'From: <decorbox@gmail.com>' . "\r\n";
+
+mail($to,$subject,$email,$headers);
+//end of email
+//echo $email;
+*/
 	//delete items from shoppertrack when order is completed
 	$delete_shoppertrack_tems = "DELETE FROM store_shoppertrack_items WHERE order_id ='".$order_id."'";
 	$delete_items_rez = mysqli_query($mysqli, $delete_shoppertrack_tems);
 
 	$delete_compeleted_items_sql = "DELETE FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."' ";
 	$delete_rez = mysqli_query($mysqli, $delete_compeleted_items_sql);
+
+	unset($_COOKIE[$name]);
+	unset($_COOKIE[$email]);//isima cookies kad einant antra karta ir spaudus submit ant tusciu lauku rodytu klaidas
+	unset($_COOKIE[$address]);
+	unset($_COOKIE[$tel]);
+	unset($_COOKIE[$zip]);
+	unset($_COOKIE[$city]);
 
 	header('Location: checkout_success.php');
 	}
@@ -286,7 +398,10 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 
 	<div class="row">
 		<div class="col-md-12 border-color">	<!--body-->
-		<?php echo $display_block ?>
+		<?php echo $display_block;
+		//echo $email;
+		 ?>
+
 			<div class="row">
 				<div class="col-md-4 border-color">
 					<h4>Pirkti kaip registruotas vartotojas</h4>
@@ -355,7 +470,7 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 							</div>
 							<div class="row margin-top">
 								<div class="col-md-1 col-md-offset-8">
-									<button type="submit" value"Submit" name="submitForm" class="btn btn-default">Užsakyti be registracjos</button>
+									<button type="submit" value"Submit" name="submitForm" class="btn btn-primary">Užsakyti be registracjos</button>
 								</div>
 							</div>
 						</div>
@@ -372,3 +487,5 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 </body>
 </html>
 
+<?php echo "KONTAKTAI ir  Turite klausimų? +370 627 00354. ruzava su ryskia ruda spava (teksto spalva, linijos 3F1515
+F888BB),pagrindiniam lange specialus pasiulymas butu  prekes su nuolaida. ant pagrinidio dar galerijos pora fotkiu, kai jas paspaudi rodo kategorijos arba subcat galerija. priminimas: kai galutinai bus paruosta duomenu baze resetinti ID laukus nes gali dubliuotis jei visus duomenis is ten istrynsiu. per kiek dienu pristatymas? ideti nuotrauku galerija paspaudus ant kategorijos butu mygtukas, headeryje skaidres, po krepseliu idet widgetu,  kai vartotojas padaro uzsakyma turi nusiusti i el pasta informacija, kai adminas patvirtina uzsakyma i el pasta turi nusiusti vartotojui kad uzsakymas patvirtintas, ";?>

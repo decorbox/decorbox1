@@ -18,7 +18,7 @@ if(isset($_GET['cat_id'])){
 	$get_cat_title_res = mysqli_query($mysqli, $get_cat_title_sql) or die(mysqli_error($mysqli)); 
 }
 //options for pagination
-$items_per_page = 2;
+$items_per_page = 6;
 $amount_of_numbered_pages = 5;
 $display_block = "";
 //end options
@@ -110,39 +110,45 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 
 			$display_block .= 
 			"<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12 margin-top20'>
-			  	<div class=' border-color'>
-		      		<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 labelHeight text-center border-color'>
-			        	<label>
-			         		<a href='showitem.php?item_id=".$item_id."'>$item_title</a>
-			        	</label>
-			   		</div>
-			   		<div class='row'>
-				   		<div id='posts' class='col-lg-6 col-md-6 col-sm-6 col-xs-6 '>    
-			        		<img class='margin-top20 imgLeft imgSize img-responsive ' src='$item_image'>
+			  	<div class='text-center panel panel-success'>
+		      		<a href='showitem.php?item_id=".$item_id."'>
+				        <div class='panel-heading'>
+				       		<h3 class='panel-title'>$item_title</h3>
+				      	</div>
+				    </a>
+			   		
+			   		<div class='panel-body'>
+				   		<div class='row'>
+					   		<div id='posts' class='col-lg-6 col-md-6 col-sm-6 col-xs-6 '>    
+				        		<img class='margin-top20 imgLeft imgSize img-responsive ' src='$item_image'>
+				        	</div>
+				        	<form method='post' style='weigth:500px' action='addtocart.php'>
+					        	<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+					        		<div class='row '>
+					        			<div class=' col-lg-12 col-md-12 col-sm-6 col-xs-6 '>
+						        			
+												<label class=' margin-top20' for='sel_item_qty'>Kiekis:</label>
+												<input type='number' min='1' value='1' class='fullWidthSelect' name='sel_item_qty' id='sel_item_qty'>
+							
+						     					<div class='row'>
+						        					<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+						        						<label class='labelSize margin-left20'>&euro;".$item_price."</label>
+						        					</div>
+						        				</div>
+					  					</div>
+					        		</div>
+					        	</div>
+					        	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+									<input type='hidden' name='sel_item_id' value='" . $item_id ."' />
+									<button class='btn btn-success margin-top20 margin-bottom15 fullWidthButton'  type='submit' name='submit' value='submit'>Įdėti į krepšelį</button>
+									       
+								</div>
+							</form>
+
 			        	</div>
-			        	<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-			        		<div class='row '>
-			        			<div class=' col-lg-12 col-md-12 col-sm-6 col-xs-6 '>
-				        			<form method='post' style='weigth:500px' action='addtocart.php'>
-										<label class=' margin-top20' for='sel_item_qty'>Kiekis:</label>
-										<input type='number' min='1' value='1' class='fullWidthSelect' name='sel_item_qty' id='sel_item_qty'>
-					
-				     					<div class='row'>
-				        					<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-				        						<label class='labelSize margin-left20'>&euro;".$item_price."</label>
-				        					</div>
-				        				</div>
-			  					</div>
-			        		</div>
-			        	</div>
-			        	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-										<input type='hidden' name='sel_item_id' value='" . $item_id ."' />
-										<button class='btn btn-success margin-top20 margin-bottom15 fullWidthButton'  type='submit' name='submit' value='submit'>Įdėti į krepšelį</button>
-							        </form>
-							    </div>
-		        			</div>
-		      			</div>
-		  			</div>";
+		      		</div>
+		  		</div>
+		  	</div>";
 	
 			}//end mysql fetch array
 
@@ -239,41 +245,47 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 		$item_price = $items['item_price'];
 		$item_image = $items['item_image'];
 
-		$display_block.="<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12 margin-top20'>
-		  	<div class=' border-color'>
-		      	
-		      		<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 labelHeight text-center border-color'>
-			        	<label>
-			         		<a href='showitem.php?item_id=".$item_id."'>$item_title</a>
-			        	</label>
-			   		</div>
-			   		<div class='row'>
-				   		<div id='posts' class='col-lg-6 col-md-6 col-sm-6 col-xs-6 '>    
-			        		<img class='margin-top20 imgLeft imgSize img-responsive ' src='$item_image'>
+		$display_block.="
+			<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12 margin-top20'>
+			  	<div class='text-center panel panel-success'>
+		      		<a href='showitem.php?item_id=".$item_id."'>
+				        <div class='panel-heading'>
+				       		<h3 class='panel-title'>$item_title</h3>
+				      	</div>
+				    </a>
+			   		
+			   		<div class='panel-body'>
+				   		<div class='row'>
+					   		<div id='posts' class='col-lg-6 col-md-6 col-sm-6 col-xs-6 '>    
+				        		<img class='margin-top20 imgLeft imgSize img-responsive ' src='$item_image'>
+				        	</div>
+				        	<form method='post' style='weigth:500px' action='addtocart.php'>
+					        	<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+					        		<div class='row '>
+					        			<div class=' col-lg-12 col-md-12 col-sm-6 col-xs-6 '>
+						        			
+												<label class=' margin-top20' for='sel_item_qty'>Kiekis:</label>
+												<input type='number' min='1' value='1' class='fullWidthSelect' name='sel_item_qty' id='sel_item_qty'>
+							
+						     					<div class='row'>
+						        					<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+						        						<label class='labelSize margin-left20'>&euro;".$item_price."</label>
+						        					</div>
+						        				</div>
+					  					</div>
+					        		</div>
+					        	</div>
+					        	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+									<input type='hidden' name='sel_item_id' value='" . $item_id ."' />
+									<button class='btn btn-success margin-top20 margin-bottom15 fullWidthButton'  type='submit' name='submit' value='submit'>Įdėti į krepšelį</button>
+									       
+								</div>
+							</form>
+
 			        	</div>
-			        	<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-			        		<div class='row '>
-			        			<div class=' col-lg-12 col-md-12 col-sm-6 col-xs-6 '>
-				        			<form method='post' style='weigth:500px' action='addtocart.php'>
-										<label class=' margin-top20' for='sel_item_qty'>Kiekis:</label>
-										<input type='number' min='1' value='1' class='fullWidthSelect' name='sel_item_qty' id='sel_item_qty'>
-										
-				     					<div class='row'>
-				        					<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-				        						<label class='labelSize margin-left20'>&euro;".$item_price."</label>
-				        					</div>
-				        				</div>
-			  					</div>
-			        		</div>
-			        	</div>
-			        	<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-										<input type='hidden' name='sel_item_id' value='" . $item_id ."' />
-										<button class='btn btn-success margin-top20 margin-bottom15 fullWidthButton'  type='submit' name='submit' value='submit'>Įdėti į krepšelį</button>
-							        </form>
-							    </div>
-		        			</div>
-		      			</div>
-		  			</div>";	
+		      		</div>
+		  		</div>
+		  	</div>";	
 		}//end mysql fetch array	
 
 	$display_block .= "$pagination";

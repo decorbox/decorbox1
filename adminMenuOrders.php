@@ -63,11 +63,11 @@ $display_modal_table ="";
 											<td>$order_name</td>
 											
 											<td> &euro;$order_shipping_total</td>
-											<td>$order_city</td>
-											<td>$order_address</td>
-											<td>$order_email</td>
-											<td>$order_tel</td>
-											<td>$order_zip</td>
+											<td class='row_width'>$order_city</td>
+											<td class='row_width'>$order_address</td>
+											<td class='row_width'>$order_email</td>
+											<td class='row_width'>$order_tel</td>
+											<td class='row_width'>$order_zip</td>
 											<td class='row_width'>$order_authorization</td>
 											<td><div class='row'>$order_status</div>";
 											//status icon

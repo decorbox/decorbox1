@@ -2,18 +2,28 @@
 <?php
 
 include 'connect.php';
+include 'library.php';
 
+//$display_block = "<h3>Pirkinių krepšelis</h3>";
+$display_block="";
+$display_block.="
+<div class='row'>
+	<div class=' text-center panel panel-success' >
+		<div class='panel-heading'>
+			<h3 class='panel-title'>Pirkinių krepšelis</h3>
+		</div>
+		
+		<div class='panel-body'>";//price widget border
 
-	$display_block = "<h3>Pirkinių krepšelis</h3>";
-                
+if(isset($_COOKIE['PHPSESSID'])){
 //get order_id
-$get_order_id_sql = "SELECT id FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
-$run_order_id_res = mysqli_query($mysqli, $get_order_id_sql) or die(mysqli_error($mysqli));
-while($info = mysqli_fetch_array( $run_order_id_res))    
-{ 
-    $order_id = $info['id'];
-} 
-
+	$get_order_id_sql = "SELECT id FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
+	$run_order_id_res = mysqli_query($mysqli, $get_order_id_sql) or die(mysqli_error($mysqli));
+	while($info = mysqli_fetch_array( $run_order_id_res))    
+	{ 
+	    $order_id = $info['id'];
+	} 
+}
 //get widget info
 if (isset($order_id)) {
 
@@ -23,7 +33,13 @@ if (isset($order_id)) {
 					
 	if (mysqli_num_rows($get_cart_res) < 1) {
 		//print message
-		$display_block .= "<p>Krepšelyje prekių nėra</p>";
+		$display_block .= "
+		<!--<div class='text-center '>-->
+		 	<label>
+				Krepšelyje prekių nėra.
+			</label>
+		<!--</div>-->
+		";
 	}
 	else {
 		$full_price=0; 
@@ -36,25 +52,35 @@ if (isset($order_id)) {
 			$total_price = sprintf("%.02f", $item_price * $item_qty); 
 			$full_price = sprintf("%.02f", $full_price+$total_price); //galutine kaina
 		}
-		$display_block .= "Prekių kiekis: $full_qty <br>";
-		$display_block .= "Galutinė kaina: $full_price <br>";
-		$display_block .= "<a href='showcart.php'>Rodyti krepšelį</a>";	
+		$display_block .= "<div><p>Prekių kiekis: $full_qty </p></div>";
+		$display_block .= "<div><p>Galutinė kaina: $full_price</p></div>";
+		$display_block .= "<a href='showcart.php' role='button' style='width:100%' class='btn btn-primary'>Rodyti krepšelį</a>";	
 	}
+	$display_block.="
+		</div>
+	</div>
+</div>
+	
+";
 
 
 	mysqli_free_result($get_cart_res);
+}else{
+	$display_block .= "
+		<div class=' text-center'>
+		 	<label>
+				Krepšelyje prekių nėra.
+			</label>
+		</div>
+	</div>
+	</div>
+</div>
+	";
 }
+echo $display_block;
+
 
 ?>
-<!DOCTYPE HTML>
-<html>
-	<head>
-	<?php include 'library.php';?>
-	</head>
-	<body>
-	<?php echo $display_block?>
+
 			
 		
-	</div>
-	</body>
-</html>

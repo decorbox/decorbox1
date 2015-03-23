@@ -5,6 +5,9 @@
 		<link href = "css/bootstrap.min.css" rel = "stylesheet">
 		<link href = "css/bootstrap.css" rel = "stylesheet">
 		<link href = "css/select2.css" rel = "stylesheet">
+
+<link rel="stylesheet" href="css/jquery-ui.css"> 
+		<script src='js/jquery.js'></script>
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.js"></script>
 		<script src="js/select2.js"></script>
@@ -15,7 +18,16 @@
 
 		<link href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" type="text/css" href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/css/fileinput.css">
-		
+
+
+<!--<script src="js/jquery-sortable.js"></script>-->
+ 
+
+
+<script src="js/jquery-ui.js"></script>
+ 
+
+
 
 <link  type="text/javascript" href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.js">
 <link  type="text/javascript" href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/js/fileinput.min.js">

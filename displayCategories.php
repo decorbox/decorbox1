@@ -8,7 +8,7 @@ include_once 'library.php';
 $display_block = "<div class='row'> <div class='col-md-12 col-lg-12 col-sm-12 col-xs-12'>
 	<h1 class='text-center'>Kategorijos</h1> </div></div>";
 //show categories first
-$get_cats_sql = "SELECT id, cat_title FROM store_categories ORDER BY cat_title";
+$get_cats_sql = "SELECT id, cat_title FROM store_categories ORDER BY sorting_id";
 $get_cats_res = mysqli_query($mysqli, $get_cats_sql) or die(mysqli_error($mysqli));
 
 
@@ -33,15 +33,15 @@ while ($cats = mysqli_fetch_array($get_cats_res)) //display categories
 	$display_block .= "
 		<div class=' list-group-margin list-group '>
 		    <div class='text-center ' >
-		    	<label class='panel-title menuBody' style='width:100%;' >";
+		    	<label class='panel-title list-group-title-color menuBody' style='width:100%;' >";
 		    	//show active categories manu
 		    	if(isset($_GET['cat_id']) && $cats_id == $_GET['cat_id'] && !isset($_GET['subcat_id'])){
 		    		$display_block.="<a class='list-group-item list-menuitem active'  href='".$_SERVER['PHP_SELF']. "?cat_id=".$cats_id."'><div class='row'><div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'>$cats_title </div><div class='col-md-2 col-lg-2 col-sm-2 col-xs-2 '> <span class='badge'>$total_items</span></div></div></a>";	
 		    	}else if(isset($_GET['subcat_id'])){ //if subcat is isset remove ACTIVE Class
-		    		$display_block.="<a class='list-group-item list-menuitem'  href='".$_SERVER['PHP_SELF']. "?cat_id=".$cats_id."'><div class='row'><div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'>$cats_title </div><div class='col-md-2 col-lg-2 col-sm-2 col-xs-2 '> <span class='badge'>$total_items</span></div></div></a>";
+		    		$display_block.="<a class='list-group-item  list-menuitem'  href='".$_SERVER['PHP_SELF']. "?cat_id=".$cats_id."'><div class='row'><div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'>$cats_title </div><div class='col-md-2 col-lg-2 col-sm-2 col-xs-2 '> <span class='badge'>$total_items</span></div></div></a>";
 		    	}
 		    	else{//not active categories menu AND active submenu
-		    		$display_block.="<a class='list-group-item list-menuitem'  href='".$_SERVER['PHP_SELF']. "?cat_id=".$cats_id."'><div class='row'><div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'>$cats_title </div><div class='col-md-2 col-lg-2 col-sm-2 col-xs-2 '> <span class='badge'>$total_items</span></div></div></a>";
+		    		$display_block.="<a class='list-group-item  list-menuitem'  href='".$_SERVER['PHP_SELF']. "?cat_id=".$cats_id."'><div class='row'><div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'>$cats_title </div><div class='col-md-2 col-lg-2 col-sm-2 col-xs-2 '> <span class='badge'>$total_items</span></div></div></a>";
 		    	}
 
 		    	
@@ -118,6 +118,7 @@ mysqli_close($mysqli);
 		<div class="col-md-3 border-color">
 			<?php include_once 'login.php';  
 				include_once 'showPriceWidget.php';
+				include_once 'facebookWidget.php';
 			?>
 		</div>
 
