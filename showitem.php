@@ -1,13 +1,21 @@
 <?php
+//isversta i anglu
 session_start();
  // gera knyga 23 skyrius
  //connected to displayCategories
 include 'connect.php';
 
+if(isset($_GET['lang']) && $_GET['lang']=='LT'){
+		include 'content_LT.php';
+	}else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
+		include 'content_EN.php';
+	}else{
+		include 'content_LT.php';
+	}
 //create safe values for use
 $safe_item_id = mysqli_real_escape_string($mysqli, $_GET['item_id']);
  //validate item
-$get_item_sql = "SELECT c.id as cat_id, c.cat_title, si.item_title, si.item_price, si.item_desc, si.item_image FROM store_items
+$get_item_sql = "SELECT c.id as cat_id, c.cat_title, c.cat_title_EN,si.item_title, si.item_title_EN, si.item_price, si.item_desc, si.item_desc_EN,si.item_price_old ,si.item_image FROM store_items
 AS si LEFT JOIN store_categories AS c on c.id = si.cat_id WHERE si.id = '".$safe_item_id."'"; //  pagal kategorijos ID gauna Kategorijos varda ir pan
 $get_item_res = mysqli_query($mysqli, $get_item_sql) or die(mysqli_error($mysqli));
 if (mysqli_num_rows($get_item_res) < 1) {
@@ -17,16 +25,29 @@ if (mysqli_num_rows($get_item_res) < 1) {
 //valid item, get info
 while ($item_info = mysqli_fetch_array($get_item_res)) {
 	$cat_id = $item_info['cat_id'];
-	$cat_title = mb_strtoupper($item_info['cat_title'], 'UTF-8');//geras didziosios
-	$item_title = stripslashes($item_info['item_title']);
+	if(isset($_GET['lang']) && $_GET['lang']=='LT'){
+		$cat_title = mb_strtoupper($item_info['cat_title'], 'UTF-8');//geras didziosios
+		$item_title = stripslashes($item_info['item_title']);
+		$item_desc = stripslashes($item_info['item_desc']);
+	}else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
+		$cat_title = mb_strtoupper($item_info['cat_title_EN'], 'UTF-8');//geras didziosios
+		$item_title = stripslashes($item_info['item_title_EN']);
+		$item_desc = stripslashes($item_info['item_desc_EN']);
+	}else{
+		$cat_title = mb_strtoupper($item_info['cat_title'], 'UTF-8');//geras didziosios
+		$item_title = stripslashes($item_info['item_title']);
+		$item_desc = stripslashes($item_info['item_desc']);
+	}
+	
 	$item_price = $item_info['item_price'];
-	$item_desc = stripslashes($item_info['item_desc']);
+	$item_price_old = $item_info['item_price_old'];
+	$discount = $item_price_old - $item_price;
 	$item_image = $item_info['item_image'];
 }
 
 $display_block = "
 	<ol class='breadcrumb'>
-	  <li><a href='index.php?cat_id=$cat_id'>$cat_title</a></li>
+	  <li><a href='index.php?lang=".$_GET['lang']."&cat_id=$cat_id'>$cat_title</a></li>
 	  <li class='active'>$item_title</li>
 	</ol>";
 
@@ -39,7 +60,9 @@ $display_block .= <<<END_OF_TEXT
 		<div><img src="$item_image" class="img-responsive " alt="$item_title"/></div>
 	</div>
 	<div class="col-md-6">
-		<p><strong>Kaina:</strong> &euro; $item_price</p>
+		<p style='text-decoration: line-through;'><strong>$txtold_price:</strong>$item_price_old &euro;</p>
+		<p>$txtitemDiscount: $discount &euro;</p>
+		<p><strong>$txtprice:</strong>$item_price &euro;</p>
 		<form method="post" action="addtocart.php">
 END_OF_TEXT;
  
@@ -48,13 +71,13 @@ mysqli_free_result($get_item_res);
  
 
 
-        $display_block .= "<label for='sel_item_qty'>Kiekis:</label>
+        $display_block .= "<label for='sel_item_qty'>$txtqty:</label>
         <input type='number' min='1' value='1'  name='sel_item_qty' id='sel_item_qty'>
 		<input type='hidden' name='sel_item_id' value='".$_GET['item_id']."' >
-		<button class='btn btn-success' type='submit' name='submit' value='submit'>Įdėti į krepšelį</button>
+		<button class='btn btn-success' type='submit' name='submit' value='submit'>$txtadd_to_basket</button>
 		</form>
 		<div class='row margin-top '>
-			<p><strong>Aprašymas:</strong><br/>$item_desc</p>
+			<p><strong>$txtdescription:</strong><br/>$item_desc</p>
 		</div>
 	</div>
 </div>";
@@ -76,19 +99,9 @@ mysqli_free_result($get_item_res);
 </head>
 <body>
 
-
 <div class="container">
-	<div class="row">
-		<div class="col-md-12 border-color">
-			<h1>Header</h1>
-		</div>
-	</div>
+<?php include'navbar.php';?>
 
-	<div class="row">
-		<div class="col-md-12 border-color">
-			<p>up meniu</p>
-		</div>
-	</div>
 <!--<?php echo $display_block; ?>-->
 	<div class="row">
 		<div class="col-md-9 border-color">
@@ -96,7 +109,11 @@ mysqli_free_result($get_item_res);
 		</div>
 		<div class="col-md-3 border-color">
 			<?php include 'login.php';
-			include 'showPriceWidget.php'; ?>
+			include 'showPriceWidget.php';
+			include_once 'contactsWidget.php';
+				include_once 'deliveryWidget.php';
+				include_once 'facebookWidget.php';
+				 ?>
 		</div>
 		
 

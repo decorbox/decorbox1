@@ -1,7 +1,16 @@
 <?php 
 //http://php.about.com/od/finishedphp1/ss/php_login_code.htm
 //Connects to your Database 
+ob_start();
 include 'connect.php';
+
+if(isset($_GET['lang']) && $_GET['lang']=='LT'){
+        include 'content_LT.php';
+    }else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
+        include 'content_EN.php';
+    }else{
+        include 'content_LT.php';
+    }
 
 $passErr = $userErr = '';
  
@@ -20,7 +29,7 @@ else if (isset($_POST['submitLog'])) { // if form has been submitted
 	if(!$_POST['username'] | !$_POST['pass']) {
 		echo "<div class='alert alert-danger alert-dismissible' role='alert'>
 		 	<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		 	<p>Prašome užpildyti visus laukus</p>
+		 	<p>$txterror_fill_all_fields</p>
 			</div>";
 	 	}
 
@@ -37,7 +46,7 @@ else if (isset($_POST['submitLog'])) { // if form has been submitted
 	if ($check2 == 0) {
 	 		$userErr = "<div class='alert alert-danger alert-dismissible' role='alert'>
 		 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		 		<p>Toks vartotojas neegzistuoja prašome <a href=register.php>Užsiregistruoti</a></p>
+		 		<p>$txterror_user_not_exist</p>
 				</div>";
 	 	}
 	
@@ -49,7 +58,7 @@ else if (isset($_POST['submitLog'])) { // if form has been submitted
 	 	if ($_POST['pass'] != $info['password']) {
 	 		$passErr = "<div class='alert alert-danger alert-dismissible' role='alert'>
 		 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		 		<p>Neteisingai ivestas slaptažodis</a></p>
+		 		<p>$txterror_pass</a></p>
 				</div>";
 
 	 	}
@@ -75,33 +84,34 @@ else if (isset($_POST['submitLog'])) { // if form has been submitted
 
 if(isset($_COOKIE['ID_my_site'])){
 	
-	echo "is loginTavo siuntimo informacija: <hr>";
+	
 	$sql = "SELECT * FROM users WHERE username = '$username' ";
 	$user_info_res = mysqli_query($mysqli, $sql) or die(mysql_error($mysqli));
 	while ($user_info = mysqli_fetch_array($user_info_res)) {
 		$vardas= $user_info['name'];
 		$adresas= $user_info['address'];
+		$country = $user_info['country'];
 		$city= $user_info['city'];
 		$zip= $user_info['zip'];
 		$phone= $user_info['phone'];
 		$email= $user_info['email'];
 	}
-
+	
+$shipping_total_login = $shipping_total;
 	$get_order_id_sql = "SELECT id FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
 	$run_order_id_res = mysqli_query($mysqli, $get_order_id_sql) or die(mysqli_error($mysqli));
 	while($info = mysqli_fetch_array( $run_order_id_res)) 	 
  		{ 
  			$order_id = $info['id'];
  		} 
- 		setcookie("order_id", $order_id); //perduoda i checkout success
-print_r($_SESSION);
+ 		//setcookie("order_id", $order_id); //perduoda i checkout success
+
 	if(isset($_POST['submitLogin'])){
 		
-		$insert_orders_items = "INSERT INTO store_orders_items (order_id, sel_item_qty, sel_item_price) VALUES ('".$order_id."', '".$_COOKIE['full_qty']."', '".$shipping_total."')";
- 		$insert_orders_items_res = mysqli_query($mysqli, $insert_orders_items) or die(mysqli_error($mysqli));
-		
+		$delete_error = "UPDATE store_orders SET order_id = NULL WHERE order_id != 'NULL' ";//sometimes doublicates order id reason: sometimes after delete store_stoppertrack when order is submited
+		$delete_error_res = mysqli_query($mysqli, $delete_error) or die(mysqli_error($mysqli));	//temporary order_id(shoppertrack id) resets value from 1 		
 		$sql = "INSERT INTO store_orders (authorization, item_total, order_address, order_city, order_date, order_email,
-		order_name, order_tel, order_zip, shipping_total, order_id,status) VALUES ('".$username."', 
+		order_name, order_tel, order_zip, shipping_total, order_id,status, country) VALUES ('".$username."', 
 											
 		'".$_COOKIE['full_qty']."',
 		'".$adresas."',
@@ -111,13 +121,24 @@ print_r($_SESSION);
 		'".$vardas."',
 		'".$phone."',
 		'".$zip."',
-		'".$shipping_total."',
+		'".$shipping_total_login."',
 		'".$order_id."',
-		'2')";
+		'2',
+		'".$country."')";
 /*shipping total galima idet - siuntimo kaina*/
 	$write_in_db = mysqli_query($mysqli, $sql) or die(mysqli_error($mysqli));
 
-	$get_cart_sql = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty, st.sel_item_id FROM
+	$get_real_order_id = "SELECT id FROM store_orders where order_id = '".$order_id."'";
+	$get_real_order_id_res = mysqli_query($mysqli, $get_real_order_id) or die(mysqli_error($mysqli));
+	$get_real_order_id_fetch = mysqli_fetch_assoc($get_real_order_id_res);
+	$real_order_id = $get_real_order_id_fetch['id'];//tikras order id is store orders
+	setcookie("order_id", $real_order_id); //perduoda i checkout success
+
+	$insert_orders_items = "INSERT INTO store_orders_items (order_id, sel_item_qty, sel_item_price) VALUES ('".$real_order_id."', '".$_COOKIE['full_qty']."', '".$shipping_total_login."')";
+ 	$insert_orders_items_res = mysqli_query($mysqli, $insert_orders_items) or die(mysqli_error($mysqli));
+
+
+	$get_cart_sql = "SELECT st.order_id, si.item_title, si.item_title_EN, si.item_price, si.id, st.sel_item_qty, st.sel_item_id FROM
 	store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
 	$get_cart_res1 = mysqli_query($mysqli, $get_cart_sql) or die(mysqli_error($mysqli));
 
@@ -125,85 +146,21 @@ print_r($_SESSION);
 
 
 	//istrinam praeitus duomenis siame uzsakyme
-	$delete_previous_sql = "DELETE FROM store_orders_items_item WHERE order_id ='".(int)$order_id."'";//bandyk unset session id kai nuperku galutinai preke. kad perkant nauja butu nauajs order ID
+	$delete_previous_sql = "DELETE FROM store_orders_items_item WHERE order_id ='".(int)$real_order_id."'";//bandyk unset session id kai nuperku galutinai preke. kad perkant nauja butu nauajs order ID
 	mysqli_query($mysqli, $delete_previous_sql) or die(mysqli_error($mysqli));
 //IDETI HISTORY LENTELE ir is cia perkelti i history
 	//irasome is naujos visus
 	while ($cart_info1 = mysqli_fetch_array($get_cart_res1)) {
 
 		$add_item_sql = "INSERT INTO store_orders_items_item
-	        (order_id, item_id, item_qty, item_price) VALUES ('".$order_id."',
+	        (order_id, item_id, item_qty, item_price) VALUES ('".$real_order_id."',
 	        '".$cart_info1['sel_item_id']."',
 	        '".$cart_info1['sel_item_qty']."',
 	        '".$cart_info1['item_price'] * $cart_info1['sel_item_qty']."')";
 	    $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
 
 	}//end of main while
-//send email
-/*$to = "deivassx@gmail.com, ".$email."";//buyer email and admin
-$subject = "Prekė užsakyta";
 
-$get_cart_email_sql = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty FROM
-	store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
-$get_cart_email_res = mysqli_query($mysqli, $get_cart_email_sql) or die(mysqli_error($mysqli));
-$email="";
-$email .= "
-		<table class='table table-bordered table-condensed'>
-			<tr>
-				<th class='text-center'>Pavadinimas</th>
-				<th class='text-center'>Kaina</th>
-				<th class='text-center'>Kiekis</th>
-				<th class='text-center'>Visa kaina</th>
-			</tr>";
-
-
-		// info is shoppertrack
-		$full2_qty=0;
-		$full2_price=0;
-		while ($cart2_info = mysqli_fetch_array($get_cart_email_res)) {
-		$item2_id = $cart2_info['id'];//nenaudojamas
-		$item2_title = stripslashes($cart2_info['item_title']);
-		$item2_price = $cart2_info['item_price'];
-		$item2_qty = $cart2_info['sel_item_qty'];
-		$full2_qty =  $full2_qty + $item2_qty;
-		$total2_price = sprintf("%.02f", $item2_price * $item2_qty);
-		$full2_price = sprintf("%.02f", $full2_price+$total2_price); //galutine kaina
-
-//TABLE DATA
-	$email .= "
-	<tr class='text-center'>
-		<td>$item2_title</td>
-		<td>&euro; $item2_price</td>
-		<td>$item2_qty</td>
-		<td>&euro; $total2_price </td>
-	</tr>";
-
-	
-	}//end of while
-
-$email.="
-	<tr style='color:red;'>
-		<td class='text-right' colspan='3'><div><label>Siuntimo kaina:</label></div></td>
-		<td class='text-center'><strong>&euro;<span>" . $_SESSION['shipping'] .  "</span></strong></td>
-	</tr>
-	<tr style='color:red;'>
-		<td class='text-right' colspan='3'><div><label>Galutinė kaina:</label></div></td>
-		<td class='text-center'><strong >&euro;<span  id='all-total'>" . ($full2_price + $_SESSION['shipping']) .  "</span></strong></td>
-	</tr>
-</table>
-<p>Banko informacija</p>
-
-";
-// Always set content-type when sending HTML email
-$headers = "MIME-Version: 1.0" . "\r\n";
-$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-// More headers
-$headers .= 'From: <decorbox@gmail.com>' . "\r\n";
-
-mail($to,$subject,$email,$headers);*/
-//end of email
-//echo $email;
 //delete items from shoppertrack when order is completed
 	$delete_shoppertrack_tems = "DELETE FROM store_shoppertrack_items WHERE order_id ='".$order_id."'";
 	$delete_items_rez = mysqli_query($mysqli, $delete_shoppertrack_tems);
@@ -211,49 +168,60 @@ mail($to,$subject,$email,$headers);*/
 	//delete items from shoppertrack when order is completed
 	$delete_compeleted_items_sql = "DELETE FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."' ";
 	$delete_rez = mysqli_query($mysqli, $delete_compeleted_items_sql);
-	header('Location: checkout_success.php'); //kai login submit permeta i kita puslapi
+	header("Location: checkout_success.php?lang=".$_GET['lang'].""); //kai login submit permeta i kita puslapi
+	//header("Location: test.php?lang=".$_GET['lang']."");
 	} 
 //user info
 	echo"
 	<div class='row'>
-			<Label class='col-md-6'>Vardas ir pavardė:</label>
-			<div class='col-md-6'> $vardas <br>
+			<Label class='col-md-7'>$txtinput_name:</label>
+			<div class='col-md-5'><p> $vardas </p>
+			</div>
+		</div>
+
+		<div class='row'>
+			<Label class='col-md-7'>$txtaddress:</label>
+			<div class='col-md-5'><p> $adresas </p>
+			</div>
+		</div>
+
+		<div class='row'>
+			<Label class='col-md-7'>$txtcity:</label>
+			<div class='col-md-5'><p> $city </p>
+			</div>
+		</div>
+
+		<div class='row'>
+			<Label class='col-md-7'>$txtzip:</label>
+			<div class='col-md-5'><p> $zip </p>
+			</div>
+		</div>
+
+		<div class='row'>
+			<Label class='col-md-7'>$txtcountry:</label>
+			<div class='col-md-5'><p> $country </p>
+			</div>
+		</div>
+
+		<div class='row'>
+			<Label class='col-md-7'>$txtphone:</label>
+			<div class='col-md-5'><p> $phone </p>
 			</div>
 		</div>
 		<div class='row'>
-			<Label class='col-md-6'>Adresas:</label>
-			<div class='col-md-6'> $adresas <br>
+			<Label class='col-md-7'>$txtemail:</label>
+			<div class='col-md-5'><p> $email </p>
 			</div>
 		</div>
 		<div class='row'>
-			<Label class='col-md-6'>Miestas:</label>
-			<div class='col-md-6'> $city <br>
+			<Label class='col-md-7'>$txtfull_price:</label>
+			<div class='col-md-5 '><label>$shipping_total_login &euro;</label>
 			</div>
 		</div>
 		<div class='row'>
-			<Label class='col-md-6'>Pašto kodas:</label>
-			<div class='col-md-6'> $zip <br>
-			</div>
-		</div>
-		<div class='row'>
-			<Label class='col-md-6'>Telefono Nr.:</label>
-			<div class='col-md-6'> $phone <br>
-			</div>
-		</div>
-		<div class='row'>
-			<Label class='col-md-6'>El. Paštas:</label>
-			<div class='col-md-6'> $email <br>
-			</div>
-		</div>
-		<div class='row'>
-			<Label class='col-md-6'>Galutinė suma:</label>
-			<div class='col-md-6 '>&euro; $shipping_total<br>
-			</div>
-		</div>
-		<div class='row'>
-			<form method='post'action=".$_SERVER['PHP_SELF']. " >
+			<form method='post' action=".$_SERVER['PHP_SELF']."?lang=".$_GET['lang']. " >
 					<div>
-						<button type='submit' value'Reg' class='btn btn-primary' name='submitLogin' >Užsakyti</button>
+						<button type='submit' value'Reg' class='btn btn-primary pull-right' name='submitLogin' >$txtorder_items</button>
 					</div> </form>
 				</div>";
 	
@@ -265,33 +233,34 @@ else {
  <!DOCTYPE HTML>
 <html>
 <head>
-	<?php include 'library.php' ?>
+	
 </head>
 <body>
 
 <div class="row">
 	<div class="col-md-12">
-		<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+		<form class="form-horizontal" action="<?php echo $_SERVER["PHP_SELF"].'?lang='.$_GET["lang"] ; ?>" method="post">
 			<div class="form-group">
 				<div class="row margin-top">
-					<label for="inputUsername3" class="col-md-4 control-label">Vartotojo vardas</label>
+					<label for="inputUsername3" class="col-md-4 control-label"><?php echo $txtusername; ?></label>
 					<div class="col-md-8">
-						<input type="text" name="username" class="form-control" id="inputUsername3" placeholder="Prisijungimo vardas">
+						<input type="text" name="username" class="form-control" id="inputUsername3" placeholder="<?php echo $txtusername; ?>">
 							<span class="error"><?php echo $userErr;?></span>
 					</div>
 				</div>	
 
 				<div class="row margin-top">
-					<label for="inputPass3" class="col-md-4 control-label">Slaptažodis</label>
+					<label for="inputPass3" class="col-md-4 control-label"><?php echo $txtpassword; ?></label>
 					<div class="col-md-8">
-						<input type="password" name="pass" class="form-control" id="inputPass3" placeholder="Įveskite slaptažodį">
+						<input type="password" name="pass" class="form-control" id="inputPass3" placeholder="<?php echo $txtpassword; ?>">
 						<span class="error"><?php echo $passErr;?></span>
 					</div>
 				</div>
 				<div class="row margin-top">
-					<div class="col-md-1 col-md-offset-8">
-						<button type="submit" value"Register" name="submitLog" class="btn btn-default">Prisijungti</button>
-					</div> <!-- padaryt kai submitinu kad rodytu pop up windows http://nakupanda.github.io/bootstrap3-dialog/ -->
+					<div class="pull-right">
+						<a href="register.php?lang=<?php echo $_GET['lang'] ?>" role='button' class='btn btn-success'><?php echo $txtregister; ?></a>
+						<button type="submit" value"Register" name="submitLog" class="btn btn-success"><?php echo $txtlogin; ?></button>
+					</div> 
 				</div>
 			</div>
 		</form>

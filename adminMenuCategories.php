@@ -1,5 +1,5 @@
 <?php
-include 'library.php';
+//include 'library.php';
 $display_block.= "<h1 class='text-center'>Kategorijos</h1>";
 					    	$display_block .="<div class='row'> <div class='col-md-6 col-md-offset-6'>
 					    	<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#addCategory'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span>Įdėti kategoriją</button>
@@ -42,7 +42,7 @@ $display_block.="<!-- Add category Modal -->
 //is submitted 'insert new category'
 if(isset($_POST['submitNewCategory'])){
 	
-	$insert_new_cat = "INSERT INTO store_categories VALUES (NULL, '".$_POST['inputNewCategory']."', 0, '".$_POST['inputNewCategoryEN']."')"; //0-sorting_id kad rodyti pacia pirma kategorija kai ja ka tik idedi
+	$insert_new_cat = "INSERT INTO store_categories VALUES (NULL, '".$_POST['inputNewCategory']."', 0, '".$_POST['inputNewCategoryEN']."')"; //1-sorting_id kad rodyti pacia pirma kategorija kai ja ka tik idedi
 	$insert_res = mysqli_query($mysqli, $insert_new_cat) or die(mysqli_error($mysqli));
 
 	echo"<div class='alert alert-success alert-dismissible' role='alert'>
@@ -70,7 +70,7 @@ $display_block.="<!-- Add SubCategory Modal -->
 							</div>
 							<div class='col-md-9'>
 								<select  class='selectOption ' style='width:100%'  name='selectSubCategory'>";
-								$get_cat = "SELECT * FROM store_categories";
+								$get_cat = "SELECT * FROM store_categories WHERE sorting_id !='99999999' AND sorting_id !='88888888'";
 								$get_cat_rs= mysqli_query($mysqli, $get_cat);
 
 								while($cat = mysqli_fetch_array($get_cat_rs)){
@@ -108,10 +108,7 @@ if(isset($_POST['submitNewSubcat'])){
 	
 	$insert_subcat = "INSERT INTO store_subcategories VALUES ('".$_POST['selectSubCategory']."', NULL, '".$_POST['inputNewSubCategory']."', '".$_POST['inputNewSubCategoryEN']."')";
 	$insert_subcat_res= mysqli_query($mysqli, $insert_subcat);
-	echo"<div class='alert alert-success alert-dismissible' role='alert'>
-			<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-			Nauja sub kategorija pridėta.
-		</div>";
+	echo("<meta http-equiv='refresh' content='0'>");//reflesh page
 	
 }
 
@@ -139,7 +136,7 @@ $display_block.="<!-- Sorting categories Modal -->
 							<div class='col-md-12'>
 								<ol id='sortable' class='text-center list-group' style='margin:auto;'>";
 
-								$show_cats="SELECT * FROM store_categories ORDER BY sorting_id";
+								$show_cats="SELECT * FROM store_categories WHERE sorting_id !='99999999' AND sorting_id !='88888888' ORDER BY sorting_id";
 								$show_cats_res=mysqli_query($mysqli, $show_cats);
 								$count_rows = 0;
 								while($info = mysqli_fetch_array($show_cats_res)){
@@ -200,7 +197,7 @@ if(isset($_POST['submitSortingCategory'])){
 							        </tfoot>
 							 
 							        <tbody>";
-							    $get_cats_sql = "SELECT id, cat_title, cat_title_EN FROM store_categories ORDER BY sorting_id";
+							    $get_cats_sql = "SELECT id, cat_title, cat_title_EN FROM store_categories WHERE sorting_id !='99999999' AND sorting_id !='88888888' ORDER BY sorting_id";
 								$get_cats_res = mysqli_query($mysqli, $get_cats_sql) or die(mysqli_error($mysqli));
 								
 								while ($cats = mysqli_fetch_array($get_cats_res)) //display categories
@@ -357,7 +354,7 @@ $display_block.="<!-- Delete categories Modal -->
 							</div>
 							<div class='col-md-9'>
 							<!--	<select  class='selectOption ' style='width:100%'  name='selectCategory1'>-->";
-								$select_cat = "SELECT * FROM store_categories WHERE id='".$cat_id."'";
+								$select_cat = "SELECT * FROM store_categories WHERE id='".$cat_id."' AND sorting_id !='99999999' AND sorting_id !='88888888'";
 								$select_cat_res = mysqli_query($mysqli, $select_cat);
 								while($cat = mysqli_fetch_array($select_cat_res)){
 									$c_id = $cat['id'];
@@ -417,23 +414,19 @@ $display_block.="<!-- Delete categories Modal -->
 //if submit delete								
 if(isset($_POST['submitDelete'])){
 	if($_POST['optionsRadios']==1){//delete category
-		$delete_cat="DELETE  FROM store_categories WHERE id='".$_POST['selectCategory1']."'";
+		$delete_cat="DELETE  FROM store_categories WHERE id='".$_POST['selectCategory1']."' AND sorting_id !='99999999' AND sorting_id !='88888888'";
 		$delete_cat_res = mysqli_query($mysqli, $delete_cat) or die(mysqli_error($mysqli));
 		
 		$delete_sub="DELETE  FROM store_subcategories WHERE cat_id='".$_POST['selectCategory1']."'";
 		$delete_sub_res=mysqli_query($mysqli, $delete_sub) or die(mysqli_error($mysqli));
 
-		echo"<div class='alert alert-danger alert-dismissible' role='alert'>
-				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-				Kategorija ir jos sub kategorijos buvo ištrintos.
-			</div>";
+		echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+		
 	}else if($_POST['optionsRadios']==2){//delete sub category
 		$delete_sub1="DELETE  FROM store_subcategories WHERE subcat_id='".$_POST['selectSubCategory1']."'";
 		$delete_sub_res1=mysqli_query($mysqli, $delete_sub1) or die(mysqli_error($mysqli));
-		echo"<div class='alert alert-danger alert-dismissible' role='alert'>
-				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-				Sub kategorija buvo ištrinta.
-			</div>";
+		
+		echo("<meta http-equiv='refresh' content='0'>");//reflesh page
 	}
 }			
 								$display_block.="
@@ -461,19 +454,14 @@ if(isset($_POST['submitEditCategory'])){
 			$update_cats_res = mysqli_query($mysqli, $update_cats) or die(mysqli_error($mysqli));
 			echo("<meta http-equiv='refresh' content='0'>");//reflesh page
 			//alert
-			echo"<div class='alert alert-danger alert-dismissible' role='alert'>
-			<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-			<strong>Dėmesio!</strong> Buvo palikti tušti laukai sub kategorijose, tie laukai nebuvo atnaujinti.
-			</div>";
+			
+			
 										//if category title is empty
 		}else if($_POST['editCategory']==''){
 			//no data because ALERTS IS DOUBLEING
 		}	//if everything ir good, update all
 		else if(mysqli_num_rows($subcts_res)>=1){
-			echo $_POST['editSubcategory'.$sub_id.''];
-			echo "-->";
-			echo $_POST['editSubcategoryId'.$sub_id.''];
-			echo "<br>";
+			
 			$update_cats = "UPDATE store_categories SET cat_title ='".$_POST['editCategory']."', cat_title_EN='".$_POST['editCategoryEN']."' WHERE id='".$_POST['editCategoryId']."'";
 			$update_cats_res = mysqli_query($mysqli, $update_cats) or die(mysqli_error($mysqli));
 
@@ -491,7 +479,7 @@ if(isset($_POST['submitEditCategory'])){
 			</div>";
 	}//update category title	
 	else if(mysqli_num_rows($subcts_res)==0){
-		$update_cats = "UPDATE store_categories SET cat_title ='".$_POST['editCategory']."' WHERE id='".$_POST['editCategoryId']."'";
+		$update_cats = "UPDATE store_categories SET cat_title ='".$_POST['editCategory']."', cat_title_EN='".$_POST['editCategoryEN']."' WHERE id='".$_POST['editCategoryId']."'";
 		$update_cats_res = mysqli_query($mysqli, $update_cats) or die(mysqli_error($mysqli));	
 		echo("<meta http-equiv='refresh' content='0'>");//reflesh page
 	}

@@ -1,38 +1,66 @@
 .border-color{
-	border:1px solid #F888BB;
+	border:1px solid #FBDAED;
 
+}
+body{
+	font-family: Georgia,Helvetica,Arial,sans-serif;
+	color:#673030;
+}
+a:hover{
+	color: #FBDAED;
 }
 .margin-top{
 	margin-top:5px;
 }
-
-.row{
-	margin-left: 0px;
-	margin-right: 0px;
+.margin-left40{
+	margin-left: 40;
 }
+
 .imgSize{
-	max-width: 100px;
-	max-height: 100px;
-	min-width: 100px;
-	min-height: 100px;
-}
+	max-width: 70px;
+	max-height: 70px;
+	min-width: 60px;
+	min-height: 70px;
 
 }
+.margin-bottom60{/*for checkout success*/
+	margin-bottom: 60px;
+}
+
+.inputWidth{/*input field*/
+	width: 50%;
+}
+.ideas-border{
+	border-top-right-radius: 82px;/*blogai nes linijos negerai gaunas*/
+	border-top-left-radius: 82px;
+	border-bottom-left-radius: 82px;
+	border-bottom-right-radius: 82px;
+	overflow: hidden;
+}
+.header-edit{
+	/*width: 800px !important;*/
+	/*height: 150px !important;*/
+	border-radius:15px;
+	overflow: hidden;
+}
+#listWidgetmargin{
+	margin-right: 20px;
+}
+#listWidgetmargin > label>li:hover  {
+	background-color: #673030;
+
+	color: white;
+}
+#listWidgetmargin > label > li{
+	padding: 5px;
+	border-radius: 5px;
+}
+
 .ulclass{
 	height: 100px;
 	background-color: blue;
 }
 
-.margin-top20{
-	margin-top: 20px;
-}
-
-.margin-bottom15{
-	margin-bottom: 15px;
-}
-.margin-left20 {
-	margin-left: -30px;
-}
 .labelHeight{
 	min-height: 40px;
 	max-height: 40px;
@@ -43,11 +71,11 @@
   .margin-left20{
   	margin-left: -25px;
   }	
-   .imgLeft{
-  	margin-left: -10px;
-  }
+   
 }
-
+.langButton{
+	padding: 0px;
+}
 .fullWidthButton{
 	display: block;
 	width: 100%;
@@ -58,37 +86,124 @@
 
 /*size for items price*/
 .labelSize{
-	font-size: 15pt;
-	color: red;
+	font-size: 13pt;
+	color: #673030;
+	font-weight: bold;
 }
 /*display categories*/
 .list-group-margin {
   padding-left: 0;
   margin-bottom: 0px !important;
 }
-.submenuBody{
+.submenuBody{/*submenu border*/
 	width: 90%;
 	margin-top: 2px;
+	/*border-left: 3px solid #FBDAED;*/
 }
+
 .float-right{
 	float: right;
 }
 .list-subitem{
 	padding: 2px 5px 5px 5px !important;
-	/*padding-right: 5px;
-	padding-left: 2px !important;*/
 }
 
 .list-menuitem{
 	padding-right: 2px;
 	padding-left: 2px;
-}
-.categ-width{
-	padding-left: 1px;
-	padding-right: 1px;
+
 }
 
+.right-bar-edit{
+	border-radius: 70px;/*paneles remai*/
+ 	padding-bottom: 80px;
+}
+
+.panel-edit{
+	max-height: 230px;
+	min-height: 230px;
+}
+
+
+.col-padding{
+	padding-right: 0px !important;
+  	padding-left: 0px !important;
+}
+.ideas-edit{
+	height: 150px;
+	margin-bottom: 2px;
+	border:none;
+
+}
+
+/*slides*/
+
+.bx-wrapper .bx-caption{
+	background: #FBDAED;
+	color:blue;
+}
+.bx-wrapper .bx-caption span{
+	color:#673030;
+	font-family: Georgia;
+	font-size: 0.99em;
+}
+.bx-wrapper .bx-controls-direction a{/* hide nes/pev buttons on model pop up*/
+	  z-index: 1;
+}
+.bx-wrapper{
+	margin:0px auto 5px;
+}
+.bx-wrapper .bx-viewport{
+	  border: 1px solid #fff;
+}
+.bx-default-pager{/*slides counter*/
+	display: none;
+}
+/*navbar*/
+.navbar-default{
+	background-color: #FBDAED;/*rozine*/
+  	border-color: #FBDAED;
+}
+.navbar-brand, .navbar-text{
+	font-family: Georgia;
+}
+.btn-info{/*search button*/
+	background-color: #673030;
+  	border-color: #673030;
+}
+.form-control{
+	border:1px solid #FBDAED;
+}
+.navbar-default .navbar-nav > li > a{
+	color:#673030;
+	font-size: 14pt;
+}
+
+.navbar-nav > li {
+    font-family: Georgia !important;
+  }
+  .navbar-nav > li > a {
+   font-family: Georgia !important;
+
+  }
+.navbar-default .navbar-brand{/*navbar logo*/
+	color:#673030;
+	font-size: 16pt;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #673030;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: white;
+  background-color: #673030;
+}
+.bx-wrapper .bx-viewport{
+	left:0px;
+}
 /*admin page*/
+
 .adminImgSize{
 	max-width: 50px;
 	max-height: 50px;
@@ -112,67 +227,66 @@
 	margin-left: -12px;
 }
 
-
-
 #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
 #sortable li { margin: 35 3px 3px 3px; cursor:move; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
 #sortable li span { position: absolute; margin-left: -1.3em; }
+/*gallery*/
+.galleryImgSize{
+	width: 344px;
+	height: 230px;
+	margin-left:10px;
+	margin-bottom: 10px;
+	border-radius: 40px;
 
+}
+.navbar-default .navbar-nav > li > a {
 
-
+  font-family: Georgia !important;
+}
+.mainContentImgRadius{
+	border-top-right-radius: 82px;
+	border-bottom-right-radius: 82px;
+	width: 100%;
+}
 /*show items Bootstrap correction*/
+/*test item 3 per page*/
 
-.panel-success > a > .panel-heading {
-  color: #3F1515;
-  font-size: 17px;
-  background-color: #FBDAED;/*ruzava*/
-  border-color: #FBDAED;
-} 
-.panel-success > .panel-heading {
-  color: white;
-  font-color: #FBDAED;
-  background-color: #FBDAED;
-  border-color: #FBDAED;
-} 
-
-.panel{
-	border-color: #FBDAED;
-	
+.panel-body-edit{
+	padding: 0px;
+	overflow:hidden;
+	word-wrap: break-word;
 }
-.panel-title {
-	color: #3F1515;
-	font-size: 17px;
-	font-family: Georgia;
-	font-weight: bold;
+.panel-body-edit2{
+	padding: 0px;
+	overflow:hidden;
+	word-wrap: none;
 }
-.btn-success{
-	background-color: #3F1515;
-  border-color: #3F1515;
+.overflowHidden{
+	overflow: hidden;
 }
-.btn-primary{
-	background-color: #3F1515;/*ruda*/
-  border-color: #3F1515;
-}
-
-.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus{
-	background-color: #3F1515;
-  border-color: #F888BB;
-}
-.list-group-item, .list-group-item.active:hover, .list-group-item.active:focus{
-background-color: #F888BB;
-  border-color: #F888BB;
-}
-.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus{
-	background-color: #3F1515;
-  border-color: #FBDAED;
-}
-.list-group-item, .list-group-item.active:hover, .list-group-item.active:focus{
-background-color: white;
-  border-color: #3F1515;
-}
-.list-group-title-color{
-	color: #3F1515;
+/*Special offers*/
+.special-offers-img{
+	height: 150px;
+	width: 100%;
 }
 
 
 
+.container {
+    margin-top: 10px;
+}
+
+.dropdown:hover .dropdown-menu {/*show dropdown menu*/
+    display: block;
+ }
+.dropdown-menu{
+	background-color: #FBDAED;
+	font-size: 16px;
+}
+.dropdown-menu > li > a{
+	padding: 10px;
+}
+.dropdown-menu > li > a:hover{
+	background-color: #673030;
+	color: white;
+}

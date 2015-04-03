@@ -1,8 +1,17 @@
 <?php 
+ob_start();
 session_start();
 include 'connect.php';
 include 'library.php';
-print_r($_COOKIE);
+
+if(isset($_GET['lang']) && $_GET['lang']=='LT'){
+        include 'content_LT.php';
+    }else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
+        include 'content_EN.php';
+    }else{
+        include 'content_LT.php';
+    }
+
 $safe_sel_item_authorization = $_COOKIE['PHPSESSID']; //reikia vartotojo login arba session id kai nesiregistruoja
 //$item_total_price= $_SESSION['full_price']; // ir total_qty suskaiciuot
 //select order_id from database
@@ -12,9 +21,9 @@ $safe_sel_item_authorization = $_COOKIE['PHPSESSID']; //reikia vartotojo login a
  		{ 
  			$order_id = $info['id'];
  		} 
- 	setcookie("order_id", $order_id); //perduoda i checkout success
+ 	//setcookie("order_id", $order_id); //perduoda i checkout success
 
- 	$get_cart_sql1 = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty FROM
+ 	$get_cart_sql1 = "SELECT st.order_id, si.item_title, si.item_title_EN, si.item_price, si.id, st.sel_item_qty FROM
 	store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
 	$get_cart_res1 = mysqli_query($mysqli, $get_cart_sql1) or die(mysqli_error($mysqli));
 
@@ -55,9 +64,9 @@ $item_total_qty = $full_qty1;
 
 $display_block = "
 <ol class='breadcrumb'>
-  <li><a href='index.php'>Pagrindinis</a></li>
-  <li><a href='showcart.php'>Krepšelis</a></li>
-  <li class='active'>Siuntimas</li>
+  <li><a href='index.php?lang=".$_GET['lang']."'>$txtmain_page</a></li>
+  <li><a href='showcart.php?lang=".$_GET['lang']."'>$txtshopping_cart</a></li>
+  <li class='active'>$txtsending</li>
 </ol>";
 //$iraso=false;//iduom baze
 
@@ -66,7 +75,7 @@ $input_error=false;
 //start input validation
 // define variables and set to empty values
 $nameErr = $phoneErr = $zipErr =$emailErr = $addressErr=$cityErr= "";
-$name = $email= $address =$city= $tel = $zip= "";
+$name = $email= $address =$city= $tel = $country =$zip= "";
 
 
 $_SESSION['name'] = $name;
@@ -80,58 +89,48 @@ if (isset($_POST['submitForm'])){//tikrina ar nera tusciu lauku jei yra meta kla
 	
 
 
-	
-	if(empty($_POST['address'])){
-		//$addresErr = "Addres is required";
+	if(!empty($_POST['country'])){
+		$country = $_POST['country'];
 	}
-	else{
+	if(!empty($_POST['address'])){
 		$address = test_input($_POST['address']);
 		$_SESSION['address'] = $address;// kad formoj liktu reiksmes po rr	
 	}
 
-	if(empty($_POST['city'])){
-		//$cityErr = "Addres is required";
-	}
-	else{
+	if(!empty($_POST['city'])){
 		$city = test_input($_POST['city']);	
 		$_SESSION['city']= $city;
 	}	
 	
-    if (empty($_POST['name'])) {
-     //$nameErr = "Name is required";
-   	} else {
-    $name = test_input($_POST['name']);
-    $_SESSION['name'] = $name;//kad kai reflesinu puslapi formoj liktu reiksmes jei butu error
+    if (!empty($_POST['name'])) {
+	    $name = test_input($_POST['name']);
+	    $_SESSION['name'] = $name;//kad kai reflesinu puslapi formoj liktu reiksmes jei butu error
     // check if name only contains letters and whitespace
 
     if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
     	
        $nameErr = "<div class='alert alert-danger alert-dismissible' role='alert'>
  		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
- 		<p>Only letters and white space available</p>
+ 		<p>$txterror_only_letters</p>
 		</div>"; 
 		$input_error=true;
      	}
    	}
 
-   	if (empty($_POST['city'])) {
-     //$cityErr = "Name is required";
-   	} else {
+   	if (!empty($_POST['city'])) {
     	$city = test_input($_POST['city']);
     	$_SESSION['city'] = $city;
      	// check if name only contains letters and whitespace
     	if (!preg_match("/^[a-zA-Z ]*$/",$city)) {
 	        $cityErr = "<div class='alert alert-danger alert-dismissible' role='alert'>
 	 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-	 		<p>Only letters and white space available</p>
+	 		<p>$txterror_only_letters</p>
 			</div>"; 
 			$input_error=true;
      		}
    		}
    	
-  	if (empty($_POST['email'])) {
-    //$emailErr = "Email is required";
-   	} else {
+  	if (!empty($_POST['email'])) {
 	    $email = test_input($_POST['email']);
 	    $_SESSION['email'] = $email;
 	    // check if e-mail address is well-formed
@@ -139,83 +138,38 @@ if (isset($_POST['submitForm'])){//tikrina ar nera tusciu lauku jei yra meta kla
 	       $emailErr = "
 	        <div class='alert alert-danger alert-dismissible' role='alert'>
 	 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-	 		<p>Invalid email</p>
+	 		<p>$txterror_email</p>
 			</div>";
 			$input_error=true;
 	       //$emailErr = "Invalid email format"; 
 	     	}
 	   }
-	if(empty($_POST['tel'])){
-		//$phoneErr= "phone is required";
-		}else{
+	if(!empty($_POST['tel'])){
 			$tel = test_input($_POST['tel']); 
 			$_SESSION['tel'] = $tel;
 		    if(!preg_match("/^(([\+]?370)|(8))[\s-]?\(?[0-9]{2,3}\)?[\s-]?([0-9]{2}[\s-]?){2}?[0-9]{1,2}$/", $tel)) {
 		 		$phoneErr = "
 		 		<div class='alert alert-danger alert-dismissible' role='alert'>
 		 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		 		<p>Invalid phone number</p>
+		 		<p>$txterror_phone</p>
 				</div>";
 				$input_error=true;
 				}
 				
 			}	 
-	if(empty($_POST['zip'])){
-		//$zipErr = "Addres is required";
-		}
-		else{
+	if(!empty($_POST['zip'])){
 			$zip = test_input($_POST['zip']);
 			$_SESSION['zip'] = $zip;
 			if(!preg_match("#[0-9]{5}#", $zip)) {
 		 		$zipErr = "
 		 		<div class='alert alert-danger alert-dismissible' role='alert'>
 		 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-		 		<p>Blogas pašto kodas</p>
+		 		<p>$txterror_zip</p>
 				</div>";
 				$input_error=true;
 
 				}	
 			}
-
-	//		if($irasoCheck==false){	
-		if(isset($name) AND $name==''){
-    		$nameErr= "<div class='alert alert-danger alert-dismissible' role='alert'>
-	 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-	 		<p>Tušti laukai negalimi, prašome užpildyti</p>
-			</div>";
-			$input_error=true;
-		}
-		if(isset($email) AND $email==''){
-    		$emailErr= "<div class='alert alert-danger alert-dismissible' role='alert'>
-	 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-	 		<p>Tušti laukai negalimi, prašome užpildyti</p>
-			</div>";
-			$input_error=true;
-		}
-		if(isset($address) AND $address==''){
-    		$addressErr= "<div class='alert alert-danger alert-dismissible' role='alert'>
-	 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-	 		<p>Tušti laukai negalimi, prašome užpildyti</p>
-			</div>";
-			$input_error=true;
-		}
-		if(isset($city) AND $city==''){
-    		$cityErr= "<div class='alert alert-danger alert-dismissible' role='alert'>
-	 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-	 		<p>Tušti laukai negalimi, prašome užpildyti</p>
-			</div>";
-			$input_error=true;
-		}
-		if(isset($tel) AND $tel==''){
-    		$phoneErr= "<div class='alert alert-danger alert-dismissible' role='alert'>
-	 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-	 		<p>Tušti laukai negalimi, prašome užpildyti</p>
-			</div>";
-			$input_error=true;
-		}
-
-	//}
-
 }//end request method post
 
 
@@ -228,32 +182,15 @@ function test_input($data) {
 // end input validation
 
 if(isset($_POST['submitForm'])){// TEST JEI neuzpildyta
-	/*if(isset($name) AND $name==''){
-	echo "<div class='alert alert-danger alert-dismissible' role='alert'>
-	<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-	<p>Blogas pašto kodas</p>
-	</div>";
-	}*/
 
 	if($input_error!=true){// jei nera input error iraso i duombaze
 		
-		//$iraso=true;
-	//insert into DB//id isemiau is sql
-
-	//select order_id from database
-/*	$get_order_id_sql = "SELECT id FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
-	$run_order_id_res = mysqli_query($mysqli, $get_order_id_sql) or die(mysqli_error($mysqli));
-	while($info = mysqli_fetch_array( $run_order_id_res)) 	 
- 		{ 
- 			$order_id = $info['id'];
- 		} 
-*/
- 	$insert_orders_items = "INSERT INTO store_orders_items (order_id, sel_item_qty, sel_item_price) VALUES ('".$order_id."', '".$item_total_qty."', '".$shipping_total."')";
- 	$insert_orders_items_res = mysqli_query($mysqli, $insert_orders_items) or die(mysqli_error($mysqli));
+ 	$delete_error = "UPDATE store_orders SET order_id = NULL WHERE order_id != 'NULL' ";//sometimes doublicates order id reason: sometimes after delete store_stoppertrack when order is submited
+		$delete_error_res = mysqli_query($mysqli, $delete_error) or die(mysqli_error($mysqli));	//temporary order_id(shoppertrack id) resets value from 1 		
 
 
 	$sql = "INSERT INTO store_orders (authorization, item_total, order_address, order_city, order_date, order_email,
-		order_name, order_tel, order_zip, shipping_total, order_id,status) VALUES ('".$_COOKIE['PHPSESSID']."', 
+		order_name, order_tel, order_zip, shipping_total, order_id,status, country) VALUES ('-Neregistruotas-', 
 											
 		'".(int)$item_total_qty."',
 		'".$address."',
@@ -265,9 +202,19 @@ if(isset($_POST['submitForm'])){// TEST JEI neuzpildyta
 		'".$zip."',
 		'".$shipping_total."',
 		'".$order_id."',
-		'2')";
+		'2',
+		'".$country."')";
 
 	$write_in_db = mysqli_query($mysqli, $sql) or die(mysqli_error($mysqli));
+
+	$get_real_order_id = "SELECT id FROM store_orders where order_id = '".$order_id."'";
+	$get_real_order_id_res = mysqli_query($mysqli, $get_real_order_id) or die(mysqli_error($mysqli));
+	$get_real_order_id_fetch = mysqli_fetch_assoc($get_real_order_id_res);
+	$real_order_id = $get_real_order_id_fetch['id'];//tikras order id is store orders
+	setcookie("order_id", $real_order_id); //perduoda i checkout success
+
+	$insert_orders_items = "INSERT INTO store_orders_items (order_id, sel_item_qty, sel_item_price) VALUES ('".$real_order_id."', '".$item_total_qty."', '".$shipping_total."')";
+ 	$insert_orders_items_res = mysqli_query($mysqli, $insert_orders_items) or die(mysqli_error($mysqli));
 //ikopijuota
 	$get_cart_sql = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty, st.sel_item_id FROM
 	store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
@@ -277,86 +224,23 @@ $get_cart_res1 = mysqli_query($mysqli, $get_cart_sql) or die(mysqli_error($mysql
 
 
 	//istrinam praeitus duomenis siame uzsakyme
-	$delete_previous_sql = "DELETE FROM store_orders_items_item WHERE order_id ='".(int)$order_id."'";
+	$delete_previous_sql = "DELETE FROM store_orders_items_item WHERE order_id ='".$real_order_id."'";
 	mysqli_query($mysqli, $delete_previous_sql) or die(mysqli_error($mysqli));
 
 	//irasome is naujos visus
 	while ($cart_info1 = mysqli_fetch_array($get_cart_res1)) {
 
 		$add_item_sql = "INSERT INTO store_orders_items_item
-	        (order_id, item_id, item_qty, item_price) VALUES ('".$order_id."',
+	        (order_id, item_id, item_qty, item_price) VALUES ('".$real_order_id."',
 	        '".$cart_info1['sel_item_id']."',
 	        '".$cart_info1['sel_item_qty']."',
 	        '".$cart_info1['item_price'] * $cart_info1['sel_item_qty']."')";
 	    $add_item_res = mysqli_query($mysqli, $add_item_sql) or die(mysqli_error($mysqli));
 
 	}//end of main while
-//send email
-/*$to = "deivassx@gmail.com, ".$_POST['email'].")";//admin and buyer email
-$subject = "Prekė užsakyta";
 
-$get_cart_email_sql = "SELECT st.order_id, si.item_title, si.item_price, si.id, st.sel_item_qty FROM
-	store_shoppertrack_items AS st LEFT JOIN store_items AS si ON si.id = st.sel_item_id WHERE order_id ='".$order_id."'";
-$get_cart_email_res = mysqli_query($mysqli, $get_cart_email_sql) or die(mysqli_error($mysqli));
-$email="";
-$email .= "
-		<table class='table table-bordered table-condensed'>
-			<tr>
-				<th class='text-center'>Pavadinimas</th>
-				<th class='text-center'>Kaina</th>
-				<th class='text-center'>Kiekis</th>
-				<th class='text-center'>Visa kaina</th>
-			</tr>";
+	
 
-
-		// info is shoppertrack
-		$full2_qty=0;
-		$full2_price=0;
-		while ($cart2_info = mysqli_fetch_array($get_cart_email_res)) {
-		$item2_id = $cart2_info['id'];//nenaudojamas
-		$item2_title = stripslashes($cart2_info['item_title']);
-		$item2_price = $cart2_info['item_price'];
-		$item2_qty = $cart2_info['sel_item_qty'];
-		$full2_qty =  $full2_qty + $item2_qty;
-		$total2_price = sprintf("%.02f", $item2_price * $item2_qty);
-		$full2_price = sprintf("%.02f", $full2_price+$total2_price); //galutine kaina
-
-//TABLE DATA
-	$email .= "
-	<tr class='text-center'>
-		<td>$item2_title</td>
-		<td>&euro; $item2_price</td>
-		<td>$item2_qty</td>
-		<td>&euro; $total2_price </td>
-	</tr>";
-	}//end of while
-if($full2_price<$_SESSION['totalShippingPrice']){
-	$full2_price += $_SESSION['totalShippingPrice'];
-}
-$email.="
-	<tr style='color:red;'>
-		<td class='text-right' colspan='3'><div><label>Siuntimo kaina:</label></div></td>
-		<td class='text-center'><strong>&euro;<span>" . $_SESSION['shipping'] .  "</span></strong></td>
-	</tr>
-	<tr style='color:red;'>
-		<td class='text-right' colspan='3'><div><label>Galutinė kaina:</label></div></td>
-		<td class='text-center'><strong >&euro;<span>" . $full2_price .  "</span></strong></td>
-	</tr>
-</table>
-<p>Banko informacija</p>
-
-";
-// Always set content-type when sending HTML email
-$headers = "MIME-Version: 1.0" . "\r\n";
-$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-// More headers
-$headers .= 'From: <decorbox@gmail.com>' . "\r\n";
-
-mail($to,$subject,$email,$headers);
-//end of email
-//echo $email;
-*/
 	//delete items from shoppertrack when order is completed
 	$delete_shoppertrack_tems = "DELETE FROM store_shoppertrack_items WHERE order_id ='".$order_id."'";
 	$delete_items_rez = mysqli_query($mysqli, $delete_shoppertrack_tems);
@@ -371,7 +255,8 @@ mail($to,$subject,$email,$headers);
 	unset($_COOKIE[$zip]);
 	unset($_COOKIE[$city]);
 
-	header('Location: checkout_success.php');
+	header("Location: checkout_success.php?lang=".$_GET['lang']."");
+	//header("Location: test.php?lang=".$_GET['lang']."");
 	}
 }
 
@@ -390,87 +275,114 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 
 <body>
 <div class="container">
-	<div class="row"><!-- header-->
-		<div class="col-md-12 border-color">
-			<h1>Header</h1>
-		</div>
-	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		  	$(".selectOption").select2({ minimumResultsForSearch: Infinity });//run sorting, INFINITY PASLEPE SEARCH BAR
+		});
+		</script>
+	<?php include'navbar.php'; ?>
+			
+	
 
 	<div class="row">
 		<div class="col-md-12 border-color">	<!--body-->
 		<?php echo $display_block;
 		//echo $email;
+		 
 		 ?>
 
 			<div class="row">
-				<div class="col-md-4 border-color">
-					<h4>Pirkti kaip registruotas vartotojas</h4>
+				<div class="col-md-5 border-color">
+					<h4 class="text-center"><?php echo $txtbuy_register_user; ?> <hr></h4>
 					
 					<!--<?php echo $display_login?>-->
-					<?php include 'loginCheckout.php' ?>
+					<?php include "loginCheckout.php" ?>
 
 				</div>
 
-				<div class="col-md-8 border-color"><!--formos ilgis-->
+				<div class="col-md-7 border-color"><!--formos ilgis-->
 
-					<form class="form-horizontal" method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
+					<form class="form-horizontal" method="post" action="<?php $_SERVER['PHP_SELF']."?lang=".$_GET['lang']."" ?>">
 						<div class="form-group">
 							<div class="row margin-top">
-							<h4>Pirkti be registracijos <hr></h4>
-								<label for="inputName3" class="col-md-4 control-label">Vardas ir pavardė<span style='color: red; padding-left: 2px;'>*</span></label>
-								<div class="col-md-8">
-									<input type="text" name="name" value="<?php echo $_SESSION['name'];?>" class="form-control" id="inputName3" placeholder="Vardas ir pavardė">							
+							<h4 class="text-center"><?php echo $txtbuy_nonregister_user; ?> <hr></h4>
+								<label for="inputName3" class="col-md-5 control-label"><?php echo $txtinput_name; ?><span style='color: red; padding-left: 2px;'>*</span></label>
+								<div class="col-md-7">
+									<input type="text" name="name" required value="<?php echo $_SESSION['name'];?>" class="form-control" id="inputName3" placeholder="<?php echo $txtinput_name; ?>">							
 									<span class="error"><?php echo $nameErr;?></span>
 								</div>
 							</div>
 
 							<div class="row margin-top">	
-								<label for="inputCity3" class="col-md-4 control-label">Miestas<span style='color: red; padding-left: 2px;'>*</span></label>
-								<div class="col-md-8">
-									<input type="text" name="city" value="<?php echo $_SESSION['city']; ?>" class="form-control" id="inputCity3" placeholder="Miestas">
-									<span class="error"><?php echo $cityErr ;?></span>
-								</div>
-							</div>	
-
-							<div class="row margin-top">	
-								<label for="inputAddress3" class="col-md-4 control-label">Adresas<span style='color: red; padding-left: 2px;'>*</span></label>
-								<div class="col-md-8">
-									<input type="text" name="address" value="<?php echo $_SESSION['address']; ?>" class="form-control" id="inputAddress3" placeholder="Adresas">
+								<label for="inputAddress3" class="col-md-5 control-label"><?php echo $txtaddress; ?><span style='color: red; padding-left: 2px;'>*</span></label>
+								<div class="col-md-7">
+									<input type="text" required name="address" value="<?php echo $_SESSION['address']; ?>" class="form-control" id="inputAddress3" placeholder="<?php echo $txtaddress; ?>">
 									<span class="error"><?php echo $addressErr;?></span>
 								</div>
+							</div>
+
+							<div class="row margin-top">	
+								<label for="inputCity3" class="col-md-5 control-label"><?php echo $txtcity; ?><span style='color: red; padding-left: 2px;'>*</span></label>
+								<div class="col-md-7">
+									<input type="text" required name="city" value="<?php echo $_SESSION['city']; ?>" class="form-control" id="inputCity3" placeholder="<?php echo $txtcity; ?>">
+									<span class="error"><?php echo $cityErr;?></span>
+								</div>
 							</div>	
 
 							<div class="row margin-top">	
-								<label for="inputEmail3" class="col-md-4 control-label">El.Pašto adresas<span style='color: red; padding-left: 2px;'>*</span></label>
-								<div class="col-md-8">
-									<input type="email" name="email" value="<?php echo $_SESSION['email']; ?>" class="form-control" id="inputEmail3" placeholder="El.Pašto adresas">
+								<label for="inputZip3" class="col-md-5 control-label"><?php echo $txtzip; ?></label>
+								<div class="col-md-7">
+									<input type="text"  name="zip" value="<?php echo $_SESSION['zip']; ?>" class="form-control" id="inputZip3" placeholder="<?php echo $txtzip; ?>">
+									<span class="error"><?php echo $zipErr;?></span>
+								</div>
+							</div>
+
+							<div class="row margin-top">	
+								<label for="inputCity3" class="col-md-5 control-label"><?php echo $txtcountry; ?><span style='color: red; padding-left: 2px;'>*</span></label>
+								<div class="col-md-7">
+									<select class='selectOption ' required style='width:100%'  name='country'>>
+									<?php 
+
+									$get_cat = "SELECT * FROM countries";
+									$get_cat_rs= mysqli_query($mysqli, $get_cat);
+										echo "<option value='Lithuania'>Lithuania</option>";
+									while($info = mysqli_fetch_array($get_cat_rs)){
+										$id=$info['id'];
+										$title=$info['country'];
+										if($id!=15){//jei ne lietuvos ID
+											echo "<option value='".$title."'>$title</option>";
+										}
+									}
+
+									?>
+									</select>									
+								</div>
+							</div>	
+
+							<div class="row margin-top">	
+								<label for="inputPhone3" class="col-md-5 control-label"><?php echo $txtphone; ?><span style='color: red; padding-left: 2px;'>*</span></label>
+								<div class="col-md-7">
+									<input type="text" name="tel" required value="<?php echo $_SESSION['tel']; ?>" class="form-control" id="inputPhone3" placeholder="<?php echo $txtphone; ?>">
+									<span class="error"><?php echo $phoneErr;?></span>
+								</div>
+							</div>
+
+							<div class="row margin-top">	
+								<label for="inputEmail3" class="col-md-5 control-label"><?php echo $txtemail; ?><span style='color: red; padding-left: 2px;'>*</span></label>
+								<div class="col-md-7">
+									<input type="email" name="email" required value="<?php echo $_SESSION['email']; ?>" class="form-control" id="inputEmail3" placeholder="<?php echo $txtemail; ?>">
 									<span class="error"><?php echo $emailErr;?></span>
 								</div>
 							</div>	
-
-							<div class="row margin-top">	
-								<label for="inputPhone3" class="col-md-4 control-label">Telefono numeris<span style='color: red; padding-left: 2px;'>*</span></label>
-								<div class="col-md-8">
-									<input type="text" name="tel" value="<?php echo $_SESSION['tel']; ?>" class="form-control" id="inputPhone3" placeholder="Telefono numeris">
-									<span class="error"><?php echo $phoneErr;?></span>
-								</div>
-							</div>	
-							
-							<div class="row margin-top">	
-								<label for="inputZip3" class="col-md-4 control-label">Pašto kodas</label>
-								<div class="col-md-8">
-									<input type="text" name="zip" value="<?php echo $_SESSION['zip']; ?>" class="form-control" id="inputZip3" placeholder="Pašto kodas">
-									<span class="error"><?php echo $zipErr;?></span>
-								</div>
-							</div>	
+								
 							<div class="row">
-								<Label class="col-md-4 control-label">Galutinė suma:</label>
-								<div class="col-md-6 margin-top">&euro; <?php echo $shipping_total ?><br>
+								<Label class="col-md-5 control-label"><?php echo $txtfull_price; ?>:</label>
+								<div class="col-md-7 margin-top"><label><?php echo $shipping_total ?>&euro;</label>
 								</div>
 							</div>
 							<div class="row margin-top">
 								<div class="col-md-1 col-md-offset-8">
-									<button type="submit" value"Submit" name="submitForm" class="btn btn-primary">Užsakyti be registracjos</button>
+									<button type="submit" value"Submit" name="submitForm" class="btn btn-primary"><?php echo $txtorder_nonregister_user; ?></button>
 								</div>
 							</div>
 						</div>
@@ -486,6 +398,3 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 
 </body>
 </html>
-
-<?php echo "KONTAKTAI ir  Turite klausimų? +370 627 00354. ruzava su ryskia ruda spava (teksto spalva, linijos 3F1515
-F888BB),pagrindiniam lange specialus pasiulymas butu  prekes su nuolaida. ant pagrinidio dar galerijos pora fotkiu, kai jas paspaudi rodo kategorijos arba subcat galerija. priminimas: kai galutinai bus paruosta duomenu baze resetinti ID laukus nes gali dubliuotis jei visus duomenis is ten istrynsiu. per kiek dienu pristatymas? ideti nuotrauku galerija paspaudus ant kategorijos butu mygtukas, headeryje skaidres, po krepseliu idet widgetu,  kai vartotojas padaro uzsakyma turi nusiusti i el pasta informacija, kai adminas patvirtina uzsakyma i el pasta turi nusiusti vartotojui kad uzsakymas patvirtintas, ";?>

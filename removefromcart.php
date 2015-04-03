@@ -19,11 +19,11 @@ $delete_store_orders_res = mysqli_query($mysqli, $delete_store_orders_sql) or di
 //close connection to MySQL
 mysqli_close($mysqli);
 //redirect to showcart page
-header("Location: showcart.php");
+header("Location: showcart.php?lang=".$_GET['lang']."");
 exit;
 } else {
 //send them somewhere else
-header("Location: displayCategories.php");
+header("Location: displayCategories.php?lang=".$_GET['lang']."");
 exit;
 }
 ?>

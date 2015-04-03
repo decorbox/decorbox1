@@ -1,12 +1,12 @@
 <?php
-include 'library.php';
+//include 'library.php';
 
 
-$display_block.= "<h1 class='text-center'>Nuotraukų galerija</h1>";
+$display_block.= "<h1 class='text-center'>Kategorijų nuotraukų galerija</h1>";
 
 $display_block.="
 <div class='row'>
-	<div class='col-md-12'>
+	<div class='col-md-2 col-md-offset-10'>
 		<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#addPhoto'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span>Įdėti nuotrauką</button>
 	</div>
 </div>";
@@ -36,7 +36,7 @@ $display_block.="<div class='row'>
 							 
 							        <tbody>";
 							               //ITEMS TABLE
-	 						$show_image="SELECT * FROM photo_gallery";
+	 						$show_image="SELECT * FROM category_gallery ORDER BY id DESC";
 							$show_image_res = mysqli_query($mysqli, $show_image);
 							while($img = mysqli_fetch_array($show_image_res)){
 								$image_id = $img['id'];
@@ -71,6 +71,25 @@ $display_block.="<div class='row'>
 											</td>
 							            </tr>";
 
+
+$display_block.="<!-- Delete Photo Modal -->
+<div class='modal fade' id='deletePhoto".$image_id."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+	<div class='modal-dialog modal-sm'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				<h4 class='modal-title text-center' id='myModalLabel'>Ar tikrai norite ištrinti ".$title."?</h4>
+			</div>
+			<form class='form-horizontal' method='post' >
+				<div class='margin-bottom15 text-center'>
+					<button type='button' class='btn btn-default' data-dismiss='modal'>Uždaryti</button>
+					<input type='hidden' name='delete_image' value='".$image."'>
+					<button type='submit' value='".$image_id."' name='imageID' class='btn btn-primary'>Ištrinti</button>
+				</div>
+			</form>
+		</div>
+	</div>				
+</div>";
 
 
 ?>
@@ -116,9 +135,9 @@ $display_block.="<!-- edit image Modal -->
 								</div>	
 
 								<div class='row margin-top'>
-									<label class='col-md-4 control-label'>Pavadinimas</label>
+									<label class='col-md-4 control-label'>Pavadinimas<span style='color: red; padding-left: 2px;'>*</span></label>
 									<div class='col-md-8'>
-										<input type='text' name='titlePhoto' value='$title' class='form-control'  >							
+										<input type='text' name='titlePhoto' required value='$title' class='form-control'  >							
 									</div>
 								</div>
 
@@ -183,8 +202,13 @@ $display_block.="<!-- edit image Modal -->
 							   </table>
 							    ";
 if(isset($_POST['submitEditPhoto'])){
-	$update_gallery= "UPDATE photo_gallery SET cat_id = '".$_POST['showCategory']."', subcat_id = '".$_POST['show_sub_categories']."', image_title = '".$_POST['titlePhoto']."' WHERE id='".$_POST['getImage_id']."'";
-	$update_gallery_res = mysqli_query($mysqli, $update_gallery);
+		if(isset($_POST['show_sub_categories'])){	
+		$update_gallery= "UPDATE ideas_gallery SET cat_id = '".$_POST['showCategory']."', subcat_id = '".$_POST['show_sub_categories']."', image_title = '".$_POST['titlePhoto']."' WHERE id='".$_POST['getImage_id']."'";
+		$update_gallery_res = mysqli_query($mysqli, $update_gallery);
+	}else{
+		$update_gallery= "UPDATE ideas_gallery SET cat_id = '".$_POST['showCategory']."', subcat_id = NULL, image_title = '".$_POST['titlePhoto']."' WHERE id='".$_POST['getImage_id']."'";
+		$update_gallery_res = mysqli_query($mysqli, $update_gallery);
+	}
 	echo("<meta http-equiv='refresh' content='0'>");//reflesh page
 }
 
@@ -237,9 +261,9 @@ $display_block.="<!-- add Photo Modal -->
 						</div>	
 
 						<div class='row margin-top'>
-							<label for='inputName3' class='col-md-4 control-label'>Pavadinimas </label>
+							<label for='inputName3' class='col-md-4 control-label'>Pavadinimas<span style='color: red; padding-left: 2px;'>*</span></label>
 							<div class='col-md-8'>
-								<input type='text' name='addTitle' class='form-control' >							
+								<input type='text' name='addTitle' required class='form-control' >							
 							</div>
 						</div>
 
@@ -278,7 +302,7 @@ $display_block.="<!-- add Photo Modal -->
 				</div>
 				<div class='modal-footer'>
 				 	<button type='button' class='btn btn-default' data-dismiss='modal'>Uždaryti</button>
-				 	<button type='submit' name='submitAddItem' value='Submit' class='btn btn-primary'>Pridėti</button>
+				 	<button type='submit' name='submitAddPhoto' value='Submit' class='btn btn-primary'>Pridėti</button>
 				</div>
 		 	</form>
 		</div>
@@ -286,7 +310,7 @@ $display_block.="<!-- add Photo Modal -->
 </div>";
 
 	//submit edit form	Upload image only	
-if(isset($_POST["submitAddItem"])) {
+if(isset($_POST["submitAddPhoto"])) {
 	// Check if image file is a actual image or fake image
 	if ($_FILES["addIMG"]["size"] != 0){ 	
 		$target_dir = "images/gallery/";
@@ -336,36 +360,30 @@ if(isset($_POST["submitAddItem"])) {
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk1 == 1) 
 		    {
-		    	move_uploaded_file($_FILES["addIMG"]["tmp_name"], $target_file);
+		    	
 		        //update item content
 				//check for input errors
 				if(isset($_POST['addSubCategories'])){
-					$update_store_item = "INSERT INTO store_items (cat_id, item_title, item_price, item_desc, item_image, subcat_id, item_title_EN, item_desc_EN, item_price_old)VALUES(
+					move_uploaded_file($_FILES["addIMG"]["tmp_name"], $target_file);
+					$update_store_item = "INSERT INTO category_gallery (cat_id, subcat_id, category_image, image_title )VALUES(
 					'".$_POST['addItemCategory']."',
-					'".$_POST['addTitle']."',
-					'".$_POST['addPrice']."',
-					'".$_POST['addDescription']."',
-					'images/".basename( $_FILES["addIMG"]["name"])."',
 					'".$_POST['addSubCategories']."',
-					'".$_POST['addTitleEn']."',
-					'".$_POST['addDescriptionEN']."',
-					NULL)";
-	
-					$update_store_item_res = mysqli_query($mysqli, $update_store_item);
+					'images/gallery/".basename( $_FILES["addIMG"]["name"])."',
+					'".$_POST['addTitle']."')";
+		
+					$update_store_item_res = mysqli_query($mysqli, $update_store_item) or die(mysqli_error($mysqli));
+					
 				}else{
-					$update_store_item = "INSERT INTO store_items (cat_id, item_title, item_price, item_desc, item_image, item_title_EN, item_desc_EN, item_price_old)VALUES(
+					move_uploaded_file($_FILES["addIMG"]["tmp_name"], $target_file);
+					$update_store_item = "INSERT INTO category_gallery (cat_id, category_image, image_title )VALUES(
 					'".$_POST['addItemCategory']."',
-					'".$_POST['addTitle']."',
-					'".$_POST['addPrice']."',
-					'".$_POST['addDescription']."',
-					'images/".basename( $_FILES["addIMG"]["name"])."',
-					'".$_POST['addTitleEn']."',
-					'".$_POST['addDescriptionEN']."',
-					NULL)";
+					'images/gallery/".basename( $_FILES["addIMG"]["name"])."',
+					'".$_POST['addTitle']."')";
+	
 					$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 				}
 						
-						//echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+						echo("<meta http-equiv='refresh' content='0'>");//reflesh page
 			}
 	}else{
 			echo"<div class='alert alert-danger alert-dismissible' role='alert'>
@@ -376,6 +394,13 @@ if(isset($_POST["submitAddItem"])) {
 					
 }//end of add new item
 
+/*if submit delete photo*/
+if(isset($_POST['imageID'])){
+	$delete_item = "DELETE FROM category_gallery where id='".$_POST['imageID']."'";
+	$delete_item_sql = mysqli_query($mysqli, $delete_item) or die(mysqli_error($mysqli));
+		unlink($_POST['delete_image']);//delete old image
+		echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+}
 
 
 $display_block.="		

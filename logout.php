@@ -8,6 +8,6 @@
 
  setcookie(Key_my_site, gone, $past); 
 
- header("Location: index.php"); 
+ header("Location: index.php?lang=".$_GET['lang'].""); 
 
  ?> 

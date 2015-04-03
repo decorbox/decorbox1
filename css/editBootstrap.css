@@ -1,0 +1,325 @@
+.col-xs-1-edit, .col-sm-1-edit, .col-md-1-edit, .col-lg-1-edit, .col-xs-2-edit, .col-sm-2-edit, .col-md-2-edit, .col-lg-2-edit, .col-xs-3-edit, .col-sm-3-edit, .col-md-3-edit, .col-lg-3-edit, .col-xs-4-edit, .col-sm-4-edit, .col-md-4-edit, .col-lg-4-edit, .col-xs-5-edit, .col-sm-5-edit, .col-md-5-edit, .col-lg-5-edit, .col-xs-6-edit, .col-sm-6-edit, .col-md-6-edit, .col-lg-6-edit, .col-xs-7-edit, .col-sm-7-edit, .col-md-7-edit, .col-lg-7-edit, .col-xs-8-edit, .col-sm-8-edit, .col-md-8-edit, .col-lg-8-edit, .col-xs-9-edit, .col-sm-9-edit, .col-md-9-edit, .col-lg-9-edit, .col-xs-10-edit, .col-sm-10-edit, .col-md-10-edit, .col-lg-10-edit, .col-xs-11-edit, .col-sm-11-edit, .col-md-11-edit, .col-lg-11-edit, .col-xs-12-edit, .col-sm-12-edit, .col-md-12-edit, .col-lg-12-edit {
+	position: relative;
+  	min-height: 1px;
+	padding-right: 3px !important;
+  	padding-left: 3px !important; 
+}
+.col-xs-1-edit, .col-sm-1-edit, .col-md-1-edit, .col-lg-1-edit, .col-xs-2-edit, .col-sm-2-edit, .col-md-2-edit, .col-lg-2-edit, .col-xs-3-edit, .col-sm-3-edit, .col-md-3-edit, .col-lg-3-edit, .col-xs-4-edit, .col-sm-4-edit, .col-md-4-edit, .col-lg-4-edit, .col-xs-5-edit, .col-sm-5-edit, .col-md-5-edit, .col-lg-5-edit, .col-xs-6-edit, .col-sm-6-edit, .col-md-6-edit, .col-lg-6-edit, .col-xs-7-edit, .col-sm-7-edit, .col-md-7-edit, .col-lg-7-edit, .col-xs-8-edit, .col-sm-8-edit, .col-md-8-edit, .col-lg-8-edit, .col-xs-9-edit, .col-sm-9-edit, .col-md-9-edit, .col-lg-9-edit, .col-xs-10-edit, .col-sm-10-edit, .col-md-10-edit, .col-lg-10-edit, .col-xs-11-edit, .col-sm-11-edit, .col-md-11-edit, .col-lg-11-edit, .col-xs-12-edit, .col-sm-12-edit, .col-md-12-edit, .col-lg-12-edit {
+	float: left;
+}
+.col-xs-12-edit {
+  width: 100%;
+}
+.col-xs-11-edit {
+  width: 91.66666667%;
+}
+.col-xs-10-edit {
+  width: 83.33333333%;
+}
+.col-xs-9-edit {
+  width: 75%;
+}
+.col-xs-8-edit {
+  width: 66.66666667%;
+}
+.col-xs-7-edit {
+  width: 58.33333333%;
+}
+.col-xs-6-edit {
+  width: 50%;
+}
+.col-xs-5-edit {
+  width: 41.66666667%;
+}
+.col-xs-4-edit {
+  width: 33.33333333%;
+}
+.col-xs-3-edit {
+  width: 25%;
+}
+.col-xs-2-edit {
+  width: 16.66666667%;
+}
+.col-xs-1-edit {
+  width: 8.33333333%;
+}
+.col-md-12-edit {
+  width: 100%;
+}
+.col-md-11-edit {
+  width: 91.66666667%;
+}
+.col-md-10-edit {
+  width: 83.33333333%;
+}
+.col-md-9-edit {
+  width: 75%;
+}
+.col-md-8-edit {
+  width: 66.66666667%;
+}
+
+.col-md-7-edit {
+  width: 58.33333333%;
+}
+.col-md-6-edit {
+  width: 50%;
+}
+.col-md-5-edit {
+  width: 41.66666667%;
+}
+.col-md-4-edit {
+  width: 33.33333333%;
+}
+.col-md-3-edit {
+  width: 25%;
+}
+.col-md-2-edit {
+  width: 16.66666667%;
+}
+.col-md-1-edit {
+  width: 8.33333333%;
+}
+h1,
+p,
+label,
+th,
+h2,
+h3,
+h4,
+h5,
+h6{
+  font-family: Georgia;
+  color:#673030;
+}
+.row{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.margin-left-20{
+  margin-left: -20px;
+}
+.margin-left15 {
+  margin-left: 15px;
+}
+.nav-tabs > li.active > a, /*nav tabs*/
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: white;
+  cursor: default;
+  background-color: #673030 !important;
+  border: 1px solid #673030 !important;
+  border-bottom-color: transparent;
+}
+.nav-tabs > li >a:hover{
+  color: white;
+background-color: #673030 !important;
+}
+
+
+
+a{
+  color: #673030;
+  text-decoration: none !important;
+}
+.breadcrumb{
+  background-color: transparent;
+}
+.margin-top20{
+  margin-top: 20px;
+}
+
+.margin-bottom15{
+  margin-bottom: 15px;
+}
+.margin-left20 {
+  margin-left: -30px;
+}
+ .list-group-item.active:hover, .list-group-item.active:focus{
+  color:white;
+  background-color: #673030!important;
+}
+a.list-group-item{
+  color:#673030;
+}
+a.list-group-item:hover,
+a.list-group-item:focus {
+  color: white;
+  text-decoration: none;
+  background-color: #673030;
+}
+.btn-danger {
+  color: #673030;
+  background-color: #FBDAED;
+  border-color: #FBDAED;
+}
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active,
+.btn-danger.active,
+.open > .dropdown-toggle.btn-danger {
+  color: white;
+  background-color: #673030;
+  border-color: #673030;
+}
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-success.active,
+.open > .dropdown-toggle.btn-success {
+  color: #673030;
+  background-color: #FBDAED;
+  border-color: #FBDAED;
+}
+.list-group-item:last-child{/*kategoriju meniu mygtukai*/
+  border-bottom-right-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+}
+.list-group-item:first-child{
+    border-top-right-radius: 10px !important;
+    border-top-left-radius: 10px !important;
+    
+}
+.categ-width{
+  padding-left: 1px;
+  padding-right: 1px;
+  border-radius: 70px;/*kategoriju remai*/
+  overflow: hidden;
+}
+#accordion {/*kategorijos paddingas*/
+  margin-top: 35px;
+  margin-bottom: 35px;
+}
+
+.list-group-item-edit{
+  border-color: transparent !important;
+  /*background-color: white;*/
+}
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus{
+  background-color: #673030;
+  border-color: #673030;
+}
+.list-group-item, .list-group-item.active:hover, .list-group-item.active:focus{
+background-color: #673030;
+  border-color: #673030;
+}
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus{
+  background-color: #673030;
+  border-color: #FBDAED;
+}
+.list-group-item, .list-group-item.active:hover, .list-group-item.active:focus{
+background-color: white;
+  border-color: #673030;
+}
+.list-group-title-color{
+  color: #673030;
+}
+.badge{
+  background-color: #FBDAED;
+  color:#673030;
+}
+.panel-success > a > .panel-heading {
+  color: #673030;
+  font-size: 14px;
+  background-color: #FBDAED;/*ruzava*/
+  border-color: #FBDAED;
+  border-top-left-radius: 0px;/*item paneles heading*/
+  border-top-right-radius: 0px;
+} 
+.panel-success > .panel-heading {
+  color: white;
+  font-color: #FBDAED;
+  background-color: #FBDAED;
+  border-color: #FBDAED;
+  border-top-left-radius: 120px;/*item paneles heading*/
+  border-top-right-radius: 120px;
+} 
+
+.panel{
+  border-color: #FBDAED;
+  border-top-left-radius: 44px;/*item paneles heading*/
+  border-top-right-radius: 44px;
+  overflow: hidden;
+}
+.panel-title {
+  color: #673030;
+  font-size: 14px;
+  font-family: Georgia;
+  font-weight: bold;
+}
+.btn-success{
+  background-color: #673030;
+  border-color: #673030;
+}
+.btn-primary{
+  background-color: #673030;/*ruda*/
+    border-color: #673030;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  color: #673030;
+  background-color: #FBDAED;
+  border-color: #FBDAED;
+}
+
+
+/*PAGINATOR*/
+.pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+.pagination > li {
+  display: inline;
+}
+.pagination > li > a,
+.pagination > li > span {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  margin-left: -1px;
+  line-height: 1.42857143;
+  color: #673030;
+  text-decoration: none;
+  background-color: #FBDAED;
+  border: 1px solid #FBDAED;
+}
+
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+  color: white;
+  background-color: #673030;
+  border-color: #673030;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 2;
+  color: white;
+  cursor: default;
+  background-color: #673030;;
+  border-color: #673030;;
+}
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+  color: #673030;
+  cursor: not-allowed;
+  background-color: #FBDAED;
+  border-color: #FBDAED;
+}
+

@@ -1,5 +1,5 @@
 <?php
-$display_block.= "<h1 class='text-center'>Prekės</h1>";
+$display_block.= "<h1 class='text-center'>Kategorijos prekės</h1>";
 	 						$display_block.="<div class='row'> <div class='col-md-2 col-md-offset-10'>				
 	 							<button type='button' name='buttonAddItem' class='btn btn-primary' data-toggle='modal' data-target='#addItem'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Įdėti prekę</button>
 	 						</div></div>";
@@ -78,7 +78,7 @@ $display_block.="<!-- add item Modal -->
 	<!--  KATEGORIJOS	-->		<select class='selectOption' id='addCategory' style='width:100%'  name='addItemCategory'>";
 													
 								//get all categories for select option
-								$select_addcat_sql = "SELECT * FROM store_categories";
+								$select_addcat_sql = "SELECT * FROM store_categories WHERE sorting_id !='99999999' AND sorting_id !='88888888' ";
 								$select_addcat_res = mysqli_query($mysqli, $select_addcat_sql) or die(mysqli_error($mysqli));
 										
 								//selected category
@@ -221,8 +221,6 @@ if(isset($_POST["submitAddItem"])) {
 					
 }//end of add new item
 
-	
-
 	 		$display_block.="<div class='row'>
 	 						   <table class='table tableStuff text-center table-responsive table-striped table-bordered' cellspacing='0' width='100%'>
 							        <thead>
@@ -230,6 +228,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <th>Nuotrauka</th>
 							                <th>Pavadinimas</th>
 							                <th>Kaina</th>
+							                <th>Sena kaina</th>
 							                <th>Kategorija</th>
 							                <th>Sub kategorija</th>
 							                <th>Veiksmai</th>
@@ -241,6 +240,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <th>Nuotrauka</th>
 							                <th>Pavadinimas</th>
 							                <th>Kaina</th>
+							                <th>Sena kaina</th>
 							                <th>Kategorija</th>
 							                <th>Sub kategorija</th>
 							                <th>Veiksmai</th>
@@ -249,10 +249,10 @@ if(isset($_POST["submitAddItem"])) {
 							 
 							        <tbody>";
 							               //ITEMS TABLE
-	 						$get_items_sql = "SELECT * FROM store_items";
+	 						$get_items_sql = "SELECT * FROM store_items WHERE nav_id IS NULL ORDER BY id DESC";
 	 						$get_items_res = mysqli_query($mysqli, $get_items_sql) or die(mysqli_error($mysqli));
-
-	 						while($item = mysqli_fetch_array($get_items_res)){
+	 						
+	 						while($item = mysqli_fetch_array($get_items_res)){ 
 	 							$item_id = $item['id'];
 	 							$item_cat_id = $item['cat_id'];
 	 							$item_title = $item['item_title'];
@@ -279,8 +279,9 @@ if(isset($_POST["submitAddItem"])) {
 	 							
 						$display_block.="<tr>
 							                <td><img class='adminImgSize' src='$item_image'></td>
-							                <td><a href='showitem.php?item_id=$item_id' target='_blank'>$item_title</a></td>
-							                <td>&euro;$item_price</td>
+							                <td><a href='showitem.php?lang=".$_GET['lang']."&item_id=$item_id' target='_blank'>$item_title</a></td>
+							                <td>$item_price &euro;</td>
+							                <td>$item_price_old &euro;</td>
 							                <td>$cat_title</td>
 							                <td>$get_subTitle</td>
 							                <td> <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#".$item_id."'>
@@ -395,7 +396,7 @@ $display_block.="<!-- edit item Modal -->
 
 										//get all categories for select option
 										
-										$select_cat_sql = "SELECT * FROM store_categories";
+										$select_cat_sql = "SELECT * FROM store_categories WHERE sorting_id !='88888888' AND sorting_id !='99999999' ";
 										$select_cat_res = mysqli_query($mysqli, $select_cat_sql) or die(mysqli_error($mysqli));
 										
 										//selected category
@@ -462,20 +463,18 @@ $display_block.="<!-- edit item Modal -->
 if(isset($_POST['deleteItem'])){
 	$delete_item = "DELETE FROM store_items where id='".$_POST['deleteItem']."'";
 	$delete_item_sql = mysqli_query($mysqli, $delete_item);
-	echo"<div class='alert alert-danger alert-dismissible' role='alert'>
-			<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-			Prekė ištrinta.
-		</div>";
-		unlink($_POST['delete_image']);//delete old image
+	unlink($_POST['delete_image']);//delete old image
+	echo("<meta http-equiv='refresh' content='0'>");//reflesh page
 }
 
 	//submit edit form	Upload image only	
 if(isset($_POST["submitEditItem"])) {
 	// Check if image file is a actual image or fake image
+	$uploadOk = 1;//check if no error found
 	if ($_FILES["itemIMG"]["size"] != 0){ 	
 			$target_dir = "images/";
 		$target_file = $target_dir . basename($_FILES["itemIMG"]["name"]);
-		$uploadOk = 1;//check if no error found
+		
 		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
 	    $check = getimagesize($_FILES["itemIMG"]["tmp_name"]);
@@ -541,9 +540,9 @@ if(isset($_POST["submitEditItem"])) {
 	//update item content
 	//check for input errors
 
-	$input_error = false;
+	
 
-	if(isset($_POST['priceOld']) && $_POST['priceOld']==''){
+	if(isset($_POST['priceOld']) && $_POST['priceOld']=='' && $uploadOk== 1){
 		if(isset($_POST['show_sub_categories'])){
 			$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
 			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', subcat_id = '".$_POST['show_sub_categories']."', item_price_old=NULL WHERE id='".$_POST['getItem_id']."'";
@@ -556,7 +555,7 @@ if(isset($_POST["submitEditItem"])) {
 		echo("<meta http-equiv='refresh' content='0'>");//reflesh page
 	}else
 		{
-		if($input_error == false){
+		if($uploadOk== 1){
 			if(isset($_POST['show_sub_categories'])){
 				$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
 				item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', subcat_id = '".$_POST['show_sub_categories']."', item_price_old='".$_POST['priceOld']."' WHERE id='".$_POST['getItem_id']."'";

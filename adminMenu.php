@@ -51,55 +51,92 @@ if(isset($_COOKIE['ID_my_site']))
 	 				
 	 					<div class='row'>
 	 						<div class='col-md-12'>
+	 							<a href='index.php?lang=".$_GET['lang']."'> <h2 class='pull-left'><--Grįžti į Decorbox</h2></a>
 	 							<h1 class='text-center'>Valdymo skydas</h1>
 	 						</div>
 	 					</div>
 	 					<div class='row'>
-	 						<div class='col-md-2 border-color'>
+	 						<div class='col-md-2 '>
 	 							<div class='list-group'>";
 	 							if(isset($_GET['menu']) && $_GET['menu']=='vartotojai'){
-	 				$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=vartotojai' class='list-group-item active'>
+	 				$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=vartotojai' class='list-group-item active'>
 							            <span class='glyphicon glyphicon-user'></span> Vartotojai
 							        </a>";
 	 							}else{
-	 				$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=vartotojai' class='list-group-item '>
+	 				$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=vartotojai' class='list-group-item '>
 							            <span class='glyphicon glyphicon-user'></span> Vartotojai
 							        </a>";
 							    }
 							    if(isset($_GET['menu']) && $_GET['menu']=='prekes'){
-					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=prekes' class='list-group-item active'>
-							            <span class='glyphicon glyphicon-file'></span> Prekės
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=prekes' class='list-group-item active'>
+							            <span class='glyphicon glyphicon-file'></span> Kategorijų prekės
 							        </a>";
 							    }else{
-					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=prekes' class='list-group-item'>
-							            <span class='glyphicon glyphicon-file'></span> Prekės
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=prekes' class='list-group-item'>
+							            <span class='glyphicon glyphicon-file'></span> Kategorijų prekės
+							        </a>";
+							    }
+							    if(isset($_GET['menu']) && $_GET['menu']=='meniuprekes'){
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=meniuprekes' class='list-group-item active'>
+							            <span class='glyphicon glyphicon-file'></span> Meniu prekės
+							        </a>";
+							    }else{
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=meniuprekes' class='list-group-item'>
+							            <span class='glyphicon glyphicon-file'></span> Meniu prekės
+							        </a>";
+							    }
+							    if(isset($_GET['menu']) && $_GET['menu']=='kursai'){
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=kursai' class='list-group-item active'>
+							            <span class='glyphicon glyphicon-file'></span> Kursų aprašymai
+							        </a>";
+							    }else{
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=kursai' class='list-group-item'>
+							            <span class='glyphicon glyphicon-file'></span> Kursų aprašymai
 							        </a>";
 							    }
 							    if(isset($_GET['menu']) && $_GET['menu']=='kategorijos'){
-					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=kategorijos' class='list-group-item active'>
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=kategorijos' class='list-group-item active'>
 							            <span class='glyphicon glyphicon-th-list'></span> Kategorijos
 							        </a>";
 							    }else{
-					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=kategorijos' class='list-group-item'>
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=kategorijos' class='list-group-item'>
 							            <span class='glyphicon glyphicon-th-list'></span> Kategorijos
 							        </a>";
 							    }
 							    if(isset($_GET['menu']) && $_GET['menu']=='uzsakymai'){
-					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=uzsakymai' class='list-group-item active'>
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=uzsakymai' class='list-group-item active'>
 							            <span class='glyphicon glyphicon-shopping-cart'></span> Užsakymai
 							        </a>";	    	
 							    }else{
-					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=uzsakymai' class='list-group-item'>
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=uzsakymai' class='list-group-item'>
 							            <span class='glyphicon glyphicon-shopping-cart'></span> Užsakymai
 							        </a>";
 							    }
-							     if(isset($_GET['menu']) && $_GET['menu']=='galerija'){
-					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=galerija' class='list-group-item active'>
-							            <span class='glyphicon glyphicon-shopping-cart'></span> Nuotraukų galerija
+							     if(isset($_GET['menu']) && $_GET['menu']=='kategorijuGalerija'){
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=kategorijuGalerija' class='list-group-item active'>
+							            <span class='glyphicon glyphicon-picture'></span> Kategorijų galerija
 							        </a>";	    	
 							    }else{
-					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?menu=galerija' class='list-group-item'>
-							            <span class='glyphicon glyphicon-shopping-cart'></span> Nuotraukų galerija
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=kategorijuGalerija' class='list-group-item'>
+							            <span class='glyphicon glyphicon-picture'></span> Kategorijų galerija
+							        </a>";
+							    }
+							    if(isset($_GET['menu']) && $_GET['menu']=='idejuGalerija'){
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=idejuGalerija' class='list-group-item active'>
+							            <span class='glyphicon glyphicon-picture'></span> Idėjų galerija
+							        </a>";	    	
+							    }else{
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=idejuGalerija' class='list-group-item'>
+							            <span class='glyphicon glyphicon-picture'></span> Idėjų galerija
+							        </a>";
+							    }
+							    if(isset($_GET['menu']) && $_GET['menu']=='skaidres'){
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=skaidres' class='list-group-item active'>
+							            <span class='glyphicon glyphicon-picture'></span> Skaidrės
+							        </a>";	    	
+							    }else{
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=skaidres' class='list-group-item'>
+							            <span class='glyphicon glyphicon-picture'></span> Skaidrės
 							        </a>";
 							    }
 
@@ -111,9 +148,13 @@ if(isset($_COOKIE['ID_my_site']))
 		 				if(isset($_GET['menu']) && $_GET['menu']=='vartotojai'){
 		 					include 'adminMenuUsers.php'; 
 		 				}		
-	//---------PREKES puslapis		
+	//---------Kategorijos PREKES puslapis		
 		 				if(isset($_GET['menu']) && $_GET['menu']=='prekes'){
 		 					include 'adminMenuItems.php';
+						}
+	//---------Kategorijos PREKES puslapis		
+		 				if(isset($_GET['menu']) && $_GET['menu']=='meniuprekes'){
+		 					include 'adminMenuNavItems.php';
 						}
 	//------------KATEGORIJOS PUSLAPIS
 					    if(isset($_GET['menu']) && $_GET['menu']=='kategorijos'){
@@ -124,35 +165,22 @@ if(isset($_COOKIE['ID_my_site']))
 					    if(isset($_GET['menu']) && $_GET['menu']=='uzsakymai'){
 					    	include 'adminMenuOrders.php';
 					    }
-	//-------------GALERIJA PUSLAPIS				    
-					    if(isset($_GET['menu']) && $_GET['menu']=='galerija'){
+	//-------------KATEGORIJU GALERIJA PUSLAPIS				    
+					    if(isset($_GET['menu']) && $_GET['menu']=='kategorijuGalerija'){
 					    	include 'adminMenuPhotoGallery.php';
-/*					    	$display_block.= "<h1 class='text-center'>Nuotraukų galerija</h1>";
-
-							$display_block.="
-							<div class='row'>
-								<div class='col-md-10'>
-									<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#addPhoto'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span>Įdėti nuotrauką</button>
-								</div>
-							</div>
-
-							<div class='row'>
-								<div class='col-md-10'>
-									";
-									$show_image="SELECT * FROM store_items";
-									$show_image_res = mysqli_query($mysqli, $show_image);
-									while($img = mysqli_fetch_array($show_image_res)){
-										$image = $img['item_image'];
-								$display_block.="<img width='200px' height='200px' src='$image'></img>";
-
-									}
-
-							$display_block.="		
-								</div>
-							</div>
-							";
-*/
+					    }
+	//-------------KATEGORIJU GALERIJA PUSLAPIS				    
+					    if(isset($_GET['menu']) && $_GET['menu']=='idejuGalerija'){
+					    	include 'adminMenuIdeasGallery.php';
 						}
+	//-------------SKAIDRES PUSLAPIS				    
+					    if(isset($_GET['menu']) && $_GET['menu']=='skaidres'){
+					    	include 'adminMenuSlides.php';
+						}
+	//-------------KURSU APRASYMAI PUSLAPIS				    
+					    if(isset($_GET['menu']) && $_GET['menu']=='kursai'){
+					    	include 'adminMenuNavSubmenuText.php';
+					    }
 					
 
 

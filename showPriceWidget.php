@@ -1,16 +1,22 @@
 
 <?php
-
+//anglu isversta
 include 'connect.php';
-include 'library.php';
+//include 'library.php';
+if(isset($_GET['lang']) && $_GET['lang']=='LT'){
+		include 'content_LT.php';
+	}else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
+		include 'content_EN.php';
+	}else{
+		include 'content_LT.php';
+	}
 
-//$display_block = "<h3>Pirkinių krepšelis</h3>";
 $display_block="";
 $display_block.="
 <div class='row'>
 	<div class=' text-center panel panel-success' >
 		<div class='panel-heading'>
-			<h3 class='panel-title'>Pirkinių krepšelis</h3>
+			<h3 class='panel-title'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'></span> $txtbasket</h3>
 		</div>
 		
 		<div class='panel-body'>";//price widget border
@@ -36,7 +42,7 @@ if (isset($order_id)) {
 		$display_block .= "
 		<!--<div class='text-center '>-->
 		 	<label>
-				Krepšelyje prekių nėra.
+				$txtno_basket_items
 			</label>
 		<!--</div>-->
 		";
@@ -52,9 +58,9 @@ if (isset($order_id)) {
 			$total_price = sprintf("%.02f", $item_price * $item_qty); 
 			$full_price = sprintf("%.02f", $full_price+$total_price); //galutine kaina
 		}
-		$display_block .= "<div><p>Prekių kiekis: $full_qty </p></div>";
-		$display_block .= "<div><p>Galutinė kaina: $full_price</p></div>";
-		$display_block .= "<a href='showcart.php' role='button' style='width:100%' class='btn btn-primary'>Rodyti krepšelį</a>";	
+		$display_block .= "<div><p class='labelSize'>$txtqty: $full_qty </p></div>";
+		$display_block .= "<div><p class='labelSize'>$txtprice: $full_price &euro;</p></div>";
+		$display_block .= "<a href='showcart.php?lang=".$_GET['lang']."' role='button' style='width:100%' class='btn btn-primary'>$txtshow_basket</a>";	
 	}
 	$display_block.="
 		</div>
@@ -69,7 +75,7 @@ if (isset($order_id)) {
 	$display_block .= "
 		<div class=' text-center'>
 		 	<label>
-				Krepšelyje prekių nėra.
+				$txtno_basket_items
 			</label>
 		</div>
 	</div>

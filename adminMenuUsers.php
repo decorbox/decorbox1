@@ -7,11 +7,13 @@ $display_block.= "<h1 class='text-center'>Vartotojai</h1>";
 							                <th class='text-center'>Vartotojas</th>
 							                <th class='text-center'>Vardas ir pavardė</th>
 							                <th class='text-center'>El. Paštas</th>
+							                <th class='text-center'>Šalis</th>
 							                <th class='text-center'>Miestas</th>
 							                <th class='text-center'>Pašto kodas</th>
 							                <th class='text-center'>Telefono Nr.</th>
 							                <th class='text-center'>Užsiregistravimo data</th>
 							                <th class='text-center'>Statusas</th>
+							                <th class='text-center'>Veiksmai</th>
 							            </tr>
 							        </thead>
 							 
@@ -20,11 +22,13 @@ $display_block.= "<h1 class='text-center'>Vartotojai</h1>";
 							                <th class='text-center'>Vartotojas</th>
 							                <th class='text-center'>Vardas ir pavardė</th>
 							                <th class='text-center'>El. Paštas</th>
+							                <th class='text-center'>Šalis</th>
 							                <th class='text-center'>Miestas</th>
 							                <th class='text-center'>Pašto kodas</th>
 							                <th class='text-center'>Telefono Nr.</th>
 							                <th class='text-center'>Užsiregistravimo data</th>
 							                <th class='text-center'>Statusas</th>
+							                <th class='text-center'>Veiksmai</th>
 							            </tr>
 							        </tfoot>
 
@@ -37,6 +41,7 @@ $display_block.= "<h1 class='text-center'>Vartotojai</h1>";
 							    	$user_name = $user['name'];
 							    	$user_email = $user['email'];
 							    	$user_city = $user['city'];
+							    	$user_country = $user['country'];
 							    	$user_zip = $user['zip'];
 							    	$user_phone = $user['phone'];
 							    	$user_role = $user['role'];
@@ -47,6 +52,7 @@ $display_block.= "<h1 class='text-center'>Vartotojai</h1>";
 							                <td>$user_username</td>
 							                <td>$user_name</td>
 							                <td>$user_email</td>
+							                <td>$user_country</td>
 							                <td>$user_city</td>
 							                <td>$user_zip</td>
 							                <td>$user_phone</td>
@@ -55,7 +61,28 @@ $display_block.= "<h1 class='text-center'>Vartotojai</h1>";
 									        	<span class='glyphicon glyphicon-cog'></span>
 									        	</button>
 									        </td>
+									        <td><button type='button' class='btn btn-primary' data-toggle='modal' data-target='#del".$user['ID']."'>
+									        	<span class='glyphicon glyphicon-trash'></span></td>
 							            </tr>";
+
+$display_block.="<!-- Delete Order Modal -->
+<div class='modal fade' id='del".$user['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+	<div class='modal-dialog modal-sm'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				<h4 class='modal-title text-center' id='myModalLabel'>Ar tikrai norite ištrinti vartotoją ".$user_username."?</h4>
+			</div>
+			<form class='form-horizontal' method='post' >
+				<div class='margin-bottom15 text-center'>
+					<button type='button' class='btn btn-default' data-dismiss='modal'>Uždaryti</button>
+					<button type='submit' value='".$user['ID']."' name='deleteUser' class='btn btn-primary'>Ištrinti</button>
+				</div>
+			</form>
+		</div>
+	</div>				
+</div>";
+
 $display_block.="<!-- edit role Modal -->
 <div class='modal fade' id='".$user['ID']."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 	<div class='modal-dialog modal-sm'>
@@ -100,7 +127,12 @@ $display_block.="
 						$insert_role_sql = "UPDATE users SET role = '".$_POST['selectRole']."' WHERE username = '".$_POST['submitRole']."'";
 						$insert_role_res = mysqli_query($mysqli, $insert_role_sql) or die(mysqli_error($mysqli));
 						echo("<meta http-equiv='refresh' content='0'>");//reflesh page
-						}		      
+						}	
+					if(isset($_POST['deleteUser'])){
+						$deleteUser = "DELETE FROM users WHERE ID = '".$_POST['deleteUser']."'";
+						$deleteUser_res = mysqli_query($mysqli, $deleteUser) or die(mysqli_error($mysqli));
+						echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+					}		      
 
 				$display_block.="   </tbody>
 							    </table>";  
