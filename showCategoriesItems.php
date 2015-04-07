@@ -172,7 +172,7 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 			$display_block .= 
 
 			"
-			<div class='col-lg-4-edit col-md-4-edit col-sm-6-edit col-xs-4-edit '>
+			<div class='col-lg-4-edit col-md-4-edit col-sm-4 col-xs-4 '>
 			  	<div class='text-center panel panel-success panel-edit'>
 		      		<a href='showitem.php?lang=".$_GET['lang']."&item_id=".$item_id."'>
 				        <div class='panel-heading'>
@@ -545,162 +545,6 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 		$display_block .="$sPagination";
 		}//end of else
 		echo $display_block;
-}else if(isset($_GET['nav']) && $_GET['nav']=='Kurybines-dirbtuves'){
-	if(isset($_GET['npage'])) {
-		$current_page3 = $_GET['npage'];
-	} else {
-		$current_page3 = 1;
-	}
-	
-	$offset = $items_per_page * ($current_page3 - 1);
-	//pagination for sorting(subcategories) items
-	if(isset($_GET['lang']) && $_GET['lang']=='LT'){
-		$get_items_sql3 = "SELECT id, item_title, item_price, item_image FROM store_items WHERE nav_id='1' order by id DESC";
-	}else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
-		$get_items_sql3 = "SELECT id, item_title_EN, item_price, item_image FROM store_items WHERE  nav_id='1' order by id DESC";
-	}else{
-		$get_items_sql3 = "SELECT id, item_title, item_price, item_image FROM store_items WHERE nav_id='1' order by id DESC";
-	}
-	
-	$query_limit_view3 = sprintf("%s LIMIT %d, %d", $get_items_sql3, $offset, $items_per_page);
-	$get_items_res3 = mysqli_query($mysqli, $query_limit_view3) or die(mysqli_error($mysqli));
-		
-	$get_total_num_sql3="SELECT COUNT(*) AS total3 FROM store_items WHERE nav_id='1'";
-	$query3 = mysqli_query($mysqli, $get_total_num_sql3) or die(mysql_error($mysqli));
-	$result3 = mysqli_fetch_array($query3);
-	$total3 = $result3['total3'];
-	$total_pages3 = ceil($total3 / $items_per_page);
-	$total_items3 = $result3['total3'];
-
-	//link of displaying subcategories
-	$url1 = "index.php?lang=".$_GET['lang']."&nav=".$_GET['nav']."";
-
-	//displays pagination only if there is more than 1 page
-
-	$nPagination = '';	
-	if ($total_pages3 > 1) {
-		//pagination header
-		$nPagination .= '<div class="row text-center"><div class="col-md-12"><ul class="pagination">';
-		//displays first and previous arrows if the current page is not the first
-		if ($current_page3 > 1) {
-			$nPagination .= '<li><a href="' . $url1 . '&npage=' . 1 . '">' . '<<' . '</a></li>';
-			$nPagination .= '<li><a href="' . $url1 . '&npage=' . ($current_page3 - 1) . '">' . '<' . '</a></li>';
-			$page_counter_start1 = $current_page3 - 1;
-			}
-			else{
-				$nPagination .= '<li class="disabled"><a href="#">' . '<<' . '</a></li>';
-				$nPagination .= '<li class="disabled"><a href="#">' . '<' . '</a></li>';
-				$page_counter_start1 = $current_page3;
-			}
-			//displays 8 numbered pages, 1 previous, 1 current and 6 next
-			for ($page_counter = $page_counter_start1, $i = 0; $page_counter <= $total_pages3 && $i < $amount_of_numbered_pages; $page_counter++, $i++) {
-				if ($page_counter != $current_page3) {
-					$nPagination .= '<li><a href="' . $url1 . '&npage=' . $page_counter . '">' . $page_counter . '</a></li>';
-				//marks the current page as active
-				} else {
-					$nPagination .= '<li class="active"><a href="' . $url1 . '&npage=' . $page_counter . '">' . $page_counter . '</a></li>';
-				}
-			}
-			//displays next and last arrows if the current page is not the last
-			if ($current_page3 != $total_pages3) {
-				$nPagination .= '<li><a href="' . $url1 . '&npage=' . ($current_page3 + 1) . '">' . '>' . '</a></li>';
-				$nPagination .= '<li><a href="' . $url1 . '&npage=' . $total_pages3 . '">' . '>>' . '</a></li>';
-			} else {
-				$nPagination .= '<li class="disabled"><a href="#">' . '>' . '</a></li>';
-				$nPagination .= '<li class="disabled"><a href="#">' . '>>' . '</a></li>';
-			}
-			//pagination footer
-			$nPagination .= '</ul></div></div>';
-		}
-	//}//end if isset
-	//end of pagination
-
-	// select sorting items
-	$get_sorting_items_sql = "SELECT * from store_items WHERE nav_id='1' order by id DESC";
-	$query_sorting_limit_view = sprintf("%s LIMIT %d, %d", $get_sorting_items_sql, $offset, $items_per_page);
-	$get_sorting_items_res = mysqli_query($mysqli, $query_sorting_limit_view) or die(mysqli_error($mysqli));
-
-	
-
-	if(isset($_GET['lang']) && $_GET['lang']=='LT'){
-		$display_block .= "<h1 class='text-center'>$txtnav_creative</h1>";
-	}else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
-		$display_block .= "<h1 class='text-center'>$txtnav_creative</h1>";
-	}else{
-		$display_block .= "<h1 class='text-center'>$txtnav_creative</h1>";
-	}
-	
-	
-	
-	
-
-	//display items
-	if($total_items3<1){//if no items in category
-		$display_block.="<div class='text-center '><label>$txtno_items_in_category</label></div>";
-	}else{ 
-		while ($items = mysqli_fetch_array($get_sorting_items_res)) {
-			$item_id = $items['id']; 
-			if(isset($_GET['lang']) && $_GET['lang']=='LT'){
-				$item_title = stripslashes($items['item_title']);
-			}else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
-				$item_title = stripslashes($items['item_title_EN']);
-			}else{
-				$item_title = stripslashes($items['item_title']);
-			}
-			
-			$item_price = $items['item_price'];
-			$item_image = $items['item_image'];
-
-			$display_block .= 
-
-			"
-			<div class='col-lg-4-edit col-md-4-edit col-sm-6-edit col-xs-4-edit '>
-			  	<div class='text-center panel panel-success panel-edit'>
-		      		<a href='showitem.php?lang=".$_GET['lang']."&item_id=".$item_id."'>
-				        <div class='panel-heading'>
-				       		<h3 class='panel-title'>$item_title</h3>
-				      	</div>
-				    </a>
-			   		
-			   		<div class='panel-body panel-body-edit2'>
-				   		<div class='row'>
-					   		<div id='posts' class='col-md-6-edit col-sm-6-edit col-xs-6-edit '>    
-				        		<img class='margin-top20  imgSize img-responsive ' src='$item_image'>
-				        	</div>
-				        	<form method='post' style='weigth:500px' action='addtocart.php'>
-					        	<div class=' col-md-6-edit col-sm-6-edit col-xs-6-edit '>
-					        		<div class='row '>
-					        			<div class=' col-lg-12-edit col-md-12-edit col-sm-6-edit col-xs-6-edit margin-left15 '>
-						        			
-												<label class=' margin-top20 margin-left20' for='sel_item_qty'>$txtqty:</label><br>
-												<input type='number' min='1' value='1' class='fullWidthSelect margin-left-20' name='sel_item_qty' id='sel_item_qty'>
-							
-						     					<div class='row'>
-						        					<div class='col-lg-12-edit col-md-12-edit col-sm-12-edit col-xs-12-edit'>
-						        						<p class='labelSize margin-left20'>".$item_price."&euro;</p>
-						        					</div>
-						        				</div>
-					  					</div>
-					        		</div>
-					        	</div>
-					        	<div class='col-lg-12-edit col-md-12-edit col-sm-12-edit col-xs-12-edit'>
-									<input type='hidden' name='sel_item_id' value='" . $item_id ."' />
-									<button class='btn btn-success margin-top20 margin-bottom15 fullWidthButton'  type='submit' name='submit' value='submit'>$txtadd_to_basket</button>
-									       
-								</div>
-							</form>
-
-			        	</div>
-		      		</div>
-		  		</div>
-		  	</div>
-		";
-	
-			}//end mysql fetch array
-
-		$display_block .="$nPagination";
-		}//end of else
-		echo $display_block;	
 
 
 }else if(isset($_GET['nav']) && $_GET['nav']=='Ranku-darbo-gaminiai'){
@@ -861,6 +705,17 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 		echo $display_block;	
 
 }else if(isset($_GET['nav']) && $_GET['nav']=='Kontaktai'){
+	$get_text = "SELECT * FROM text_content WHERE id = 5";
+	$get_text_res = mysqli_query($mysqli, $get_text);
+	$get_text_assoc = mysqli_fetch_assoc($get_text_res);
+	
+	if(isset($_GET['lang']) && $_GET['lang']=='LT'){
+		$txtcontacts_info = $get_text_assoc['text_LT'];
+	}else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
+		$txtcontacts_info = $get_text_assoc['text_EN'];
+	}else{
+		$txtcontacts_info = $get_text_assoc['text_LT'];
+	}
 	echo "
 <div class='row'>
 	<div class=' text-center panel panel-success' >

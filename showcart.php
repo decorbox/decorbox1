@@ -222,12 +222,24 @@ mysqli_close($mysqli);
 <body>
 <div class="container">
 	
+<?php
+	include 'header.php';
+	 include 'navbar.php'; ?>
 
-	
-<?php include 'navbar.php'; ?>
+
 	<div class="row">
-		<div class="col-md-12 border-color">
+		<div class="col-md-9">
 			<?php echo $display_block; ?>
+		</div>
+
+		<div class="col-md-3 right-bar-edit border-color">
+		<?php 
+			include_once 'login.php';  
+				
+				include_once 'contactsWidget.php';
+				include_once 'deliveryWidget.php';
+				include_once 'facebookWidget.php';
+		?>
 		</div>
 
 

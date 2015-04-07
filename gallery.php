@@ -56,7 +56,7 @@ $display_block.="<div class='container'>
     </div>";
 //rodo subkategorjos nuotraukas
 if(isset($_GET['cat_id']) && isset($_GET['subcat_id'])){
-    $show_photo="SELECT * FROM category_gallery WHERE cat_id='".$_GET['cat_id']."' AND subcat_id='".$_GET['subcat_id']."'";
+    $show_photo="SELECT * FROM category_gallery WHERE cat_id='".$_GET['cat_id']."' AND subcat_id='".$_GET['subcat_id']."' ORDER BY id DESC";
     $show_photo_res=mysqli_query($mysqli, $show_photo);
 
     if(mysqli_num_rows($show_photo_res)>1){

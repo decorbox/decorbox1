@@ -10,6 +10,8 @@
 		<link href = "css/jquery.bxslider.css" rel="stylesheet">
 		<link href = "css/select2.css" rel = "stylesheet">
 		<link href = "css/editBootstrap.css" rel = "stylesheet">
+
+
 		
 
 
@@ -24,6 +26,26 @@
 		<script src="js/bootstrap-image-gallery.min.js"></script>
 		<script src="js/jquery.bxslider.js"></script>
 		<script src="js/jquery.bxslider.min.js"></script>
+		
+		<script src="js/txteditor.js"></script>
+		
+
+
+
+	<!-- markItUp! skin -->
+	<link rel="stylesheet" type="text/css" href="markitup/skins/markitup/style.css">
+	<!--  markItUp! toolbar skin -->
+	<link rel="stylesheet" type="text/css" href="markitup/sets/default/style.css">
+	
+	<!-- markItUp! -->
+	<script type="text/javascript" src="markitup/jquery.markitup.js"></script>
+	<!-- markItUp! toolbar settings -->
+	<script type="text/javascript" src="markitup/sets/default/set.js"></script>
+
+		
+
+		
+		
 		
 		<link href = "css/style.css" rel = "stylesheet">
 

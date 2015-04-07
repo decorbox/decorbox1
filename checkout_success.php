@@ -11,7 +11,7 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
         include 'content_LT.php';
     }
 
-//include 'sendOrderEmail.php';
+include 'sendOrderEmail.php';
 
 $order_id= $_COOKIE['order_id'];//good(not temp) order id(real order id)
 
@@ -284,7 +284,9 @@ $delete_temp_order_id_res = mysqli_query($mysqli, $delete_temp_order_id);
 
 <body>
 <div class="container">
-	<?php include 'navbar.php'; ?>
+	<?php 
+	include 'header.php';
+	include 'navbar.php'; ?>
 
 	<div class="row">
 		<div class="col-md-12 border-color margin-bottom60">	<!--body-->

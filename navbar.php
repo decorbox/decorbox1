@@ -1,4 +1,4 @@
-<?php
+<?php 
 if(isset($_GET['lang']) && $_GET['lang']=='LT'){
         include 'content_LT.php';
     }else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
@@ -19,8 +19,8 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
         <ul class="nav navbar-nav">
           
 
-          <li class="dropdown ">
-          <a href="#" onclick="location.href='index.php?lang=<?php echo $_GET['lang'] ?>&nav=Kurybines-dirbtuves';" class="dropdown-toggle"  data-toggle="dropdown">
+          <li class="dropdown "> <!-- onclick="location.href='index.php?lang=<?php echo $_GET['lang'] ?>&nav=Kurybines-dirbtuves';" -->
+          <a href="#"  class="dropdown-toggle"  data-toggle="dropdown">
           <?php echo $txtnav_creative; ?> <b class="caret"></b></a>
           <ul class="dropdown-menu ">
             <li><a href="index.php?lang=<?php echo $_GET['lang'] ?>&submenu=Rankdarbiu-burelis"><?php echo $txtnav_submenu_handicraft; ?> </a></li>
@@ -31,7 +31,7 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
           
           <li><a href="index.php?lang=<?php echo $_GET['lang'] ?>&nav=Ranku-darbo-gaminiai"><?php echo $txtnav_handmade; ?></a></li>
           <li><a href="index.php?lang=<?php echo $_GET['lang'] ?>&nav=Kontaktai"><?php echo $txtnav_about; ?></a></li>
-          <li class="navbar-text"><p><?php echo $txtnav_questions; ?> +370 62700354</p></li>
+          <li class="navbar-text"><?php echo $txtnav_questions; ?> +370 62700354</li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">

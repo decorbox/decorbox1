@@ -1,4 +1,4 @@
-<?php//kodas kopijuotas nuo kito puslapio
+<?php //kodas kopijuotas nuo kito puslapio
 $display_block.= "<h1 class='text-center'>Meniu prekės</h1>";
 	 						$display_block.="<div class='row'> <div class='col-md-2 col-md-offset-10'>				
 	 							<button type='button' name='buttonAddItem' class='btn btn-primary' data-toggle='modal' data-target='#addItem'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Įdėti prekę</button>
@@ -47,22 +47,6 @@ $display_block.="<!-- add item Modal -->
 							</div>
 						</div>	
 
-						<div class='row margin-top'>	
-							<label for='inputCategory' required class='col-md-4 control-label'>Pasirinkite meniu kategoriją<span style='color: red; padding-left: 2px;'>*</span></label>
-							<div class='col-md-8'>
-	<!--  KATEGORIJOS	-->		<select class='selectOption' id='addCategory' style='width:100%'  name='addItemCategory'>";
-													
-							
-								$display_block .="<option  value='1'>Kūrybinės dirbtuvės</option>";
-								$display_block .="<option  value='2'>Rankų darbo gaminiai</option>";
-										
-																	
-				$display_block .="
-								</select>
-							</div>
-						</div>	
-
-						
 
 						<div class='row margin-top'>	
 							<label for='inputDescription' class='col-md-4 control-label'>Apibūdinimas LT</label>
@@ -153,7 +137,7 @@ if(isset($_POST["submitAddItem"])) {
 					'".$_POST['addTitleEn']."',
 					'".$_POST['addDescriptionEN']."',
 					NULL,
-					'".$_POST['addItemCategory']."')";
+					'2')";//2 - nav prekes categ
 	
 					$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 				
@@ -177,7 +161,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <th>Pavadinimas</th>
 							                <th>Kaina</th>
 							                <th>Sena kaina</th>
-							                <th>Meniu kategorija</th>
+							                
 							                <th>Veiksmai</th>
 							            </tr>
 							        </thead>
@@ -188,7 +172,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <th>Pavadinimas</th>
 							                <th>Kaina</th>
 							                <th>Sena kaina</th>
-							                <th>Meniu kategorija</th>
+							                
 							                <th>Veiksmai</th>
 							            </tr>
 							        </tfoot>
@@ -223,7 +207,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <td><a href='showitem.php?lang=".$_GET['lang']."&item_id=$item_id' target='_blank'>$item_title</a></td>
 							                <td>$item_price &euro;</td>
 							                <td>$item_price_old &euro;</td>
-							                <td>$nav_title</td>
+							                
 							                
 							                <td> <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#".$item_id."'>
 												  Redaguoti
@@ -304,36 +288,6 @@ $display_block.="<!-- edit item Modal -->
 									</div>
 								</div>	
 
-								<div class='row margin-top'>	
-									<label for='inputCategory' class='col-md-4 control-label'>Meniu kategorija<span style='color: red; padding-left: 2px;'>*</span></label>
-									<div class='col-md-8'>
-			<!-- meniu KATEGORIJOS	-->		<select class='selectOption' required id='search_category_id".$item_id."' style='width:100%'  name='showCategory'>";
-													
-
-										//get all categories for select option
-										
-										$select_cat_sql = "SELECT * FROM store_categories WHERE sorting_id ='88888888' OR sorting_id ='99999999' ";
-										$select_cat_res = mysqli_query($mysqli, $select_cat_sql) or die(mysqli_error($mysqli));
-								
-										//selected category
-										
-										//other categories
-											while($cat = mysqli_fetch_array($select_cat_res)){
-
-												if($cat['sorting_id']=='88888888'){
-													$display_block .="<option  value='2'>Rankų darbo gaminiai</option>";
-												}else if($cat['sorting_id'] == '99999999'){
-													$display_block .="<option  value='1'>Kūrybinės dirbtuvės</option>";
-												}
-												
-												
-											} 									
-						$display_block .="
-										</select>
-									</div>
-								</div>	
-
-								
 
 								<div class='row margin-top'>	
 									<label for='inputDescription' class='col-md-4 control-label'>Apibūdinimas LT</label>
@@ -450,7 +404,7 @@ if(isset($_POST["submitEditItem"])) {
 
 	if(isset($_POST['priceOld']) && $_POST['priceOld']=='' && $uploadOk == 1){
 		
-			$update_store_item = "UPDATE store_items SET nav_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
+			$update_store_item = "UPDATE store_items SET nav_id = '2', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
 			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', item_price_old=NULL WHERE id='".$_POST['getItem_id']."'";
 			$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 		
@@ -459,7 +413,7 @@ if(isset($_POST["submitEditItem"])) {
 		{
 		if($uploadOk == 1){
 			
-				$update_store_item = "UPDATE store_items SET nav_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
+				$update_store_item = "UPDATE store_items SET nav_id = '2', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
 				item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', item_price_old='".$_POST['priceOld']."' WHERE id='".$_POST['getItem_id']."'";
 				$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 			

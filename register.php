@@ -217,7 +217,7 @@ if($input_error!=true){
  if($input_error==true || !isset($_POST['submitReg'])){
  	$display_block.="
  	<div class='row'>
-		<div class='col-md-9 border-color'>
+		<div class='col-md-9 '>
 			<form class='form-horizontal' action=".$_SERVER['PHP_SELF']."?lang=".$_GET['lang']." method='post'>
 				<div class='form-group'>
 					<div class='row margin-top'>
@@ -239,7 +239,7 @@ if($input_error!=true){
 					<div class='row margin-top'>
 						<label for='inputPass3' required class='col-md-4  control-label'>$txtrepeat_pass<span style='color: red; padding-left: 2px;'>*</span></label>
 						<div class='col-md-8'>
-							<input type='password' name='pass2' class='form-control' id='inputPass3' placeholder='$txtrepeat_pass'>
+							<input type='password' name='pass2' required class='form-control' id='inputPass3' placeholder='$txtrepeat_pass'>
 							<span class='error'>$passErr</span>
 						</div>
 					</div>
@@ -269,9 +269,9 @@ if($input_error!=true){
 					</div>
 
 					<div class='row margin-top'>	
-						<label for='inputZip3' class='col-md-4 control-label'>$txtzip</label>
+						<label for='inputZip3' class='col-md-4 control-label'>$txtzip <span style='color: red; padding-left: 2px;'>*</span></label>
 						<div class='col-md-8'>
-							<input type='text' name='zip' value='".$_SESSION['zip']."' class='form-control' id='inputZip3' placeholder='$txtzip'>
+							<input type='text' name='zip' required value='".$_SESSION['zip']."' class='form-control' id='inputZip3' placeholder='$txtzip'>
 							<span class='error'>$zipErr</span>
 						</div>
 					</div>
@@ -356,11 +356,18 @@ if($input_error!=true){
 <body>
 <div class="container">
 <?php 
+	include 'header.php';
 	include 'navbar.php';
 	echo $display_block; ?>	
 
-	<div class="col-md-3 border-color">
-		<?php include 'showPriceWidget.php'; ?>
+	<div class="col-md-3 right-bar-edit border-color">
+		<?php 
+			include_once 'login.php';  
+			include 'showPriceWidget.php';
+			include_once 'contactsWidget.php';
+			include_once 'deliveryWidget.php';
+			include_once 'facebookWidget.php';
+		 ?>
 	</div>
 </div>
 

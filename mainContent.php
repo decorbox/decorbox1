@@ -9,12 +9,16 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
     }
 
 $display_block = "";
-$display_block .= "<h1 class='text-center'>$txtmain_page</h1>";
+
+
+
+
+
 $display_block .="
 <div class='row'>
 	
 		";
-			$get_ideas_gallery="SELECT * FROM ideas_gallery";
+			$get_ideas_gallery="SELECT * FROM ideas_gallery ORDER BY sorting_id";
 			$get_ideas_gallery_res = mysqli_query($mysqli, $get_ideas_gallery) or die(mysqli_error($mysqli));
 
 			while($inf = mysqli_fetch_array($get_ideas_gallery_res)){
@@ -37,13 +41,13 @@ $display_block .="
 				if($ideas_subcat_id==NULL){
 					$display_block .="
 					<a href='gallery.php?lang=".$_GET['lang']."&cat_id=".$ideas_cat_id."'>
-						<div class=' border-color ideas-border margin-bottom15'>
+						<div class=' border-color ideas-border  margin-bottom15'>
 							<div class='col-md-6-edit'>
 								<img width='100%' class='mainContentImgRadius' height='150px' src='$ideas_image'></img>
 							</div>
 
-							<div class=' overflowHidden panel panel-success ideas-edit'>
-								<div class=' text-center  panel-heading'>
+							<div class=' overflowHidden panel panel-success  ideas-edit'>
+								<div class=' text-center  panel-heading panel-hedingMainContent'>
 									
 									<label class='panel-title'>$ideas_title</label>
 									
@@ -62,8 +66,8 @@ $display_block .="
 								<img width='100%' class='mainContentImgRadius' height='150px' src='$ideas_image'></img>
 							</div>
 
-							<div class=' overflowHidden panel panel-success ideas-edit'>
-								<div class=' text-center  panel-heading'>
+							<div class=' overflowHidden panel panel-success  ideas-edit'>
+								<div class=' text-center  panel-heading panel-hedingMainContent'>
 									
 									<label class='panel-title'>$ideas_title</label>
 									
@@ -95,7 +99,7 @@ $display_block .="
 	<body>
 
 	<div class="row">
-		<div class="col-md-12 border-color">
+		<div class="col-md-12 ">
 				<?php echo $display_block; ?>
 
 

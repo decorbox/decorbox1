@@ -2,7 +2,7 @@
 //http://php.about.com/od/finishedphp1/ss/php_login_code.htm
 //Connects to your Database 
 ob_start();
-include_once 'connect.php';
+include 'connect.php';
 //include_once 'library.php';
 $passErr = $userErr = '';
 

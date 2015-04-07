@@ -5,11 +5,64 @@
 //include 'library.php';
 if(isset($_GET['lang']) && $_GET['lang']=='LT'){
         include 'content_LT.php';
+        $get_text = "SELECT * FROM text_content";
+		$get_text_res = mysqli_query($mysqli, $get_text);
+		while($info = mysqli_fetch_array($get_text_res)){
+			$id = $info['id'];
+			if($id == 1){
+				$txtmodal_about_us = $info['text_LT'];
+			}
+			if($id == 2){
+				$txtpayment_methods_info = $info['text_LT'];
+			}
+			if($id == 3){
+				$txtmodal_delivery = $info['text_LT'];
+			}
+			if($id == 4){
+				$txtmodal_returning = $info['text_LT'];
+			}
+		}
     }else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
         include 'content_EN.php';
+        $get_text = "SELECT * FROM text_content";
+		$get_text_res = mysqli_query($mysqli, $get_text);
+		while($info = mysqli_fetch_array($get_text_res)){
+			$id = $info['id'];
+			if($id == 1){
+				$txtmodal_about_us = $info['text_EN'];
+			}
+			if($id == 2){
+				$txtpayment_methods_info = $info['text_EN'];
+			}
+			if($id == 3){
+				$txtmodal_delivery = $info['text_EN'];
+			}
+			if($id == 4){
+				$txtmodal_returning = $info['text_EN'];
+			}
+		}
     }else{
         include 'content_LT.php';
+        $get_text = "SELECT * FROM text_content";
+		$get_text_res = mysqli_query($mysqli, $get_text);
+		while($info = mysqli_fetch_array($get_text_res)){
+			$id = $info['id'];
+			if($id == 1){
+				$txtmodal_about_us = $info['text_LT'];
+			}
+			if($id == 2){
+				$txtpayment_methods_info = $info['text_LT'];
+			}
+			if($id == 3){
+				$txtmodal_delivery = $info['text_LT'];
+			}
+			if($id == 4){
+				$txtmodal_returning = $info['text_LT'];
+			}
+		}
     }
+
+
 
 
 

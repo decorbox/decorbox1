@@ -6,11 +6,88 @@ $display_block.= "<h1 class='text-center'>Idėjų galerija</h1>";
 
 $display_block.="
 <div class='row'>
-	<div class='col-md-2 col-md-offset-10'>
+	<div class='col-md-4 col-md-offset-8'>
 		<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#addPhoto'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span>Įdėti naują</button>
+		<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#sortingIdeas'><span class='glyphicon glyphicon-th-list' aria-hidden='true'></span> Rūšiuoti idėjas</button>
 	</div>
 </div>";
 
+
+?>
+<script>
+$( document ).ready(function() {
+    $("#sortable").sortable();
+});
+
+
+</script>
+<!--
+<script type="text/javascript">
+     	 bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+     	bkLib.onDomLoaded(function() {
+
+        //new nicEditor({buttonList : ['fontSize','bold','italic','underline','strikeThrough','left','center','right','justify','ul','ol','forecolor','html',]}).panelInstance('editor');
+  		});
+     </script>-->
+<?php
+//http://api.jqueryui.com/sortable/#entry-examples
+//modalinis kopijuotas is kito puslapio
+$display_block.="<!-- Sorting categories Modal -->
+<div class='modal fade' id='sortingIdeas' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+	<div class='modal-dialog modal-lg'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				<h4 class='modal-title text-center' id='myModalLabel'>Rūšiuoti idėjų galeriją</h4>
+			</div>
+			<form class='form-horizontal' method='post'>
+				<div class='modal-body'>
+					<div class='form-group'>
+						<div class='row'>
+							<div class='col-md-12'>
+								<ol id='sortable' class='text-center list-group' style='margin:auto;'>";
+
+								$show_cats="SELECT * FROM ideas_gallery ORDER BY sorting_id";
+								$show_cats_res=mysqli_query($mysqli, $show_cats);
+								$count_rows = 0;
+								while($info = mysqli_fetch_array($show_cats_res)){
+									$categ_title = $info['title'];
+									$categ_id = $info['id'];
+					$display_block.="<li><input type='hidden' name='categ_id".$categ_id."' value='$categ_id'>
+										<div class='list-group-item list-group-item-info' >$categ_title</div>
+									</li>";
+								}
+									
+					$display_block.="				
+								</ol>
+							</div>
+						</div>
+					</div>				
+				</div>
+
+				<div class='modal-footer margin-top20'>
+					<button type='button' class='btn btn-default' data-dismiss='modal'>Uždaryti</button>
+					<button type='submit' name='submitSortingCategory' value='Submit' class='btn btn-primary'>Išsaugoti</button>
+				</div>
+		  	</form>
+		</div>
+	</div>
+</div>";
+if(isset($_POST['submitSortingCategory'])){
+		$count=0;//count sorting value
+	foreach ($_POST as $postName => $sorting_value)//gauna value is $_POST ir eiles tvarka iraso sorting
+		{
+			if("categ_id"+$sorting_value != $postName){
+				$count +=1;
+		     $update_sorting = "UPDATE ideas_gallery SET sorting_id = '".$count."' WHERE id='".$sorting_value."'";
+		     $update_sorting_res = mysqli_query($mysqli, $update_sorting);
+			}
+		}
+		echo"<div class='alert alert-success alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				Idėjų galerija surūšiuota.
+			</div>";
+}
 
 $display_block.="<div class='row'>
 	 						   <table class='table tableStuff text-center table-responsive table-striped table-bordered' cellspacing='0' width='100%'>
@@ -36,7 +113,7 @@ $display_block.="<div class='row'>
 							 
 							        <tbody>";
 							               //ITEMS TABLE
-	 						$show_image="SELECT * FROM ideas_gallery ORDER BY id DESC";
+	 						$show_image="SELECT * FROM ideas_gallery ORDER BY sorting_id";
 							$show_image_res = mysqli_query($mysqli, $show_image);
 							while($img = mysqli_fetch_array($show_image_res)){
 								$image_id = $img['id'];
@@ -117,7 +194,8 @@ $("#subCategory<?php echo $image_id ?>").html(html);
 });
 });							
 	});
-</script>   
+</script>  
+
 
 <?php 
 							            //modals area
@@ -129,13 +207,19 @@ $display_block.="<!-- edit image Modal -->
 				<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				<h4 class='modal-title text-center' id='myModalLabel'>Redaguoti paveikslėlį</h4>
 				</div>								      	 
-					<form class='form-horizontal'  method='post' >
+					<form class='form-horizontal'  method='post' enctype='multipart/form-data'>
 						<div class='modal-body'>
 							<div class='form-group'>
 								<div class='row margin-top'>	
 									<label class='col-md-4 control-label'><img class='inputImage' src='$image'></label>
+									<div class='col-md-8'>
+										<input type='hidden' name='oldImage' value='".$image."'>
+										<input name='itemIMG' type='file' /> 
+										<p>Paveikslėlis turi būti mažesnis nei 2MB</p> 
+									</div>
 									
 								</div>	
+								
 
 								<div class='row margin-top'>
 									<label class='col-md-4 control-label'>Pavadinimas LT<span style='color: red; padding-left: 2px;'>*</span></label>
@@ -197,7 +281,8 @@ $display_block.="<!-- edit image Modal -->
 								<div class='row margin-top'>
 									<label class='col-md-4 control-label'>Aprašymas LT</label>
 									<div class='col-md-8'>
-										<textarea  class='form-control' name='descriptionPhoto'  rows='3'>$description</textarea>							
+										<textarea  class='form-control' name='descriptionPhoto'  rows='3'>$description</textarea>
+															
 									</div>
 								</div>
 
@@ -213,7 +298,7 @@ $display_block.="<!-- edit image Modal -->
 						<div class='modal-footer'>
 						 	<button type='button' class='btn btn-default' data-dismiss='modal'>Uždaryti</button>
 						 	<input type='hidden' value='".$image_id."' name='getImage_id'>
-						 	<button type='submit' name='submitEditPhoto' value='Submit' class='btn btn-primary'>Išsaugoti</button>
+						 	<button type='submit' name='submitEditPhoto' value='Submit'  class='btn btn-primary'>Išsaugoti</button>
 					  	</div>
 				 	</form>";									    
 			$display_block.="
@@ -229,16 +314,91 @@ $display_block.="<!-- edit image Modal -->
 							   </table>
 							    ";
 if(isset($_POST['submitEditPhoto'])){
-	if(isset($_POST['show_sub_categories'])){	
+
+	// Check if image file is a actual image or fake image
+	$uploadOk = 1;//check if no error found
+	if ($_FILES["itemIMG"]["size"] != 0){ 	
+			$target_dir = "images/ideas_gallery/";
+		$target_file = $target_dir . basename($_FILES["itemIMG"]["name"]);
+		
+		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
+	    $check = getimagesize($_FILES["itemIMG"]["tmp_name"]);
+	    if($check !== false) {
+	        $uploadOk = 1;
+	    } else {
+	        echo"<div class='alert alert-danger alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				Pasirinktas failas nėra paveikslėlis.
+			</div>";
+	        $uploadOk = 0;
+	    }
+	    // Check if file already exists
+		if (file_exists($target_file)) {
+
+		    echo"<div class='alert alert-danger alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				Toks paveikslėlio pavadinimas jau egzistuoja.
+			</div>";
+		    $uploadOk = 0;
+		}
+		// Check file size
+		if ($_FILES["itemIMG"]["size"] > 5000000) {//5MB
+		    echo"<div class='alert alert-danger alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				Paveikslėlis per didelis.
+			</div>";
+		    $uploadOk = 0;
+		}
+		// Allow certain file formats
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+		&& $imageFileType != "gif" ) {
+		   
+			echo"<div class='alert alert-danger alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				Tik .JPG, .JPEG, .PNG ir .GIF formatai galimi.
+			</div>";
+		    $uploadOk = 0;
+		}
+		// Check if $uploadOk is set to 0 by an error
+		if ($uploadOk == 0) {
+		    echo"<div class='alert alert-danger alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				Paveikslėlis nebuvo atnaujintas.
+			</div>";
+		// if everything is ok, try to upload file
+		} else {
+		    if (move_uploaded_file($_FILES["itemIMG"]["tmp_name"], $target_file)) {
+		        unlink($_POST['oldImage']);//delete old image
+		        //insert new image link to database
+		        $insert_foto_sql = "UPDATE ideas_gallery SET ideas_image ='images/ideas_gallery/".basename( $_FILES["itemIMG"]["name"])."' WHERE id='".$_POST['getImage_id']."'";
+		        $insert_foto_res = mysqli_query($mysqli, $insert_foto_sql) or die(mysqli_error($mysqli));
+		        //echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+		       
+		    } else {
+		        echo"<div class='alert alert-danger alert-dismissible' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				Nutiko klaida atnaujinant paveikslėlį.
+			</div>";
+		    }
+		}
+	}//end of upload image
+
+
+
+
+	if(isset($_POST['show_sub_categories']) && $uploadOk == 1){	
 		$update_gallery= "UPDATE ideas_gallery SET cat_id = '".$_POST['showCategory']."', subcat_id = '".$_POST['show_sub_categories']."', description = '".$_POST['descriptionPhoto']."'
 		, description_EN = '".$_POST['descriptionENPhoto']."', title = '".$_POST['addTitle']."', title_EN = '".$_POST['addTitleEn']."' WHERE id='".$_POST['getImage_id']."'";
 		$update_gallery_res = mysqli_query($mysqli, $update_gallery);
-	}else{
+	}else if($uploadOk == 1){
 		$update_gallery= "UPDATE ideas_gallery SET cat_id = '".$_POST['showCategory']."', subcat_id = NULL, description = '".$_POST['descriptionPhoto']."'
 		, description_EN = '".$_POST['descriptionENPhoto']."', title = '".$_POST['addTitle']."', title_EN = '".$_POST['addTitleEn']."' WHERE id='".$_POST['getImage_id']."'";
 		$update_gallery_res = mysqli_query($mysqli, $update_gallery);
 	}
-	echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+	//echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+	print_r($_POST);
+	echo $_POST['descriptionPhoto'];
 }
 
 

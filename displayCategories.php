@@ -34,14 +34,7 @@ while ($cats = mysqli_fetch_array($get_cats_res)) //display categories
 			$cats_title = $cats['cat_title']; 
 		}
 		
-
-		//get total items
-		$get_total_num_sql="SELECT COUNT(*) AS total FROM store_items WHERE cat_id = '".$cats_id."'";
-		$query = mysqli_query($mysqli, $get_total_num_sql) or die(mysql_error($mysqli));
-		$result = mysqli_fetch_array($query);
-		$total = $result['total'];
-		$total_items = ceil($total); 
-		
+	
 
 	//display accordion menu
 	$display_block .= "
@@ -50,12 +43,12 @@ while ($cats = mysqli_fetch_array($get_cats_res)) //display categories
 		    	<label class='panel-title  list-group-title-color ' style='width:100%;' >";
 		    	//show active categories manu
 		    	if(isset($_GET['cat_id']) && $cats_id == $_GET['cat_id'] && !isset($_GET['subcat_id'])){
-		    		$display_block.="<a class='list-group-item list-group-item-edit list-menuitem active'  href='?lang=".$_GET['lang']. "&cat_id=".$cats_id."'><div class='row'><div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'>$cats_title </div><div class='col-md-2 col-lg-2 col-sm-2 col-xs-2 '> <span class='badge'>$total_items</span></div></div></a>";	
+		    		$display_block.="<a class='list-group-item list-group-item-edit list-menuitem active'  href='?lang=".$_GET['lang']. "&cat_id=".$cats_id."'><div class='row'><div class='col-md-12 col-lg-12 col-sm-12 col-xs-12'>$cats_title </div></div></a>";	
 		    	}else if(isset($_GET['subcat_id'])){ //if subcat is isset remove ACTIVE Class
-		    		$display_block.="<a class='list-group-item list-group-item-edit list-menuitem'  href='?lang=".$_GET['lang']."&cat_id=".$cats_id."'><div class='row'><div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'>$cats_title </div><div class='col-md-2 col-lg-2 col-sm-2 col-xs-2 '> <span class='badge'>$total_items</span></div></div></a>";
+		    		$display_block.="<a class='list-group-item list-group-item-edit list-menuitem'  href='?lang=".$_GET['lang']."&cat_id=".$cats_id."'><div class='row'><div class='col-md-12 col-lg-12 col-sm-12 col-xs-12'>$cats_title </div></div></a>";
 		    	}
 		    	else{//not active categories menu AND active submenu
-		    		$display_block.="<a class='list-group-item list-group-item-edit list-menuitem'  href='?lang=".$_GET['lang']."&cat_id=".$cats_id."'><div class='row'><div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'>$cats_title </div><div class='col-md-2 col-lg-2 col-sm-2 col-xs-2 '> <span class='badge'>$total_items</span></div></div></a>";
+		    		$display_block.="<a class='list-group-item list-group-item-edit list-menuitem'  href='?lang=".$_GET['lang']."&cat_id=".$cats_id."'><div class='row'><div class='col-md-12 col-lg-12 col-sm-12 col-xs-12'>$cats_title </div></div></a>";
 		    	}
 
 		    	
@@ -85,24 +78,15 @@ while ($cats = mysqli_fetch_array($get_cats_res)) //display categories
 							$sub_title = $subcat['subcat_title']; 
 						}
        					
-       					
-       					//get total sub items
-						$get_total_num_sql="SELECT COUNT(*) AS totalSub FROM store_items WHERE cat_id = '".$cats_id."' AND subcat_id='".$sub_id."'";
-						$query = mysqli_query($mysqli, $get_total_num_sql) or die(mysql_error($mysqli));
-						$result = mysqli_fetch_array($query);
-						$total = $result['totalSub'];
-						$total_sub_items = ceil($total);
-						
-
-
+   
        					$display_block.="<div class='text-center ' >
 					    	<label class='submenuBody float-right' >";
 					    	//display subcategories
 					    	//active subcategory
 						if(isset($_GET['subcat_id']) && $sub_id == $_GET['subcat_id']){
-					    	$display_block.="<a class='list-group-item list-group-item-edit list-subitem active'  href='?lang=".$_GET['lang']."&cat_id=".$cats_id."&subcat_id=".$sub_id."' ><div class='row'> <div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'> $sub_title </div> <div class='col-md-2 col-lg-2 col-sm-2 col-xs-2'> <span class='badge'>$total_sub_items </span></div></div></a>";
+					    	$display_block.="<a class='list-group-item list-group-item-edit list-subitem active'  href='?lang=".$_GET['lang']."&cat_id=".$cats_id."&subcat_id=".$sub_id."' ><div class='row'> <div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'> $sub_title </div> </div></a>";
 						}else{//not active subcategory
-							$display_block.="<a class='list-group-item list-group-item-edit list-subitem'  href='?lang=".$_GET['lang']."&cat_id=".$cats_id."&subcat_id=".$sub_id."' ><div class='row'> <div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'> $sub_title </div> <div class='col-md-2 col-lg-2 col-sm-2 col-xs-2'> <span class='badge'>$total_sub_items </span></div></div></a>";
+							$display_block.="<a class='list-group-item list-group-item-edit list-subitem'  href='?lang=".$_GET['lang']."&cat_id=".$cats_id."&subcat_id=".$sub_id."' ><div class='row'> <div class='col-md-10 col-lg-10 col-sm-10 col-xs-10'> $sub_title </div> </div></a>";
 						}
 
 					$display_block.="</label>
@@ -126,7 +110,7 @@ mysqli_close($mysqli);
 <html>
 <body>
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-3 ">
 			<div class=" col-padding categ-width border-color">
 				<?php  
 					echo $display_block;	
@@ -134,7 +118,8 @@ mysqli_close($mysqli);
 			</div>
 			<?php include 'specialOffersItemSlideWidget.php'; ?>
 		</div>
-		<div class="col-md-6  col-md-6-edit">
+
+		<div class="col-md-6 col-md-6-edit ">
 			<?php  
 				include_once 'showCategoriesItems.php';
 

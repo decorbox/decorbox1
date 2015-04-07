@@ -240,7 +240,8 @@ if(isset($_POST['submitStatus'])){
 		<title>Jūsų užsakymas priimtas ir išsiųstas</title>
 		</head>
 		<body>
-		<p> Dėkojame, kad perkate pas mus</p>
+		<p>Jūsų užsakymas patvirtintas, prekės buvo išsiųstos nurodytu adresu. Dėkojame, kad perkate pas mus.</p><br>
+		<p>Decorbox.lt</p>
 
 		</body>
 		</html>

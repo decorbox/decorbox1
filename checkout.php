@@ -280,7 +280,9 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 		  	$(".selectOption").select2({ minimumResultsForSearch: Infinity });//run sorting, INFINITY PASLEPE SEARCH BAR
 		});
 		</script>
-	<?php include'navbar.php'; ?>
+	<?php 
+	include 'header.php';
+	include 'navbar.php'; ?>
 			
 	
 
@@ -330,9 +332,9 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 							</div>	
 
 							<div class="row margin-top">	
-								<label for="inputZip3" class="col-md-5 control-label"><?php echo $txtzip; ?></label>
+								<label for="inputZip3" class="col-md-5 control-label"><?php echo $txtzip; ?><span style='color: red; padding-left: 2px;'>*</span></label>
 								<div class="col-md-7">
-									<input type="text"  name="zip" value="<?php echo $_SESSION['zip']; ?>" class="form-control" id="inputZip3" placeholder="<?php echo $txtzip; ?>">
+									<input type="text"  name="zip" required value="<?php echo $_SESSION['zip']; ?>" class="form-control" id="inputZip3" placeholder="<?php echo $txtzip; ?>">
 									<span class="error"><?php echo $zipErr;?></span>
 								</div>
 							</div>

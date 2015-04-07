@@ -25,6 +25,7 @@ $txtbank_acc = "Bank account";
 $txtcompany_code = "Company code";
 $txtbuyer = "Buyer";
 
+$txtpdf_message = "Please pay the bill within the next 3 days, otherwise the order will be canceled";
 $txtno_items_in_category = "No items found in this category!";
 $txtmain_page = "Main page";
 $txtshopping_cart = "Shopping cart";
@@ -124,7 +125,7 @@ $txtpayment_order = "Total";
 
 $txtbuy_register_user = "Purchase with registration";
 $txtbuy_nonregister_user = "Purchase without registration";
-
+/*
 $txtmodal_about_us = "
 Welcome to this decorbox- inspiration gallery. Birthdays, christenings, weddings, company party always try and exclusivity that would leave a lasting impression on guests. E-shop for festive decorations, theme merchandise and decorations.
 celebration adorn our lives! So good shopping experience and success in hosting the party!
@@ -170,6 +171,6 @@ SWIFT:  HABALT22<br>
 E-mail: decorbox.lt@gmail.com <br>
 Call us: +370 627 00354<br>
 
-";
+";*/
 $txtpayment_methods_info = "No information";
 ?>

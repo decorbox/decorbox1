@@ -21,8 +21,8 @@ $display_block.="
 		</div>
 		
 		<div class='panel-body'>
-			<label><span class='glyphicon glyphicon-phone-alt' aria-hidden='true'></span> +370 627 00354</label>
-			<label><span class='glyphicon glyphicon-envelope' aria-hidden='true'></span> decorbox.lt@gmail.com</label></label>
+			<label> +370 627 00354</label>
+			<label> decorbox.lt@gmail.com</label></label>
 		</div>
 	</div>
 </div>	

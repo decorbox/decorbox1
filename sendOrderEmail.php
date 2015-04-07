@@ -4,7 +4,9 @@ session_start();
 
 // Include the main TCPDF library (search for installation path).
 require_once('pdf/tcpdf_import.php');
-require_once('pdf/mailer/class.phpmailer.php');
+//require_once('pdf/mailer/class.phpmailer.php');
+//require_once('pdf2/phpmailer-fe.php');
+
 include 'connect.php';
 
 //create new PDF document
@@ -17,6 +19,8 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
     }
 
 $order_id = $_COOKIE['order_id'];
+
+  
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
@@ -222,22 +226,43 @@ $pdf->writeHTML($display_block, true, false, false, false, '');
 // -----------------------------------------------------------------------------
  ob_end_clean();//corrent output error
 //Close and output PDF document
-$pdf->Output('test.pdf', 'I');
+//$pdf->Output('test.pdf', 'I');
 //header("Location: checkout_success.php?lang=".$_GET['lang']."");
-/*
- $pdf->Output('Payment.pdf', 'S');
- SENDmail($pdf);
 
- function SENDmail($pdf){
- 	$mailer = new PHPMailer();
 
- 	$mailer->AddReplyTo('zvejysnr1@gmail.com', 'Reply To');
- 	//$mailer->SetFrom ('decorbox.lt@gmail.com', 'Sent From');
- 	$mailer->Subject = 'Decorbox.lt prekių užsakymas';
- 	$mailer->MsgHTML = "<h5>Sveikiname</h5> užsisakę prekes iš Decorbox.lt, per tris dienas prašome apmokėti sąskaitą";
- 	if ($pdf){
- 		echo "email sent";
- 		$mailer->AddStringAttachment($pdf, 'Payment.pdf');
- 		$mailer->Send();
- 	}
- }*/
+        $to = $user_email;
+        $from = "decorbox.lt@gmail.com";
+        $subject = "$txtorder_success_heading Decorbox.lt";
+        $message = "<h3>$txtorder_success_heading</h3><br>
+        	<p>$txtpdf_message</p><br>
+        	<h3>$txtpayment_info</h3><br>
+        	<p>$txtrecipient: MB „Viskas jūsų šventei“<br>
+        	$txtbank_number: LT077300010142612531<br>
+        	$txtpayment_purpose: $txtorder Nr. $order_id $txtpayment<br>
+        	$txtpayment_order: $shipping_total €;
+        	</p>
+
+        ";
+
+        $separator = md5(time());
+        $eol = PHP_EOL;
+        $filename = "sąskaita.pdf";
+        $pdfdoc = $pdf->Output('test.pdf', 'S');
+        $attachment = chunk_split(base64_encode($pdfdoc));
+        $headers = "From: " . $from . $eol;
+        $headers .= "MIME-Version: 1.0" . $eol;
+  $headers .= "Content-Type: multipart/mixed; boundary=\"" . $separator . "\"" . $eol . $eol;
+  $body = "Content-Transfer-Encoding: 7bit" . $eol;
+  $body .= "This is a MIME encoded message." . $eol; 
+        $body .= "--" . $separator . $eol;
+        $body .= "Content-Type: text/html; charset=\"iso-8859-1\"" . $eol;
+        $body .= "Content-Transfer-Encoding: 8bit" . $eol . $eol;
+        $body .= $message . $eol;
+        $body .= "--" . $separator . $eol;
+        $body .= "Content-Type: application/octet-stream; name=\"" . $filename . "\"" . $eol;
+        $body .= "Content-Transfer-Encoding: base64" . $eol;
+        $body .= "Content-Disposition: attachment" . $eol . $eol;
+        $body .= $attachment . $eol;
+        $body .= "--" . $separator . "--";
+        mail($to, $subject, $body, $headers);
+

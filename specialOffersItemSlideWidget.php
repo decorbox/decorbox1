@@ -28,7 +28,7 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
 $display_block2="";
 $display_block2.="
 <div class='row margin-top20'>
-	<div class=' text-center panel panel-success' >
+	<div class='hidden-xs text-center panel panel-success' >
 		<div class='panel-heading'>
 			<a href='?lang=".$_GET['lang']."&special=yes'>
 				<h3 class='panel-title'> $txtspecial_offers</h3>
@@ -63,9 +63,9 @@ $display_block2.="
 			   		
 			   		<div class='panel-body panel-body-edi slide'>
 				   		<div class='row'>
-					   		<div id='posts' class='col-md-12-edit col-sm-6-edit col-xs-6-edit '> 
+					   		<div id='posts' class='col-md-12-edit col-sm-6-edit col-xs-6-edit ' > 
 					   			
-				        		<img class='margin-top20  img-responsive ' src='$item_image'/>
+				        		<img margin='auto' class='margin-top20 text-center img-responsiv specialImgSize' src='$item_image'/>
 				        		
 				        	</div>
 				        	<form method='post' style='weigth:500px' action='addtocart.php'>

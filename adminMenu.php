@@ -139,6 +139,15 @@ if(isset($_COOKIE['ID_my_site']))
 							            <span class='glyphicon glyphicon-picture'></span> Skaidrės
 							        </a>";
 							    }
+							     if(isset($_GET['menu']) && $_GET['menu']=='aprasymai'){
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=aprasymai' class='list-group-item active'>
+							            <span class='glyphicon glyphicon-pencil'></span> Aprašymai
+							        </a>";	    	
+							    }else{
+					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=aprasymai' class='list-group-item'>
+							            <span class='glyphicon glyphicon-pencil'></span> Aprašymai
+							        </a>";
+							    }
 
 	 			$display_block.="</div>
 	 						</div>
@@ -180,6 +189,10 @@ if(isset($_COOKIE['ID_my_site']))
 	//-------------KURSU APRASYMAI PUSLAPIS				    
 					    if(isset($_GET['menu']) && $_GET['menu']=='kursai'){
 					    	include 'adminMenuNavSubmenuText.php';
+					    }
+	//-------------Informacijos APRASYMU PUSLAPIS				    
+					    if(isset($_GET['menu']) && $_GET['menu']=='aprasymai'){
+					    	include 'adminMenuTextContent.php';
 					    }
 					
 

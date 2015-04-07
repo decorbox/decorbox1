@@ -41,6 +41,8 @@ $txtsending = "Siuntimas";
 $txtitems_found = "Rastos prekės";
 $txtno_items_found = "Prekių nerasta";
 
+
+
 $txterror_fill_all_fields = "Prašome užpildyti visus laukus";
 $txterror_user = "Toks vartotojas";
 $txterror_exist = "jau egzistuoja";
@@ -109,6 +111,7 @@ $txtgallery = "Galerija";
 $txtno_gallery_photo = "Nuotraukų galerijoje nėra";
 $txtback_to_mainpage = "Grįžkite į pagrindinį puslapį";
 
+$txtpdf_message = "Prašome apmokėti sąskaitą per ateinančias 3paras, kitaip užsakymas bus anuliuotas";
 $txtcontacts = "Kontaktai";
 $txtorder_success_heading = "Jūsų užsakymas sėkmingai priimtas. Ačiū, kad perkate pas mus!";
 $txtorder_success_delivery_heading = "Siuntimo informacija";
@@ -124,7 +127,7 @@ $txtpayment_order = "Mokėjimo suma";
 
 $txtbuy_register_user = "Pirkti kaip registruotas vartotojas";
 $txtbuy_nonregister_user = "Pirkti kaip neregistruotas vartotojas";
-
+/*
 $txtmodal_about_us = "
 Sveiki užsukę į decorbox - tai įkvėpimo galerija svarbiai dienai. Ar tai būtų gimtadienis, krikštynos, vestuvės, įmonės vakarėlis visuomet stengiamės, jog būtų išskirtinumas ir svečiams paliktų neišdildomą įspūdį.
 <br> Šioje el. parduotuvėje rasite šventinių papuošimų, teminės atributikos ir dekoracijų. 
@@ -179,5 +182,5 @@ El. paštas: decorbox.lt@gmail.com <br>
 Telefono numeris: +370 627 00354
 
 
-";
+";*/
 ?>

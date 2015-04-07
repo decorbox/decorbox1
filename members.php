@@ -100,41 +100,41 @@ if(isset($_COOKIE['ID_my_site']))
 											<div class='form-group'>
 												<div class='row margin-top'>
 												
-													<label for='inputName3' class='col-md-4 control-label'>$txtinput_name</label>
+													<label for='inputName3' class='col-md-4 control-label'>$txtinput_name <span style='color: red; padding-left: 2px;'>*</span></label>
 													<div class='col-md-8'>
-														<input type='text' name='name' value='$vardas' class='form-control' id='inputName3' >							
+														<input type='text' name='name' required value='$vardas' class='form-control' id='inputName3' >							
 														
 													</div>
 												</div>
 
 												<div class='row margin-top'>	
-													<label for='inputAddress3' class='col-md-4 control-label'>$txtaddress</label>
+													<label for='inputAddress3' class='col-md-4 control-label'>$txtaddress <span style='color: red; padding-left: 2px;'>*</span></label>
 													<div class='col-md-8'>
-														<input type='text' name='address' value='$adresas' class='form-control' id='inputAddress3' >
+														<input type='text' name='address' required value='$adresas' class='form-control' id='inputAddress3' >
 														
 													</div>
 												</div>
 
 												<div class='row margin-top'>	
-													<label for='inputCity3' class='col-md-4 control-label'>$txtcity</label>
+													<label for='inputCity3' class='col-md-4 control-label'>$txtcity <span style='color: red; padding-left: 2px;'>*</span></label>
 													<div class='col-md-8'>
-														<input type='text' name='city' value='$city' class='form-control' id='inputCity3' >
+														<input type='text' name='city' required value='$city' class='form-control' id='inputCity3' >
 														
 													</div>
 												</div>
 
 												<div class='row margin-top'>	
-													<label for='inputZip3' class='col-md-4 control-label'>$txtzip</label>
+													<label for='inputZip3' class='col-md-4 control-label'>$txtzip <span style='color: red; padding-left: 2px;'>*</span></label>
 													<div class='col-md-8'>
-														<input type='text' name='zip' value='$zip' class='form-control' id='inputZip3' >
+														<input type='text' name='zip' required value='$zip' class='form-control' id='inputZip3' >
 														
 													</div>
 												</div>	
 
 												<div class='row margin-top'>
-													<label class='col-md-4 control-label'>$txtcountry</label>
+													<label class='col-md-4 control-label'>$txtcountry <span style='color: red; padding-left: 2px;'>*</span></label>
 													<div class='col-md-8'>
-														<select class='selectOption' id='addCountry' style='width:100%'  name='editCountry'>";
+														<select class='selectOption' required id='addCountry' style='width:100%'  name='editCountry'>";
 													
 														//get all categories for select option
 														$select_country_sql = "SELECT country FROM countries";
@@ -156,18 +156,18 @@ if(isset($_COOKIE['ID_my_site']))
 
 													
 												<div class='row margin-top'>	
-													<label for='inputPhone3' class='col-md-4 control-label'>$txtphone</label>
+													<label for='inputPhone3' class='col-md-4 control-label'>$txtphone <span style='color: red; padding-left: 2px;'>*</span></label>
 													<div class='col-md-8'>
-														<input type='text' name='tel' value='$phone' class='form-control' id='inputPhone3' >
+														<input type='text' name='tel' required value='$phone' class='form-control' id='inputPhone3' >
 														
 													</div>
 												</div>
 												
 
 												<div class='row margin-top'>	
-													<label for='inputEmail3' class='col-md-4 control-label'>$txtemail</label>
+													<label for='inputEmail3' class='col-md-4 control-label'>$txtemail <span style='color: red; padding-left: 2px;'>*</span></label>
 													<div class='col-md-8'>
-														<input type='email' name='email' value='$email' class='form-control' id='inputEmail3' >
+														<input type='email' required name='email' value='$email' class='form-control' id='inputEmail3' >
 														
 													</div>
 												</div>	
@@ -247,21 +247,21 @@ if(isset($_COOKIE['ID_my_site']))
 										        <div class='form-group'>
 										            
 										            <div class='row margin-top'>	
-														<label for='inputEmail3' class='col-md-4 control-label'>$txtcurrent_pass</label>
+														<label for='inputEmail3' class='col-md-4 control-label'>$txtcurrent_pass <span style='color: red; padding-left: 2px;'>*</span></label>
 														<div class='col-md-6'>
 															<input type='password' required name='currentPass' class='form-control' >
 														</div>
 													</div>
 
 													<div class='row margin-top'>	
-														<label for='inputEmail3' class='col-md-4 control-label'>$txtnew_pass</label>
+														<label for='inputEmail3' class='col-md-4 control-label'>$txtnew_pass <span style='color: red; padding-left: 2px;'>*</span></label>
 														<div class='col-md-6'>
 															<input type='password' required name='pass1' class='form-control' >
 														</div>
 													</div>
 
 													<div class='row margin-top'>	
-														<label for='inputEmail3' class='col-md-4 control-label'>$txtrepeat_pass</label>
+														<label for='inputEmail3' class='col-md-4 control-label'>$txtrepeat_pass <span style='color: red; padding-left: 2px;'>*</span></label>
 														<div class='col-md-6'>
 															<input type='password' required name='pass2' class='form-control' >
 														</div>

@@ -12,7 +12,8 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
 
 $display_block="";
 if(isset($_GET['search'])){
-    $search_items =  "SELECT * FROM store_items WHERE item_title || item_title_EN  LIKE '%".$_GET['search']."%' ";
+    $check_search = mysqli_real_escape_string($mysqli, $_GET['search']);
+    $search_items =  "SELECT * FROM store_items WHERE item_title || item_title_EN  LIKE '%".$check_search."%' ";
     $search_items_res = mysqli_query($mysqli, $search_items) or die(mysqli_error($mysqli));
 
     if(mysqli_num_rows($search_items_res)>=1){
