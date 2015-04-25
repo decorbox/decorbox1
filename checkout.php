@@ -383,7 +383,7 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 								</div>
 							</div>
 							<div class="row margin-top">
-								<div class="col-md-1 col-md-offset-8">
+								<div class="col-md-4 col-md-offset-6">
 									<button type="submit" value"Submit" name="submitForm" class="btn btn-primary"><?php echo $txtorder_nonregister_user; ?></button>
 								</div>
 							</div>
@@ -396,7 +396,10 @@ $delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(
 			
 	</div>
 </div>
-
-
+<div class="container">
+	<div class="row">
+		<?php include 'footer.php'; ?>
+	</div>
+</div>
 </body>
 </html>

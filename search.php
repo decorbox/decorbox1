@@ -1,5 +1,6 @@
 <?php
 //isversta i EN
+ob_start();
 include 'connect.php';
 include 'library.php';
 if(isset($_GET['lang']) && $_GET['lang']=='LT'){
@@ -91,16 +92,18 @@ if(isset($_GET['search'])){
 <html>
 <body>
 <div class="container">
-    <?php include 'navbar.php' ;?>
+    <?php 
+    include 'header.php';
+    include 'navbar.php' ;?>
     <div class="row">
         
-        <div class="col-lg-9 col-md-9 col-md-9-edi">
+        <div class="col-lg-9 col-md-9 ">
             <?php  
                 echo $display_block;
             ?>
         </div>
 
-        <div class="col-md-3 border-color">
+        <div class="col-md-3 right-bar-edit border-color">
             <?php include_once 'login.php';  
                 include_once 'showPriceWidget.php';
                 include_once 'contactsWidget.php';
@@ -111,5 +114,12 @@ if(isset($_GET['search'])){
 
     </div>
 </div>
+
+<div class="container">
+    <div class="row">
+      <?php include 'footer.php'; ?>
+    </div>
+</div>
+
 </body>
 </html>

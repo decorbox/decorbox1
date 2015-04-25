@@ -32,8 +32,8 @@ a:hover{
 }
 .ideas-border{
 	border-top-right-radius: 42px;/*blogai nes linijos negerai gaunas*/
-	border-top-left-radius: 82px;
-	border-bottom-left-radius: 82px;
+	border-top-left-radius: 42px;
+	border-bottom-left-radius: 42px;
 	border-bottom-right-radius: 42px;
 	overflow: hidden;
 	background-color: #FBDAED;
@@ -227,9 +227,12 @@ a:hover{
 	width:200px;
 	height:200px;
 }
-
+/*table td less padding*/
+.table > tbody > tr > td{
+	padding: 3px;
+}
 .row_width{
-	max-width: 130px !important;
+	max-width: 120px !important;
 	word-wrap: break-word;
 }
 .btnLeft{
@@ -256,8 +259,10 @@ a:hover{
   font-family: Georgia !important;
 }
 .mainContentImgRadius{
-	border-top-right-radius: 82px;
-	border-bottom-right-radius: 82px;
+	border-top-right-radius: 42px;
+	border-bottom-right-radius: 42px;
+	border-top-left-radius: 42px;
+	border-bottom-left-radius: 42px; 
 	width: 100%;
 }
 /*show items Bootstrap correction*/
@@ -324,3 +329,12 @@ textarea{
 	width: 500px !important;
 	height: 200px !important;
 }*/
+
+/*footer*/
+#footer{
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+.navbar-default{
+	border-radius: 20px;
+}

@@ -12,4 +12,4 @@
 
 <div class="fb-like-box" style="padding-top:20px;" data-href="https://www.facebook.com/pages/Decorboxlt/787637747971158?sk=timeline" data-width="210"
  data-height="270" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true"></div>
- 
+ </div></div>

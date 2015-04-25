@@ -1,4 +1,14 @@
 <?php
-include 'library.php';
+//include 'library.php';
+$display = "";
+$display = "
+<div class='navbar navbar-default navbar-bottom' id='footer' role='navigation'>
+ 	<div class='container text-center'><p>2015 © „DECORBOX.LT“, Visos teisės saugomos</p></div>
 
+ </div>
+";
+echo $display;
 ?>
+
+
+ 

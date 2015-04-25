@@ -41,7 +41,11 @@ $txtsending = "Siuntimas";
 $txtitems_found = "Rastos prekės";
 $txtno_items_found = "Prekių nerasta";
 
-
+$txtno_item_qty = "Sandėlyje prekių nėra";
+$txtqty_available = "Turimas kiekis";
+$txtattension_available1 = "Dėmesio! Turimas prekės";
+$txtattension_available_qty1 = "kiekis yra";
+$txtno_qty_available = "Dėmesio! Šiuo metu šios prekės neturime";
 
 $txterror_fill_all_fields = "Prašome užpildyti visus laukus";
 $txterror_user = "Toks vartotojas";

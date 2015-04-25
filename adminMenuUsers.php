@@ -49,14 +49,14 @@ $display_block.= "<h1 class='text-center'>Vartotojai</h1>";
 							    
 							$display_block.="
 										<tr>
-							                <td>$user_username</td>
-							                <td>$user_name</td>
-							                <td>$user_email</td>
-							                <td>$user_country</td>
-							                <td>$user_city</td>
-							                <td>$user_zip</td>
-							                <td>$user_phone</td>
-							                <td>$user_date</td>
+							                <td class='row_width'>$user_username</td>
+							                <td class='row_width'>$user_name</td>
+							                <td class='row_width'>$user_email</td>
+							                <td class='row_width'>$user_country</td>
+							                <td class='row_width'>$user_city</td>
+							                <td class='row_width'>$user_zip</td>
+							                <td class='row_width'>$user_phone</td>
+							                <td class='row_width'>$user_date</td>
 							         		<td>$user_role <button style='float:right' type='button' class='btn btn-default' data-toggle='modal' data-target='#".$user['ID']."'>
 									        	<span class='glyphicon glyphicon-cog'></span>
 									        	</button>

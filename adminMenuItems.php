@@ -73,6 +73,13 @@ $display_block.="<!-- add item Modal -->
 						</div>	
 
 						<div class='row margin-top'>	
+							<label for='inputqty' class='col-md-4 control-label'>Kiekis<span style='color: red; padding-left: 2px;'>*</span></label>
+							<div class='col-md-8'>
+								<input type='number' min='0' required step='any' name='addqty' class='form-control'  >
+							</div>
+						</div>
+
+						<div class='row margin-top'>	
 							<label for='inputCategory' required class='col-md-4 control-label'>Pasirinkite kategoriją<span style='color: red; padding-left: 2px;'>*</span></label>
 							<div class='col-md-8'>
 	<!--  KATEGORIJOS	-->		<select class='selectOption' id='addCategory' style='width:100%'  name='addItemCategory'>";
@@ -185,7 +192,7 @@ if(isset($_POST["submitAddItem"])) {
 		        //update item content
 				//check for input errors
 				if(isset($_POST['addSubCategories'])){
-					$update_store_item = "INSERT INTO store_items (cat_id, item_title, item_price, item_desc, item_image, subcat_id, item_title_EN, item_desc_EN, item_price_old)VALUES(
+					$update_store_item = "INSERT INTO store_items (cat_id, item_title, item_price, item_desc, item_image, subcat_id, item_title_EN, item_desc_EN, qty,item_price_old)VALUES(
 					'".$_POST['addItemCategory']."',
 					'".$_POST['addTitle']."',
 					'".$_POST['addPrice']."',
@@ -194,11 +201,12 @@ if(isset($_POST["submitAddItem"])) {
 					'".$_POST['addSubCategories']."',
 					'".$_POST['addTitleEn']."',
 					'".$_POST['addDescriptionEN']."',
+					'".$_POST['addqty']."',
 					NULL)";
 	
 					$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 				}else{
-					$update_store_item = "INSERT INTO store_items (cat_id, item_title, item_price, item_desc, item_image, item_title_EN, item_desc_EN, item_price_old)VALUES(
+					$update_store_item = "INSERT INTO store_items (cat_id, item_title, item_price, item_desc, item_image, item_title_EN, item_desc_EN, qty,item_price_old)VALUES(
 					'".$_POST['addItemCategory']."',
 					'".$_POST['addTitle']."',
 					'".$_POST['addPrice']."',
@@ -206,6 +214,7 @@ if(isset($_POST["submitAddItem"])) {
 					'images/".basename( $_FILES["addIMG"]["name"])."',
 					'".$_POST['addTitleEn']."',
 					'".$_POST['addDescriptionEN']."',
+					'".$_POST['addqty']."',
 					NULL)";
 					$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 				}
@@ -229,6 +238,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <th>Pavadinimas</th>
 							                <th>Kaina</th>
 							                <th>Sena kaina</th>
+							                <th>Kiekis</th>
 							                <th>Kategorija</th>
 							                <th>Sub kategorija</th>
 							                <th>Veiksmai</th>
@@ -241,6 +251,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <th>Pavadinimas</th>
 							                <th>Kaina</th>
 							                <th>Sena kaina</th>
+							                <th>Kiekis</th>
 							                <th>Kategorija</th>
 							                <th>Sub kategorija</th>
 							                <th>Veiksmai</th>
@@ -263,6 +274,7 @@ if(isset($_POST["submitAddItem"])) {
 	 							$item_desc_EN = $item['item_desc_EN'];
 	 							$item_image = $item['item_image'];
 	 							$item_subcat_id = $item['subcat_id'];
+	 							$store_item_qty = $item['qty'];
 
 	 							//get catgerogy title
 	 							$get_cat_title_sql = "SELECT cat_title FROM store_categories WHERE id ='".$item_cat_id."'";
@@ -282,6 +294,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <td><a href='showitem.php?lang=".$_GET['lang']."&item_id=$item_id' target='_blank'>$item_title</a></td>
 							                <td>$item_price &euro;</td>
 							                <td>$item_price_old &euro;</td>
+							                <td>$store_item_qty</td>
 							                <td>$cat_title</td>
 							                <td>$get_subTitle</td>
 							                <td> <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#".$item_id."'>
@@ -302,6 +315,7 @@ $display_block.="<!-- Delete Item Modal -->
 				<h4 class='modal-title text-center' id='myModalLabel'>Ar tikrai norite ištrinti ".$item_title."?</h4>
 			</div>
 			<form class='form-horizontal' method='post' >
+				
 				<div class='margin-bottom15 text-center'>
 					<button type='button' class='btn btn-default' data-dismiss='modal'>Uždaryti</button>
 					<input type='hidden' name='delete_image' value='".$item_image."'>
@@ -381,6 +395,8 @@ $display_block.="<!-- edit item Modal -->
 									</div>
 								</div>	
 
+								
+
 								<div class='row margin-top'>	
 									<label for='inputPrice' class='col-md-4 control-label'>Sena kaina</label>
 									<div class='col-md-8'>
@@ -388,6 +404,13 @@ $display_block.="<!-- edit item Modal -->
 									</div>
 								</div>	
 
+								<div class='row margin-top'>	
+									<label for='inputqty' class='col-md-4 control-label'>Kiekis<span style='color: red; padding-left: 2px;'>*</span></label>
+									<div class='col-md-8'>
+										<input type='number' min='0' required step='any' name='qty' value='$store_item_qty' class='form-control'  >
+									</div>
+								</div>
+								
 								<div class='row margin-top'>	
 									<label for='inputCategory' class='col-md-4 control-label'>Kategorija<span style='color: red; padding-left: 2px;'>*</span></label>
 									<div class='col-md-8'>
@@ -461,6 +484,7 @@ $display_block.="<!-- edit item Modal -->
 							</div></table>";//end of items table
 //delete item							
 if(isset($_POST['deleteItem'])){
+
 	$delete_item = "DELETE FROM store_items where id='".$_POST['deleteItem']."'";
 	$delete_item_sql = mysqli_query($mysqli, $delete_item);
 	unlink($_POST['delete_image']);//delete old image
@@ -545,11 +569,11 @@ if(isset($_POST["submitEditItem"])) {
 	if(isset($_POST['priceOld']) && $_POST['priceOld']=='' && $uploadOk== 1){
 		if(isset($_POST['show_sub_categories'])){
 			$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
-			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', subcat_id = '".$_POST['show_sub_categories']."', item_price_old=NULL WHERE id='".$_POST['getItem_id']."'";
+			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', subcat_id = '".$_POST['show_sub_categories']."',qty = '".$_POST['qty']."' ,item_price_old=NULL WHERE id='".$_POST['getItem_id']."'";
 			$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 		}else{
 			$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
-			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', item_price_old=NULL WHERE id='".$_POST['getItem_id']."'";
+			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', qty = '".$_POST['qty']."', item_price_old=NULL WHERE id='".$_POST['getItem_id']."'";
 			$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 		}
 		echo("<meta http-equiv='refresh' content='0'>");//reflesh page
@@ -558,11 +582,11 @@ if(isset($_POST["submitEditItem"])) {
 		if($uploadOk== 1){
 			if(isset($_POST['show_sub_categories'])){
 				$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
-				item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', subcat_id = '".$_POST['show_sub_categories']."', item_price_old='".$_POST['priceOld']."' WHERE id='".$_POST['getItem_id']."'";
+				item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', subcat_id = '".$_POST['show_sub_categories']."', qty = '".$_POST['qty']."', item_price_old='".$_POST['priceOld']."' WHERE id='".$_POST['getItem_id']."'";
 				$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 			}else{
 				$update_store_item = "UPDATE store_items SET cat_id = '".$_POST['showCategory']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
-				item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', item_price_old='".$_POST['priceOld']."' WHERE id='".$_POST['getItem_id']."'";
+				item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', qty = '".$_POST['qty']."', item_price_old='".$_POST['priceOld']."' WHERE id='".$_POST['getItem_id']."'";
 				$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 			}
 			echo("<meta http-equiv='refresh' content='0'>");//reflesh page

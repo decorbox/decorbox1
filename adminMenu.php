@@ -21,7 +21,7 @@ $(document).ready(function() {
 });
 
 </script>
-
+<script>tinymce.init({selector:'textarea'});</script>
 
 <?php
 $display_block ="";
@@ -78,11 +78,11 @@ if(isset($_COOKIE['ID_my_site']))
 							    }
 							    if(isset($_GET['menu']) && $_GET['menu']=='meniuprekes'){
 					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=meniuprekes' class='list-group-item active'>
-							            <span class='glyphicon glyphicon-file'></span> Meniu prekės
+							            <span class='glyphicon glyphicon-file'></span> Rankų darbo gaminiai
 							        </a>";
 							    }else{
 					$display_block.="<a href='".$_SERVER['PHP_SELF']. "?lang=".$_GET['lang']."&menu=meniuprekes' class='list-group-item'>
-							            <span class='glyphicon glyphicon-file'></span> Meniu prekės
+							            <span class='glyphicon glyphicon-file'></span> Rankų darbo gaminiai
 							        </a>";
 							    }
 							    if(isset($_GET['menu']) && $_GET['menu']=='kursai'){

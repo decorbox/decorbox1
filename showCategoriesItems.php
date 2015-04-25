@@ -718,8 +718,8 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 	}
 	echo "
 <div class='row'>
-	<div class=' text-center panel panel-success' >
-		<div class='panel-heading'>
+	<div class=' panel panel-success' >
+		<div class='panel-heading text-center'>
 			<h3 class='panel-title'>$txtnav_about</h3>
 		</div>
 			
@@ -747,8 +747,8 @@ $display_block.="
 		}
 		
 	$display_block.="
-		<div class=' text-center panel panel-success' >
-			<div class='panel-heading'>
+		<div class='panel panel-success' >
+			<div class='panel-heading text-center'>
 				<h3 class='panel-title'>$txt_title</h3>
 			</div>
 			
@@ -781,8 +781,8 @@ $display_block.="
 		}
 		
 	$display_block.="
-		<div class=' text-center panel panel-success' >
-			<div class='panel-heading'>
+		<div class=' panel panel-success' >
+			<div class='panel-heading text-center'>
 				<h3 class='panel-title'>$txt_title</h3>
 			</div>
 			

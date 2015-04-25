@@ -79,7 +79,7 @@ while ($cats = mysqli_fetch_array($get_cats_res)) //display categories
 						}
        					
    
-       					$display_block.="<div class='text-center ' >
+       					$display_block.="<div class='float-left' >
 					    	<label class='submenuBody float-right' >";
 					    	//display subcategories
 					    	//active subcategory

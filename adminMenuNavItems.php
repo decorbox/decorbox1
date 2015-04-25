@@ -1,5 +1,5 @@
 <?php //kodas kopijuotas nuo kito puslapio
-$display_block.= "<h1 class='text-center'>Meniu prekės</h1>";
+$display_block.= "<h1 class='text-center'>Rankų darbo gaminiai</h1>";
 	 						$display_block.="<div class='row'> <div class='col-md-2 col-md-offset-10'>				
 	 							<button type='button' name='buttonAddItem' class='btn btn-primary' data-toggle='modal' data-target='#addItem'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Įdėti prekę</button>
 	 						</div></div>";
@@ -46,6 +46,13 @@ $display_block.="<!-- add item Modal -->
 								<input type='number' min='0' required step='any' name='addPrice' class='form-control'  >
 							</div>
 						</div>	
+
+						<div class='row margin-top'>	
+							<label for='inputqty' class='col-md-4 control-label'>Kiekis<span style='color: red; padding-left: 2px;'>*</span></label>
+							<div class='col-md-8'>
+								<input type='number' min='0' required step='any' name='addqty' class='form-control'  >
+							</div>
+						</div>
 
 
 						<div class='row margin-top'>	
@@ -129,13 +136,14 @@ if(isset($_POST["submitAddItem"])) {
 		        //update item content
 				//check for input errors
 				
-					$update_store_item = "INSERT INTO store_items ( item_title, item_price, item_desc, item_image, item_title_EN, item_desc_EN, item_price_old, nav_id)VALUES(
+					$update_store_item = "INSERT INTO store_items ( item_title, item_price, item_desc, item_image, item_title_EN, item_desc_EN, qty, item_price_old,  nav_id)VALUES(
 					'".$_POST['addTitle']."',
 					'".$_POST['addPrice']."',
 					'".$_POST['addDescription']."',
 					'images/meniu_items/".basename( $_FILES["addIMG"]["name"])."',
 					'".$_POST['addTitleEn']."',
 					'".$_POST['addDescriptionEN']."',
+					'".$_POST['addqty']."',
 					NULL,
 					'2')";//2 - nav prekes categ
 	
@@ -161,7 +169,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <th>Pavadinimas</th>
 							                <th>Kaina</th>
 							                <th>Sena kaina</th>
-							                
+							                <th>Kiekis</th>
 							                <th>Veiksmai</th>
 							            </tr>
 							        </thead>
@@ -172,7 +180,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <th>Pavadinimas</th>
 							                <th>Kaina</th>
 							                <th>Sena kaina</th>
-							                
+							                <th>Kiekis</th>
 							                <th>Veiksmai</th>
 							            </tr>
 							        </tfoot>
@@ -193,7 +201,7 @@ if(isset($_POST["submitAddItem"])) {
 	 							$item_desc = $item['item_desc'];
 	 							$item_desc_EN = $item['item_desc_EN'];
 	 							$item_image = $item['item_image'];
-	 							
+	 							$item_qty = $item['qty'];
 	 							if($item_nav_id == 2){
 	 								$nav_title = "Rankų darbo gaminiai";
 	 							}else if($item_nav_id == 1){
@@ -207,7 +215,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <td><a href='showitem.php?lang=".$_GET['lang']."&item_id=$item_id' target='_blank'>$item_title</a></td>
 							                <td>$item_price &euro;</td>
 							                <td>$item_price_old &euro;</td>
-							                
+							                <td>$item_qty</td>
 							                
 							                <td> <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#".$item_id."'>
 												  Redaguoti
@@ -288,6 +296,12 @@ $display_block.="<!-- edit item Modal -->
 									</div>
 								</div>	
 
+								<div class='row margin-top'>	
+									<label for='inputqty' class='col-md-4 control-label'>Kiekis<span style='color: red; padding-left: 2px;'>*</span></label>
+									<div class='col-md-8'>
+										<input type='number' min='0' step='any' required name='qty' value='$item_qty' class='form-control' id='inputPrice' >
+									</div>
+								</div>
 
 								<div class='row margin-top'>	
 									<label for='inputDescription' class='col-md-4 control-label'>Apibūdinimas LT</label>
@@ -405,7 +419,7 @@ if(isset($_POST["submitEditItem"])) {
 	if(isset($_POST['priceOld']) && $_POST['priceOld']=='' && $uploadOk == 1){
 		
 			$update_store_item = "UPDATE store_items SET nav_id = '2', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
-			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', item_price_old=NULL WHERE id='".$_POST['getItem_id']."'";
+			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', qty = '".$_POST['qty']."', item_price_old=NULL WHERE id='".$_POST['getItem_id']."'";
 			$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 		
 		echo("<meta http-equiv='refresh' content='0'>");//reflesh page
@@ -414,7 +428,7 @@ if(isset($_POST["submitEditItem"])) {
 		if($uploadOk == 1){
 			
 				$update_store_item = "UPDATE store_items SET nav_id = '2', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
-				item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', item_price_old='".$_POST['priceOld']."' WHERE id='".$_POST['getItem_id']."'";
+				item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', qty = '".$_POST['qty']."',item_price_old='".$_POST['priceOld']."' WHERE id='".$_POST['getItem_id']."'";
 				$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 			
 			echo("<meta http-equiv='refresh' content='0'>");//reflesh page

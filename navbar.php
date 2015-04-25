@@ -1,4 +1,5 @@
 <?php 
+ob_start();
 if(isset($_GET['lang']) && $_GET['lang']=='LT'){
         include 'content_LT.php';
     }else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
@@ -54,6 +55,7 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
     </div>
   </nav>
 </div>
+
 
 <?php 
 if (isset($_POST['search'])){

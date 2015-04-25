@@ -58,7 +58,7 @@ else if (isset($_POST['submitLog'])) { // if form has been submitted
 
 	 	$_POST['pass'] = md5($_POST['pass']);
 
-	 	if ($_POST['pass'] != $info['password']) {
+	 	if (isset($_POST['pass']) && $_POST['pass'] != $info['password']) {
 	 		$passErr = "<div class='alert alert-danger alert-dismissible' role='alert'>
 		 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		 		<p>$txterror_pass</a></p>
@@ -72,12 +72,9 @@ else if (isset($_POST['submitLog'])) { // if form has been submitted
 			//$hour = time() + 20000;  
 			setcookie('ID_my_site', $_POST['username']); 
 			setcookie('Key_my_site', $_POST['pass']);
-			//then redirect them to the members area 
-			//header("Location: members.php"); 
+	
 			include 'members.php';
-			echo("<meta http-equiv='refresh' content='0'>"); //Refresh page nes kai prijungi iskart nerodo user meniu reikia reflesh
-		//https://www.daniweb.com/web-development/php/threads/69676/error-use-of-undefined-constant-help
-
+			echo("<meta http-equiv='refresh' content='0'>"); 
 	 		}
 	//end of while check 
 
@@ -122,10 +119,8 @@ if(isset($_POST['submitResetPass'])){
 		echo "<div class='alert alert-danger alert-dismissible' role='alert'>
         <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
         <p>$txterror_email_exist $txterror_no_exist</p>
-        </div>";
-		
+        </div>";	
 	}else{
-		
 		$tokenLength = 30;//get random string/token
 		$randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $tokenLength);
 
@@ -135,31 +130,27 @@ if(isset($_POST['submitResetPass'])){
 		$link= "decorbox.lt/resetPass.php?lang=".$_GET['lang']."&token=".$randomString;
 		echo "<div class='alert alert-success alert-dismissible' role='alert'>
         <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-        <p>Prašome pasitikrinti savo el. paštą</p>
+        	<p>Prašome pasitikrinti savo el. paštą</p>
         </div>";
 
-$to = $_POST['inputEmail'];
-$subject = "Slaptažodžio keitimas Decorbox.lt";
-
-$message = "
-<html>
-<head>
-<title>Slaptažodžio keitimas</title>
-</head>
-<body>
-<a href='".$link."'>Jei norite pakeisti slaptažodį paspauskite ant šios nuorodos</a>
-
-</body>
-</html>
-";
-
-// Always set content-type when sending HTML email
-$headers = "MIME-Version: 1.0" . "\r\n";
-$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-// More headers
-$headers .= 'From: <decorbox.lt@gmail.com>' . "\r\n";
-mail($to,$subject,$message,$headers);
+		$to = $_POST['inputEmail'];
+		$subject = "Slaptažodžio keitimas Decorbox.lt";
+		$message = "
+		<html>
+			<head>
+				<title>Slaptažodžio keitimas</title>
+			</head>
+			<body>
+				<a href='".$link."'>Jei norite pakeisti slaptažodį paspauskite ant šios nuorodos</a>
+			</body>
+		</html>
+		";
+		// Always set content-type when sending HTML email
+		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		// More headers
+		$headers .= 'From: <decorbox.lt@gmail.com>' . "\r\n";
+		mail($to,$subject,$message,$headers);//send email
 	}
 }
 if(isset($_GET['token'])){//redirect to reset password page
@@ -186,7 +177,7 @@ else {
 			<form  action="<?php echo $_SERVER['PHP_SELF']."?lang=".$_GET['lang'].""; ?>" method="post">
 				<div class="form-group">
 					<div class="row margin-top">
-						<label for="inputUsername3" ><?php $txtusername; ?></label>
+						<label for="inputUsername3" ><?php echo $txtusername; ?></label>
 							<input type="text" name="username" class="form-control" id="inputUsername3" placeholder="<?php echo $txtusername; ?>">
 							<span class="error"><?php echo $userErr;?></span>
 						

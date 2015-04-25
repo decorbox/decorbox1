@@ -1,6 +1,7 @@
 <?php 
 //Connects to your Database 
 //isversta i EN
+ob_start();
  include 'connect.php';
  include 'library.php';
 ?>
@@ -371,6 +372,11 @@ if($input_error!=true){
 	</div>
 </div>
 
+<div class="container">
+	<div class="row">
+		<?php include 'footer.php'; ?>
+	</div>
+</div>
 </body>
 </html>
 

@@ -7,9 +7,6 @@ include 'connect.php';
 <script type="text/javascript">
 	$(document).ready(function(){
   $('.slider3').bxSlider({
-    //slideWidth: 500,
-    //autoHover: true,
-    
     speed: 1000,
 	auto: true
     

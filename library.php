@@ -28,7 +28,7 @@
 		<script src="js/jquery.bxslider.min.js"></script>
 		
 		<script src="js/txteditor.js"></script>
-		
+		<script src="js/tinymce/tinymce.min.js"></script>
 
 
 
@@ -42,7 +42,9 @@
 	<!-- markItUp! toolbar settings -->
 	<script type="text/javascript" src="markitup/sets/default/set.js"></script>
 
-		
+	
+	<script type="text/javascript" src="js/jssor.slider.js"></script>	
+	<script type="text/javascript" src="js/jssor.js"></script>	
 
 		
 		
@@ -53,7 +55,7 @@
 		<link rel="stylesheet" type="text/css" href="https://github.com/kartik-v/bootstrap-fileinput/blob/master/css/fileinput.css">
 
 
-<!--<script src="js/jquery-sortable.js"></script>-->
+<script src="js/jquery-sortable.js"></script>
  
 
 

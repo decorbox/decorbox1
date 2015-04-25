@@ -221,6 +221,7 @@ $shipping_total_login = $shipping_total;
 		<div class='row'>
 			<form method='post' action=".$_SERVER['PHP_SELF']."?lang=".$_GET['lang']. " >
 					<div>
+						<a href='logoutCheckout.php?lang=".$_GET['lang']."' role='button' class='btn btn-primary pull-left'>$txtlog_out</a>
 						<button type='submit' value'Reg' class='btn btn-primary pull-right' name='submitLogin' >$txtorder_items</button>
 					</div> </form>
 				</div>";

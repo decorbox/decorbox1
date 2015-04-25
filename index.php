@@ -2,7 +2,7 @@
 <?php 
 ob_start();
 session_start();
-include 'library.php'; 
+//include 'library.php'; 
 include 'connect.php';
 
 if (!isset($_GET['lang'])) {
@@ -35,7 +35,11 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
 	?>
 </div>
 
-	
+<div class="container">
+	<div class="row">
+		<?php include 'footer.php'; ?>
+	</div>
+</div>	
 	</body>
 
 </html>

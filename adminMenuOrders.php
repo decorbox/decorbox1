@@ -62,7 +62,7 @@ $display_modal_table ="";
 							$display_block.="
 										<tr>
 											<td>$order_id</td>
-											<td>$order_name</td>
+											<td class='row_width'>$order_name</td>
 											<td> $order_shipping_total &euro;</td>
 											<td class='row_width'>$order_country</td>
 											<td class='row_width'>$order_city</td>
@@ -85,7 +85,7 @@ $display_modal_table ="";
 									        	</button>";
 									        	
 							$display_block.="</td>
-											<td>$order_date</td>
+											<td class='row_width'>$order_date</td>
 											<td>
 												<div class='row'>
 													<div class='col-md-6'>
@@ -148,7 +148,22 @@ $display_block.="<!-- Delete Order Modal -->
 				<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				<h4 class='modal-title text-center' id='myModalLabel'>Ar tikrai norite ištrinti užsakymą, kurio ID yra ".$order_id."?</h4>
 			</div>
-			<form class='form-horizontal' method='post' >
+			<form class='form-horizontal' method='post' >";
+
+				$show_items = "SELECT item_id, item_qty FROM store_orders_items_item WHERE order_id='".$order_id."'";
+				$show_items_res = mysqli_query($mysqli, $show_items);
+				
+				while($store_items = mysqli_fetch_array($show_items_res)){
+					$store_item_id = $store_items['item_id'];
+					$store_item_qty = $store_items['item_qty'];
+					$display_block .= "<input type='hidden' name='updateItemQty[]' value='".$store_item_qty."'>
+									<input type='hidden' name='updateItemID[]' value='".$store_item_id."'>
+					";
+				}
+				$display_block.="
+				<div class='checkbox text-center'>
+				  <label><input type='checkbox' name='updateQty' value='1'>Nesumokėjo/Grąžino prekes</label>
+				</div>
 				<div class='margin-bottom15 text-center'>
 					<button type='button' class='btn btn-default' data-dismiss='modal'>Uždaryti</button>
 					<button type='submit' value='".$order_id."' name='deleteOrder' class='btn btn-primary'>Ištrinti</button>
@@ -259,6 +274,19 @@ if(isset($_POST['submitStatus'])){
 }
 //if submit delete order
 if(isset($_POST['deleteOrder'])){
+	if(isset($_POST['updateQty'])){//update store_items qty,  when no items sent
+		$arraySize = sizeof($_POST['updateItemID']);
+		$arrayID = $_POST['updateItemID'];
+		$arrayQty = $_POST['updateItemQty'];
+
+		for($i=0; $i< $arraySize; $i++){
+			echo $arrayID[$i]. "-".$arrayQty[$i]."<br>";
+			$update_store_items = "UPDATE store_items SET qty = qty + '".$arrayQty[$i]."' WHERE id = '".$arrayID[$i]."'";
+			$update_store_items_res = mysqli_query($mysqli, $update_store_items) or die(mysqli_error($mysqli));
+		}
+
+	}
+	
 	$del_order = "DELETE FROM store_orders WHERE id = '".$_POST['deleteOrder']."'";
 	$del_order_res = mysqli_query($mysqli, $del_order);
 

@@ -12,6 +12,7 @@ if(isset($_POST['submit_form'])){
 	setcookie('europeShip', $_POST['sendEurope']);
 	//$full_price1= 0;
 	//$full_qty1=0;
+	$qty_error = false;
 	while ($cart1_info = mysqli_fetch_array($get_cart_res1)) {
 		$item_id1 = $cart1_info['id'];//nenaudojamas
 		//$item_title = stripslashes($cart1_info['item_title']);
@@ -20,16 +21,36 @@ if(isset($_POST['submit_form'])){
 		//$full_qty1 =  $full_qty1 + $item_qty1;
 		//$total_price1 = sprintf("%.02f", $_POST["price$item_id1"] * $_POST["qty$item_id1"]);
 		//$full_price1 = sprintf("%.02f", $full_price1+$total_price1);
+		$check_qty = "SELECT qty, item_title FROM store_items WHERE id = '".$item_id1."'";
+		$check_qty_res = mysqli_query($mysqli, $check_qty) or die(mysqli_error($mysqli));
+		$check_qty_assoc = mysqli_fetch_assoc($check_qty_res);
+		$check_store_qty = $check_qty_assoc['qty']; //check and compare item qty
+		$check_title_assoc = mysqli_fetch_assoc($check_qty_res);
+		$check_store_title = $check_qty_assoc['item_title'];
 
-		//update shopper track
-		$update_shoppertrack_items_sql = "UPDATE store_shoppertrack_items SET sel_item_qty='".$item_qty1."' WHERE sel_item_id='".$item_id1."' AND order_id='".$order_id."'";
-		$update_shoppertrack_items_res = mysqli_query($mysqli, $update_shoppertrack_items_sql);
+		if($item_qty1 <= $check_store_qty){
+			//update shopper track
+
+			$update_shoppertrack_items_sql = "UPDATE store_shoppertrack_items SET sel_item_qty='".$item_qty1."' WHERE sel_item_id='".$item_id1."' AND order_id='".$order_id."'";
+			$update_shoppertrack_items_res = mysqli_query($mysqli, $update_shoppertrack_items_sql);
+		}else{
+			$qty_error = true;
+			if($check_store_qty == NULL OR $check_store_qty == 0){
+				header("Location: showcart.php?lang=".$_GET['lang']."&error=true&qty=none&title=".$check_store_title."");
+			}else{
+			header("Location: showcart.php?lang=".$_GET['lang']."&error=true&qty=".$check_store_qty."&title=".$check_store_title."");
+			}
+		}
+
+		
 	}
 
 
 
-
-	header("Location: checkout.php?lang=".$_GET['lang']."");
+	if($qty_error != true){
+		header("Location: checkout.php?lang=".$_GET['lang']."");
+	}
+	
 }else{
 	header("Location: showcart.php?lang=".$_GET['lang']."");
 }

@@ -396,9 +396,8 @@ if(isset($_POST['submitEditPhoto'])){
 		, description_EN = '".$_POST['descriptionENPhoto']."', title = '".$_POST['addTitle']."', title_EN = '".$_POST['addTitleEn']."' WHERE id='".$_POST['getImage_id']."'";
 		$update_gallery_res = mysqli_query($mysqli, $update_gallery);
 	}
-	//echo("<meta http-equiv='refresh' content='0'>");//reflesh page
-	print_r($_POST);
-	echo $_POST['descriptionPhoto'];
+	echo("<meta http-equiv='refresh' content='0'>");//reflesh page
+	
 }
 
 

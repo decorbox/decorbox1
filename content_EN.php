@@ -42,6 +42,12 @@ $txtsending = "Shipping";
 $txtitems_found = "Items found";
 $txtno_items_found = "No items found";
 
+$txtno_item_qty = "Out of stock";
+$txtqty_available = "Available";
+$txtattension_available1 = "Attension! Item";
+$txtattension_available_qty1 = "available quantity -"; 
+$txtno_qty_available = "Attension! no item available";
+
 $txterror_fill_all_fields = "Please fill in all fields marked as";
 $txterror_user = "User";
 $txterror_exist = "already exist";

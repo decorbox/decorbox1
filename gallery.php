@@ -1,6 +1,6 @@
 <?php
 include 'connect.php';
-include 'library.php';
+//include 'library.php';
 
 if(isset($_GET['lang']) && $_GET['lang']=='LT'){
         include 'content_LT.php';
@@ -67,8 +67,8 @@ if(isset($_GET['cat_id']) && isset($_GET['subcat_id'])){
            
             $display_block.="
             <div class='col-md-3 col-sm-3 img-responsive galleryImgSize '>
-                <a href='$img'  title='".$title."' data-gallery>
-                    <img src='$img' class='galleryImgSize' alt='".$title."'>
+                <a href='$img'  data-gallery>
+                    <img src='$img' class='galleryImgSize' >
                 </a>
             </div>";
             }
@@ -96,8 +96,8 @@ if(isset($_GET['cat_id']) && isset($_GET['subcat_id'])){
             
             $display_block.="
             <div class='col-md-3 col-sm-3 img-responsive galleryImgSize '>
-                <a href='$img'  title='".$title."' data-gallery>
-                    <img src='$img' class='galleryImgSize' alt='".$title."'>
+                <a href='$img'   data-gallery>
+                    <img src='$img' class='galleryImgSize'>
                 </a>
             </div>";
             }
@@ -109,8 +109,14 @@ if(isset($_GET['cat_id']) && isset($_GET['subcat_id'])){
     </div></div>";
 }
 echo "<div class='container'>";
- //include_once 'header.php'; 
+ include_once 'header.php'; 
  include_once 'navbar.php';
  echo "</div>";
 echo $display_block;
+echo "
+<div class='container'>
+    <div class='row'>";
+        include 'footer.php';
+echo"</div>
+</div>     ";
 ?>

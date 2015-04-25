@@ -1,6 +1,6 @@
 
 <?php
-//neisversta
+
 //include 'connect.php';
 //include 'library.php';
 

@@ -1,5 +1,6 @@
 <?php
 //isversta i EN
+ob_start();
 session_start();
 include 'connect.php';
 $shipping = 2.70;//shipping price LT
@@ -93,6 +94,18 @@ $display_block = "
   <li class='active'>$txtshopping_cart</li>
 </ol>";
 $display_block .= "<div class='text-center'> <h1>$txtshopping_cart</h1></div>";
+
+if(isset($_GET['error']) && $_GET['error']== 'true' && isset($_GET['qty']) && $_GET['qty'] !='none' && isset($_GET['title'])){
+	$display_block.= "<div class='alert alert-danger alert-dismissible' role='alert'>
+ 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+ 		<p>$txtattension_available1  - ".$_GET['title']." $txtattension_available_qty1 ".$_GET['qty']."</p>
+		</div>"; 
+}else if(isset($_GET['error']) && $_GET['error']== 'true' && isset($_GET['qty']) && $_GET['qty'] =='none' && isset($_GET['title'])){
+	$display_block.= "<div class='alert alert-danger alert-dismissible' role='alert'>
+ 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+ 		<p>$txtno_qty_available - ".$_GET['title']."</p>
+		</div>"; 
+}
 
 
 $get_session_sql = "SELECT * FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
@@ -243,9 +256,13 @@ mysqli_close($mysqli);
 		</div>
 
 
+
 	</div>
 	</div>
-
-
+<div class="container">	
+	<div class="row">
+		<?php include 'footer.php'; ?>
+	</div>
+</div>
 </body>
 </html>
