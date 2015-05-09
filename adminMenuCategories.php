@@ -342,7 +342,7 @@ $display_block.="<!-- Delete categories Modal -->
 							<div class='col-md-12'>
 								<div class='alert alert-info alert-dismissible' role='alert'>
 									<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-									<strong>Dėmesio!</strong> Jeigi ištrinsite kategoriją, bus ištrintos ir jos sub kategorijos.
+									<strong>Dėmesio!</strong> Jeigu ištrinsite kategoriją, bus ištrintos ir jos subkategorijos.
 								</div>
 							</div>
 						</div>

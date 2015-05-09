@@ -27,21 +27,12 @@
 		<script src="js/jquery.bxslider.js"></script>
 		<script src="js/jquery.bxslider.min.js"></script>
 		
-		<script src="js/txteditor.js"></script>
+	
 		<script src="js/tinymce/tinymce.min.js"></script>
 
 
 
-	<!-- markItUp! skin -->
-	<link rel="stylesheet" type="text/css" href="markitup/skins/markitup/style.css">
-	<!--  markItUp! toolbar skin -->
-	<link rel="stylesheet" type="text/css" href="markitup/sets/default/style.css">
 	
-	<!-- markItUp! -->
-	<script type="text/javascript" src="markitup/jquery.markitup.js"></script>
-	<!-- markItUp! toolbar settings -->
-	<script type="text/javascript" src="markitup/sets/default/set.js"></script>
-
 	
 	<script type="text/javascript" src="js/jssor.slider.js"></script>	
 	<script type="text/javascript" src="js/jssor.js"></script>	

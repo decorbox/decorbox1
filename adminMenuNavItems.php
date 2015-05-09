@@ -110,7 +110,7 @@ if(isset($_POST["submitAddItem"])) {
 		    $uploadOk1 = 0;
 		}
 		// Check file size
-		if ($_FILES["addIMG"]["size"] > 5000000) {//5MB
+		if ($_FILES["addIMG"]["size"] > 2000000) {//2MB
 		    echo"<div class='alert alert-danger alert-dismissible' role='alert'>
 				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				Paveikslėlis per didelis.

@@ -9,14 +9,12 @@ include 'connect.php';
     jQuery(document).ready(function ($) {
 
         var _SlideshowTransitions = [{
-		$Duration:600,
-		x:1,
-		y:-1,
-		$Delay:50,
-		$Cols:8,$Rows:4,
-		$SlideOut:true,
-		$ChessMode:{$Column:3,$Row:12},
-		$Easing:{$Left:$JssorEasing$.$EaseInCubic,$Top:$JssorEasing$.$EaseInCubic,$Opacity:$JssorEasing$.$EaseOutQuad},$Opacity:2 }];
+			$Duration:1500,
+			x:0.5,
+			$Cols:2,
+			$ChessMode:{$Column:3},
+			$Easing:{$Left:$JssorEasing$.$EaseInOutCubic},$Opacity:2,$Brother:{$Duration:1500,$Opacity:2}
+		}];
         var options = {
             $DragOrientation: 3,
             $AutoPlay: true,

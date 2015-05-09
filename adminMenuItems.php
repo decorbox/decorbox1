@@ -5,7 +5,7 @@ $display_block.= "<h1 class='text-center'>Kategorijos prekės</h1>";
 	 						</div></div>";
 
 			 
-?>
+?> 
 <script type="text/javascript">
 	$(document).ready(function(){
 //Below line will get value of Category and store in id
@@ -129,7 +129,7 @@ $display_block.="<!-- add item Modal -->
 				</div>
 				<div class='modal-footer'>
 				 	<button type='button' class='btn btn-default' data-dismiss='modal'>Uždaryti</button>
-				 	<button type='submit' name='submitAddItem' value='Submit' class='btn btn-primary'>Pridėti</button>
+				 	<button type='submit' name='submitAddItem1' value='Submit' class='btn btn-primary'>Pridėti</button>
 				</div>
 		 	</form>
 		</div>
@@ -138,7 +138,7 @@ $display_block.="<!-- add item Modal -->
 
 
 	//submit edit form	Upload image only	
-if(isset($_POST["submitAddItem"])) {
+if(isset($_POST["submitAddItem1"])) {
 	// Check if image file is a actual image or fake image
 	if ($_FILES["addIMG"]["size"] != 0){ 	
 		$target_dir = "images/";
@@ -166,7 +166,7 @@ if(isset($_POST["submitAddItem"])) {
 		    $uploadOk1 = 0;
 		}
 		// Check file size
-		if ($_FILES["addIMG"]["size"] > 5000000) {//5MB
+		if ($_FILES["addIMG"]["size"] > 2000000) {//2MB
 		    echo"<div class='alert alert-danger alert-dismissible' role='alert'>
 				<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				Paveikslėlis per didelis.
@@ -353,6 +353,7 @@ $("#subCategory<?php echo $item_id ?>").html(html);
 </script>   
 
 <?php 
+
 							            //modals area
 $display_block.="<!-- edit item Modal -->
 <div class='modal fade' id='".$item_id."' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>

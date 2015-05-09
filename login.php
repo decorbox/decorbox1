@@ -62,7 +62,7 @@ else if (isset($_POST['submitLog'])) { // if form has been submitted
 	 		$passErr = "<div class='alert alert-danger alert-dismissible' role='alert'>
 		 		<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 		 		<p>$txterror_pass</a></p>
-				</div>";
+				</div>"; 
 	 	}
 		 else 
 		 	{ 
@@ -160,8 +160,7 @@ if(isset($_GET['token'])){//redirect to reset password page
 if(isset($_COOKIE['ID_my_site'])){
 	include 'members.php';
 }	 
-else {
-	
+else{
  ?> 
  <!DOCTYPE HTML>
 <html>
@@ -206,5 +205,5 @@ else {
 </div>
 </body>
 </html>
-<?php } 
+<?php }
 ?>

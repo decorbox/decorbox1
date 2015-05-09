@@ -20,8 +20,8 @@ $(document).ready(function() {
   	$(".selectOption").select2({ minimumResultsForSearch: Infinity });//run sorting, INFINITY PASLEPE SEARCH BAR
 });
 
-</script>
-<script>tinymce.init({selector:'textarea'});</script>
+</script>  
+<script>//tinymce.init({selector:'textarea'});</script> <!-- Text Editor-->
 
 <?php
 $display_block ="";
