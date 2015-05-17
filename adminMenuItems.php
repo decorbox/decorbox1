@@ -297,7 +297,11 @@ if(isset($_POST["submitAddItem1"])) {
 							                <td>$store_item_qty</td>
 							                <td>$cat_title</td>
 							                <td>$get_subTitle</td>
+<<<<<<< HEAD
 							                <td> <button type='button' class='btn btn-primary' data-toggle='modal' onclick='addRichTextEditor(this);' data-target='#".$item_id."'>
+=======
+							                <td> <button onclick='addRichTextEditor(this);' type='button' class='btn btn-primary' data-toggle='modal' data-target='#".$item_id."'>
+>>>>>>> 7974bd558a4778f73f4a43d16f441cff505c6b14
 												  Redaguoti
 												</button>
 												<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#deleteItem".$item_id."'>
@@ -595,3 +599,13 @@ if(isset($_POST["submitEditItem"])) {
 		}
 	}
 }//end of submitEdit item
+?>
+<script>
+function addRichTextEditor(trigger) {
+	var modal_id = $(trigger).attr('data-target');
+	tinymce.init({
+		selector : modal_id + ' textarea'
+	});
+}
+</script>
+<?php
