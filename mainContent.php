@@ -10,10 +10,6 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
 
 $display_block = "";
 
-
-
-
-
 $display_block .="
 <div class='row'>
 	

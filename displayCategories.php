@@ -1,7 +1,7 @@
 
 <?php
-ob_start(); //http://stackoverflow.com/questions/9707693/warning-cannot-modify-header-information-headers-already-sent-by-error
-//geriause knyga 22 skurius
+ob_start(); 
+
 include_once 'connect.php';
 //include_once 'library.php';
 

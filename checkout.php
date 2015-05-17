@@ -12,8 +12,7 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
         include 'content_LT.php';
     }
 
-$safe_sel_item_authorization = $_COOKIE['PHPSESSID']; //reikia vartotojo login arba session id kai nesiregistruoja
-//$item_total_price= $_SESSION['full_price']; // ir total_qty suskaiciuot
+$safe_sel_item_authorization = $_COOKIE['PHPSESSID']; 
 //select order_id from database
 	$get_order_id_sql = "SELECT id FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."'";
 	$run_order_id_res = mysqli_query($mysqli, $get_order_id_sql) or die(mysqli_error($mysqli));
@@ -32,8 +31,7 @@ $safe_sel_item_authorization = $_COOKIE['PHPSESSID']; //reikia vartotojo login a
 	$full_qty1=0;
 	while ($cart1_info = mysqli_fetch_array($get_cart_res1)) {
 		$item_id1 = $cart1_info['id'];//nenaudojamas
-		//$item_title = stripslashes($cart1_info['item_title']);
-		//$item_price1 = $item_price1 + $_POST["price$item_id1"];
+		
 		$item_qty1 = $cart1_info['sel_item_qty'];
 		$full_qty1 =  $full_qty1 + $item_qty1;
 		$total_price1 = sprintf("%.02f", $cart1_info['item_price'] * $cart1_info['sel_item_qty']);
@@ -52,12 +50,9 @@ $safe_sel_item_authorization = $_COOKIE['PHPSESSID']; //reikia vartotojo login a
 
  	
 
-//$item_total_price = $full_price1;
-//$shipping_total =0;
+
 $shipping_total = $full_price1;//prideti skaiciu galima tai bus- siuntimo kaina
 
-//$full_qty = $_POST['full_qty'];
-//$item_total_qty= $_SESSION['full_qty']; //$_POST['item_total'];
 setcookie("full_qty", $full_qty1);
 $item_total_qty = $full_qty1;
 
@@ -68,9 +63,7 @@ $display_block = "
   <li><a href='showcart.php?lang=".$_GET['lang']."'>$txtshopping_cart</a></li>
   <li class='active'>$txtsending</li>
 </ol>";
-//$iraso=false;//iduom baze
 
-// ir sql pakeist i login id
 $input_error=false;
 //start input validation
 // define variables and set to empty values
@@ -84,7 +77,7 @@ $_SESSION['address'] = $address;
 $_SESSION['city'] = $city;
 $_SESSION['tel'] = $tel;
 $_SESSION['zip'] = $zip;
-//if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
 if (isset($_POST['submitForm'])){//tikrina ar nera tusciu lauku jei yra meta klaida
 	
 
@@ -260,11 +253,6 @@ $get_cart_res1 = mysqli_query($mysqli, $get_cart_sql) or die(mysqli_error($mysql
 	}
 }
 
-//delete zero values in database
-/* GERAS
-$delete_orders_zero_sql = "DELETE FROM store_orders WHERE order_name = '' AND order_address='' AND order_email='' ";
-$delete_orders_zero_res = mysqli_query($mysqli, $delete_orders_zero_sql) or die(mysqli_error($mysqli)); 
-*/
 
 
  ?>

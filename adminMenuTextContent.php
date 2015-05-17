@@ -34,7 +34,7 @@ $display_block.= "<h1 class='text-center'>Informacijos aprašymai</h1>";
 							                
 							                <td>$item_title</td>
 							                
-							                <td> <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#".$item_id."'>
+							                <td> <button type='button' class='btn btn-primary' onclick='addRichTextEditor(this);' data-toggle='modal' data-target='#".$item_id."'>
 												  Redaguoti
 												</button>
 												

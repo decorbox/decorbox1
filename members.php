@@ -348,7 +348,7 @@ if(isset($_POST['newPassword'])){
 else 
  //if the cookie does not exist, they are taken to the login screen 
 	{			 
-	// header("Location: login.php"); 
+	 
 	include 'login.php';
 	 } 
 

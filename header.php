@@ -31,6 +31,7 @@ include 'connect.php';
         var jssor_slider1 = new $JssorSlider$('slider1', options);
     });
 </script>
+
 <?php
 //http://www.jssor.com/development/slider-with-loading-screen-jquery.html
 //http://www.jssor.com/development/tool-slideshow-transition-viewer.html

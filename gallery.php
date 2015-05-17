@@ -1,3 +1,4 @@
+<link rel="shortcut icon" type="image/x-icon" href="images/decorbox/favicon.ico" />
 <?php
 include 'connect.php';
 //include 'library.php';

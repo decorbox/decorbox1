@@ -1,7 +1,7 @@
 <?php //kodas kopijuotas nuo kito puslapio
 $display_block.= "<h1 class='text-center'>Rankų darbo gaminiai</h1>";
 	 						$display_block.="<div class='row'> <div class='col-md-2 col-md-offset-10'>				
-	 							<button type='button' name='buttonAddItem' class='btn btn-primary' data-toggle='modal' data-target='#addItem'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Įdėti prekę</button>
+	 							<button type='button' name='buttonAddItem' class='btn btn-primary' data-toggle='modal' onclick='addRichTextEditor(this);' data-target='#addItem'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Įdėti prekę</button>
 	 						</div></div>";
 
 	
@@ -217,7 +217,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <td>$item_price_old &euro;</td>
 							                <td>$item_qty</td>
 							                
-							                <td> <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#".$item_id."'>
+							                <td> <button type='button' class='btn btn-primary' onclick='addRichTextEditor(this);' data-toggle='modal' data-target='#".$item_id."'>
 												  Redaguoti
 												</button>
 												<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#deleteItem".$item_id."'>

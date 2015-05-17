@@ -340,17 +340,12 @@ if($input_error!=true){
  	";
  	}
  	?>
-
- <!--<h1>Registered</h1>
-
- <p>Thank you, you have registered - you may now <a href="login.php">login</a>.</p>
--->
 	
 
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Bootstrap test</title>
+<title>Register</title>
 	
 	
 </head>

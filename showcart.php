@@ -1,5 +1,5 @@
 <?php
-//isversta i EN
+
 ob_start();
 session_start();
 include 'connect.php';
@@ -219,8 +219,7 @@ $display_block .= "
 	<button class='btn btn-success col-md-offset-10 text-center btn-lg' type='submit' name='submit_form' value='submit'>$txtsending</button>
 </form>";
 }
-//free result
-//mysqli_free_result($get_cart_res);
+
 
 //close connection to MySQL
 mysqli_close($mysqli);

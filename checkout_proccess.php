@@ -15,18 +15,23 @@ if(isset($_POST['submit_form'])){
 	$qty_error = false;
 	while ($cart1_info = mysqli_fetch_array($get_cart_res1)) {
 		$item_id1 = $cart1_info['id'];//nenaudojamas
-		//$item_title = stripslashes($cart1_info['item_title']);
-		//$item_price1 = $item_price1 + $_POST["price$item_id1"];
+
 		$item_qty1 = $_POST["qty$item_id1"];
-		//$full_qty1 =  $full_qty1 + $item_qty1;
-		//$total_price1 = sprintf("%.02f", $_POST["price$item_id1"] * $_POST["qty$item_id1"]);
-		//$full_price1 = sprintf("%.02f", $full_price1+$total_price1);
-		$check_qty = "SELECT qty, item_title FROM store_items WHERE id = '".$item_id1."'";
+		
+		$check_qty = "SELECT qty, item_title, item_title_EN FROM store_items WHERE id = '".$item_id1."'";
 		$check_qty_res = mysqli_query($mysqli, $check_qty) or die(mysqli_error($mysqli));
 		$check_qty_assoc = mysqli_fetch_assoc($check_qty_res);
 		$check_store_qty = $check_qty_assoc['qty']; //check and compare item qty
 		$check_title_assoc = mysqli_fetch_assoc($check_qty_res);
-		$check_store_title = $check_qty_assoc['item_title'];
+
+		if(isset($_GET['lang']) && $_GET['lang']=='LT'){
+			$check_store_title = $check_qty_assoc['item_title'];
+		}else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
+			$check_store_title = $check_qty_assoc['item_title_EN'];
+		}else{
+			$check_store_title = $check_qty_assoc['item_title'];
+		}
+		
 
 		if($item_qty1 <= $check_store_qty){
 			//update shopper track

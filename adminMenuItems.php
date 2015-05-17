@@ -1,7 +1,7 @@
 <?php
 $display_block.= "<h1 class='text-center'>Kategorijos prekės</h1>";
 	 						$display_block.="<div class='row'> <div class='col-md-2 col-md-offset-10'>				
-	 							<button type='button' name='buttonAddItem' class='btn btn-primary' data-toggle='modal' data-target='#addItem'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Įdėti prekę</button>
+	 							<button type='button' name='buttonAddItem' class='btn btn-primary' data-toggle='modal' onclick='addRichTextEditor(this);' data-target='#addItem'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Įdėti prekę</button>
 	 						</div></div>";
 
 			 
@@ -297,7 +297,7 @@ if(isset($_POST["submitAddItem1"])) {
 							                <td>$store_item_qty</td>
 							                <td>$cat_title</td>
 							                <td>$get_subTitle</td>
-							                <td> <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#".$item_id."'>
+							                <td> <button type='button' class='btn btn-primary' data-toggle='modal' onclick='addRichTextEditor(this);' data-target='#".$item_id."'>
 												  Redaguoti
 												</button>
 												<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#deleteItem".$item_id."'>
@@ -483,6 +483,7 @@ $display_block.="<!-- edit item Modal -->
 
 					$display_block.="</tbody>
 							</div></table>";//end of items table
+			
 //delete item							
 if(isset($_POST['deleteItem'])){
 

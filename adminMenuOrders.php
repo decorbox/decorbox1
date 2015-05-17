@@ -280,7 +280,7 @@ if(isset($_POST['deleteOrder'])){
 		$arrayQty = $_POST['updateItemQty'];
 
 		for($i=0; $i< $arraySize; $i++){
-			echo $arrayID[$i]. "-".$arrayQty[$i]."<br>";
+			
 			$update_store_items = "UPDATE store_items SET qty = qty + '".$arrayQty[$i]."' WHERE id = '".$arrayID[$i]."'";
 			$update_store_items_res = mysqli_query($mysqli, $update_store_items) or die(mysqli_error($mysqli));
 		}

@@ -1,5 +1,5 @@
 <?php
-//isversta i EN
+
 ob_start();
 include 'connect.php';
 include 'library.php';
@@ -14,7 +14,7 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
 $display_block="";
 if(isset($_GET['search'])){
     $check_search = mysqli_real_escape_string($mysqli, $_GET['search']);
-    $search_items =  "SELECT * FROM store_items WHERE item_title || item_title_EN  LIKE '%".$check_search."%' ";
+    $search_items =  "SELECT * FROM store_items WHERE (item_title LIKE '%".$check_search."%') OR (item_title_EN LIKE '%".$check_search."%') ";
     $search_items_res = mysqli_query($mysqli, $search_items) or die(mysqli_error($mysqli));
 
     if(mysqli_num_rows($search_items_res)>=1){
@@ -85,7 +85,7 @@ if(isset($_GET['search'])){
     }else{
         $display_block.= "<div class='row text-center'><h1>$txtno_items_found</h1></div>";
     }     
-           // select * from search where title like '%$data%' 
+          
 }
 ?>
 <!DOCTYPE html>

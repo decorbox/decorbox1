@@ -4,8 +4,7 @@ session_start();
 
 // Include the main TCPDF library (search for installation path).
 require_once('pdf/tcpdf_import.php');
-//require_once('pdf/mailer/class.phpmailer.php');
-//require_once('pdf2/phpmailer-fe.php');
+
 
 include 'connect.php';
 
@@ -32,23 +31,6 @@ $pdf->SetKeywords('Payment, PDF');
 
 
 
-/*
-//foto yra pdf\examples\images
-// set default header data
-$pdf->SetHeaderData('logo.png', PDF_HEADER_LOGO_WIDTH, 'Decorbox', 'stringas');
-
-// set header and footer fonts
-$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-// set default monospaced font
-$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-// set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-*/
 // set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
@@ -58,11 +40,6 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->setPrintHeader(false);//nerodo header ir footer
 $pdf->setPrintFooter(false);
 
-// set some language-dependent strings (optional)
-//if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-//    require_once(dirname(__FILE__).'/lang/eng.php');
- //   $pdf->setLanguageArray($l);
-//}
 
 
 $select_user_info="SELECT * FROM store_orders WHERE id='".$order_id."'";
@@ -225,9 +202,7 @@ $pdf->writeHTML($display_block, true, false, false, false, '');
 
 // -----------------------------------------------------------------------------
  ob_end_clean();//corrent output error
-//Close and output PDF document
-//$pdf->Output('test.pdf', 'I');
-//header("Location: checkout_success.php?lang=".$_GET['lang']."");
+
 
 
         $to = $user_email;

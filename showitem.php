@@ -1,8 +1,7 @@
 <?php
-//isversta i anglu
+
 session_start();
- // gera knyga 23 skyrius
- //connected to displayCategories
+
 include 'connect.php';
 
 if(isset($_GET['lang']) && $_GET['lang']=='LT'){
@@ -98,7 +97,7 @@ mysqli_free_result($get_item_res);
 <html>
 <head>
 	<?php //include 'library.php' ?>
-	
+	<link rel="shortcut icon" type="image/x-icon" href="images/decorbox/favicon.ico" />
 <title>My Store</title>
 <style type="text/css">
         label {font-weight: bold;}

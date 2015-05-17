@@ -1,7 +1,6 @@
 
 <?php
-//session_start();
-//isversta i anglu
+
 include 'connect.php';
 //include 'library.php';
 ?>

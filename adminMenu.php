@@ -21,7 +21,16 @@ $(document).ready(function() {
 });
 
 </script>  
-<script>//tinymce.init({selector:'textarea'});</script> <!-- Text Editor-->
+
+
+<script>
+function addRichTextEditor(trigger) {
+   var modal_id = $(trigger).attr('data-target');
+   tinymce.init({
+      selector : modal_id + ' textarea'
+   });
+} </script>
+
 
 <?php
 $display_block ="";

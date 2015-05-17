@@ -7,7 +7,7 @@ $display_block.= "<h1 class='text-center'>Idėjų galerija</h1>";
 $display_block.="
 <div class='row'>
 	<div class='col-md-4 col-md-offset-8'>
-		<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#addPhoto'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span>Įdėti naują</button>
+		<button type='button' class='btn btn-primary' data-toggle='modal' onclick='addRichTextEditor(this);' data-target='#addPhoto'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span>Įdėti naują</button>
 		<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#sortingIdeas'><span class='glyphicon glyphicon-th-list' aria-hidden='true'></span> Rūšiuoti idėjas</button>
 	</div>
 </div>";
@@ -142,7 +142,7 @@ $display_block.="<div class='row'>
 			
 							                <td>$cat_title</td>
 							                <td>$subcat_title</td>
-							                <td> <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#editPhoto".$image_id."'>
+							                <td> <button type='button' class='btn btn-primary' onclick='addRichTextEditor(this);' data-toggle='modal' data-target='#editPhoto".$image_id."'>
 												  Redaguoti
 												</button>
 												<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#deletePhoto".$image_id."'>

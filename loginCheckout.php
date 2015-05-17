@@ -169,7 +169,7 @@ $shipping_total_login = $shipping_total;
 	$delete_compeleted_items_sql = "DELETE FROM store_shoppertrack WHERE session_id = '".$_COOKIE['PHPSESSID']."' ";
 	$delete_rez = mysqli_query($mysqli, $delete_compeleted_items_sql);
 	header("Location: checkout_success.php?lang=".$_GET['lang'].""); //kai login submit permeta i kita puslapi
-	//header("Location: test.php?lang=".$_GET['lang']."");
+	
 	} 
 //user info
 	echo"
