@@ -97,7 +97,22 @@ while ($cats = mysqli_fetch_array($get_cats_res)) //display categories
      		</div>
      	</div>"; 
 	}
+//rent category 
+	$display_block.="
+		<div class=' list-group-margin list-group '>
+		    
+		    	<label class='panel-title  list-group-title-color ' style='width:100%;' >";
+			if(isset($_GET['rent']) ){
+		    		$display_block.="<a class='list-group-item list-group-item-edit list-menuitem active'  href='?lang=".$_GET['lang']. "&rent=true'><div class='row'><div class='col-md-12 col-lg-12 col-sm-12 col-xs-12'>$txtcategory_rent </div></div></a>";	
+		    	}
+		    	else{//not active categories menu 
+		    		$display_block.="<a class='list-group-item list-group-item-edit list-menuitem'  href='?lang=".$_GET['lang']."&rent=true'><div class='row'><div class='col-md-12 col-lg-12 col-sm-12 col-xs-12'>$txtcategory_rent </div></div></a>";
+		    	}
+
 $display_block.="
+			</label>
+		</div>
+
 	</div>";	
 
 //free results

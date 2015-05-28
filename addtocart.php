@@ -104,7 +104,7 @@ if (isset($_POST['sel_item_id'])) {
                      
                 }//end else if session  
           
-            /
+            
             //redirect to showcart page
             header('Location: ' . $_SERVER['HTTP_REFERER']);
             

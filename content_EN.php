@@ -1,4 +1,4 @@
-<?php
+<?php 
 //Lithuanian text content
 $txtspecial_offers = "Special offers";
 $txtqty = "Quantity";
@@ -24,6 +24,12 @@ $txtcompany = "Company";
 $txtbank_acc = "Bank account";
 $txtcompany_code = "Company code";
 $txtbuyer = "Buyer";
+ 
+$txtcategory_rent="Equipment rental";
+$txtcategory_rent_subtxt="For rentals please pre-book by phone or e-mail.";
+$txtnav_subtxt = "Natural handmade soap - great thanks freebie guests.
+(the colors and the smell can be customized)
+";
 
 $txtpdf_message = "Please pay the bill within the next 3 days, otherwise the order will be canceled";
 $txtno_items_in_category = "No items found in this category!";

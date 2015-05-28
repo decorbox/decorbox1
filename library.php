@@ -1,6 +1,13 @@
 
 		<meta charset="UTF-8">
-
+		<meta name="keywords" content="
+'Helinis balionas', 'Lateksinis balionas', 'Gimtadienio temos', 'Gimtadienio svente', 'Teminis gimtadienis',
+'Vaiku gimtadienis', 'Suaugusiuju gimtadienis', 'Mergaites gimtadienis', 'Berniuko gimtadienis', 'Atributika',
+'Vestuviu atributika', 'Krikstynu atributika', 'Spalvoti balionai', 'Taskuoti balionai', 'Krikstynu balionai', 'Krikstynos',
+'Vestuves', 'Sveciu knygos', 'Vienkartines serveteles', 'Serveteles', 'Pirmoji komunija', 'Lekstes', 'Staltieses', 'Nuoma' ,'Ideju galerija',
+'Sales dekoracijos', 'Sales puosyba', 'Masinu puosimas', 'Masinu dekoravimas', 'Pom pom', 'Pomsai', 'Pukuosiai', 'Siaudeliai', 'Zvakutes'
+">
+<meta name="author" content="Deividas Margelis 2015">
 		<meta name "viewport" content "width=device-width, initial-scale=1.0"> 
 		<link href = "css/bootstrap.min.css" rel = "stylesheet">
 		<link href = "css/bootstrap.css" rel = "stylesheet">
@@ -13,6 +20,9 @@
 <link rel="shortcut icon" type="image/x-icon" href="images/decorbox/favicon.ico" />
 
 		
+ 
+		
+
 
 
 		<link rel="stylesheet" href="css/jquery-ui.css"> 

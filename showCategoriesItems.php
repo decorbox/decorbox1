@@ -36,21 +36,6 @@ $items_per_page = 24;
 $amount_of_numbered_pages = 5;
 $display_block = "";
 
-?>
-<script>
-document.getElementById('links').onclick = function (event) {
-    event = event || window.event;
-    var target = event.target || event.srcElement,
-        link = target.src ? target.parentNode : target,
-        options = {index: link, event: event},
-        links = this.getElementsByTagName('a');
-    blueimp.Gallery(links, options);
-};
-
-</script>
-
-<?php
-//end options
 	//SHOW SUBCATEGORY ITEMS
 if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 
@@ -462,7 +447,7 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 	}else{
 		$display_block .= "<h1 class='text-center'>$txtspecial_offers</h1>";
 	}
-	
+	 
 	
 	
 	
@@ -490,7 +475,7 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 
 			"
 			<div class='col-lg-4-edit col-md-4-edit col-sm-6-edit col-xs-4-edit '>
-			  	<div class='text-center panel panel-success panel-edi'>
+			  	<div class='text-center panel panel-success panel-edit-special'>
 		      		<a href='showitem.php?lang=".$_GET['lang']."&item_id=".$item_id."'>
 				        <div class='panel-heading'>
 				       		<h3 class='panel-title'>$item_title</h3>
@@ -625,10 +610,13 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 
 	if(isset($_GET['lang']) && $_GET['lang']=='LT'){
 		$display_block .= "<h1 class='text-center'>$txtnav_handmade</h1>";
+		$display_block.="<h4><center>$txtnav_subtxt</center></h4>";
 	}else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
 		$display_block .= "<h1 class='text-center'>$txtnav_handmade</h1>";
+		$display_block.="<h4><center>$txtnav_subtxt</center></h4>";
 	}else{
 		$display_block .= "<h1 class='text-center'>$txtnav_handmade</h1>";
+		$display_block.="<h4><center>$txtnav_subtxt</center></h4>";
 	}
 	
 	
@@ -638,6 +626,7 @@ if (isset($_GET['cat_id']) AND isset($_GET['subcat_id'])) {
 	//display items
 	if($total_items3<1){//if no items in category
 		$display_block.="<div class='text-center '><label>$txtno_items_in_category</label></div>";
+		
 	}else{ 
 		while ($items = mysqli_fetch_array($get_sorting_items_res)) {
 			$item_id = $items['id']; 
@@ -796,6 +785,150 @@ $display_block.="
 	
 ";
 echo $display_block;
+//rent category
+} else if(isset($_GET['rent'])){
+		//get category name
+		$cat_title = $txtcategory_rent;
+
+	//pagination
+	//gets current page number
+	
+	if(isset($_GET['page'])) {
+		$current_page = $_GET['page'];
+	} else {
+		$current_page = 1;
+	}
+	//calculates the offset for sql LIMIT
+	$offset = $items_per_page * ($current_page - 1);
+	
+//pagination for categories items
+	$get_items_sql = "SELECT * FROM store_rent_items order by id DESC";
+	$query_limit_view = sprintf("%s LIMIT %d, %d", $get_items_sql, $offset, $items_per_page);
+	$get_items_res = mysqli_query($mysqli, $query_limit_view) or die(mysqli_error($mysqli));
+	//}
+	//counts how manny items and pages are in the db
+	$get_total_num_sql="SELECT COUNT(*) AS total FROM store_rent_items";
+	$query = mysqli_query($mysqli, $get_total_num_sql) or die(mysql_error($mysqli));
+	$result = mysqli_fetch_array($query);
+	$total = $result['total'];
+	$total_pages = ceil($total / $items_per_page); 
+	$total_items = $result['total'];
+	
+	
+	//form the page link
+	//link of displayint categories
+	$url = "?lang=".$_GET['lang']."&rent=true";
+
+	//displays pagination only if there is more than 1 page
+
+	$pagination = '';
+	//$amount_of_numbered_pages = 8;
+	if ($total_pages > 1) {
+		//pagination header
+		$pagination .= '<div class="row text-center"><div class="col-md-12"><ul class="pagination">';
+		//displays first and previous arrows if the current page is not the first
+		if ($current_page > 1) {
+			$pagination .= '<li><a href="' . $url . '&page=' . 1 . '">' . '<<' . '</a></li>';
+			$pagination .= '<li><a href="' . $url . '&page=' . ($current_page - 1) . '">' . '<' . '</a></li>';
+			$page_counter_start = $current_page - 1;
+		} else {
+			$pagination .= '<li class="disabled"><a href="#">' . '<<' . '</a></li>';
+			$pagination .= '<li class="disabled"><a href="#">' . '<' . '</a></li>';
+			$page_counter_start = $current_page;
+		}
+		//displays 8 numbered pages, 1 previous, 1 current and 6 next
+		for ($page_counter = $page_counter_start, $i = 0; $page_counter <= $total_pages && $i < $amount_of_numbered_pages; $page_counter++, $i++) {
+			if ($page_counter != $current_page) {
+				$pagination .= '<li><a href="' . $url . '&page=' . $page_counter . '">' . $page_counter . '</a></li>';
+			//marks the current page as active
+			} else {
+				$pagination .= '<li class="active"><a href="' . $url . '&page=' . $page_counter . '">' . $page_counter . '</a></li>';
+			}
+		}
+		//displays next and last arrows if the current page is not the last
+		if ($current_page != $total_pages) {
+			$pagination .= '<li><a href="' . $url . '&page=' . ($current_page + 1) . '">' . '>' . '</a></li>';
+			$pagination .= '<li><a href="' . $url . '&page=' . $total_pages . '">' . '>>' . '</a></li>';
+		} else {
+			$pagination .= '<li class="disabled"><a href="#">' . '>' . '</a></li>';
+			$pagination .= '<li class="disabled"><a href="#">' . '>>' . '</a></li>';
+		}
+		//pagination footer
+		$pagination .= '</ul></div></div>';
+	}
+
+	//end of pagination
+
+
+	$display_block .= "<h1 class='text-center'>$cat_title</h1>";
+	$display_block.="<h4><center>$txtcategory_rent_subtxt </center></h4>";
+	if($total_items<1){//if no items in category 
+		$display_block.="<div class='text-center'><label>$txtno_items_in_category</label></div>";
+	}else{
+	//display items grid
+	while ($items = mysqli_fetch_array($get_items_res)) {
+		$item_id = $items['id'];
+		if(isset($_GET['lang']) && $_GET['lang']=='LT'){
+				$item_title = stripslashes($items['item_title']);
+				$item_desc = $items['item_desc'];
+			}else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
+				$item_title = stripslashes($items['item_title_EN']);
+				$item_desc = $items['item_desc_EN'];
+			}else{
+				$item_title = stripslashes($items['item_title']);
+				$item_desc = $items['item_desc'];
+			}
+		
+		$item_price = $items['item_price'];
+		$item_image = $items['item_image'];
+
+		$display_block.="
+			<div class='col-lg-4-edit col-md-4-edit col-sm-6-edit col-xs-4-edit '>
+			  	<div class='text-center panel panel-success panel-edit-rent'> 
+		      		
+				        <div class='panel-heading'>
+				       		<h3 class='panel-title'>$item_title</h3>
+				      	</div>
+				    
+			   		 
+			   		<div class='panel-body panel-body-edit2'>
+				   		<div class='row'>
+					   		<div id='posts' class='col-md-6-edit col-sm-6-edit col-xs-6-edit '>    
+				        		<img class='margin-top20  imgSize img-responsive ' src='$item_image'>
+				        	</div>
+				        	
+					        	<div class=' col-md-6-edit col-sm-6-edit col-xs-6-edit '>
+					        		<div class='row '>
+					        			<div class=' col-lg-12-edit col-md-12-edit col-sm-6-edit col-xs-6-edit margin-left15 '>
+						        			
+											<br><br>
+						     					<div class='row'>
+						        					<div class='col-lg-12-edit col-md-12-edit col-sm-12-edit col-xs-12-edit'>
+						        						<p class='labelSize margin-left20'>".$item_price."&euro;</p>
+						        					</div>
+						        				</div>
+					  					</div>
+					        		</div>
+					        	</div>
+					        	<div class='col-lg-12-edit col-md-12-edit col-sm-12-edit col-xs-12-edit'>
+									<p>$item_desc</p>    
+								</div>
+							
+
+			        	</div>
+		      		</div>
+		  		</div>
+		  	</div>";	
+		}//end mysql fetch array	
+
+	$display_block .= "$pagination";
+	}
+	//mysqli_free_result($get_items_res);
+
+	//print body elements
+	echo $display_block;
+	//echo $pagination; 
+
 }
  else {
 	//show main page

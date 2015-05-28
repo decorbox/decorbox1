@@ -125,7 +125,14 @@ a:hover{
 	max-height: 230px;
 	min-height: 230px;
 }
-
+.panel-edit-rent{
+	max-height: 190px;
+	min-height: 190px; 
+}
+.panel-edit-special{
+	max-height: 461px;
+	min-height: 461px;
+}
 
 .col-padding{
 	padding-right: 0px !important;
@@ -247,8 +254,8 @@ a:hover{
 #sortable li span { position: absolute; margin-left: -1.3em; }
 /*gallery*/
 .galleryImgSize{
-	width: 344px;
-	height: 230px;
+	width: 150px;
+	height: 115px;
 	margin-left:10px;
 	margin-bottom: 10px;
 	border-radius: 40px;

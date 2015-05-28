@@ -17,14 +17,14 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
 	include 'content_LT.php';
 }
 
-
-
 ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
+
 		<title>Decorbox</title>
 		<link rel="shortcut icon" type="image/x-icon" href="images/decorbox/favicon.ico" />
+
 	</head>
 	<body>
 <div class="container">

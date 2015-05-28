@@ -17,13 +17,18 @@ $txtabout_us = "Apie mus";
 $txtitems_delivery = "Prekių pristatymas";
 $txtitems_returns = "Prekių grąžinimas";
 $txtpayment_methods	= "Mokėjimo būdai";
-$txtvat_invoice = "PVM SĄSKAITA FAKTŪRA";
+$txtvat_invoice = "SĄSKAITA FAKTŪRA";
 $txtorder_id = "Užsakymo Nr.";
 $txtseller = "Pardavėjas";
 $txtcompany = "Įmonė";
 $txtbank_acc = "Sąskaitos Nr.";
 $txtcompany_code = "Įmonės kodas";
 $txtbuyer = "Pirkėjas";
+ 
+$txtcategory_rent="Inventoriaus nuoma";
+$txtcategory_rent_subtxt="Dėl nuomos prašome iš anksto užsisakyti telefonu arba el. paštu.";
+$txtnav_subtxt = "Natūralus, rankų darbo muilas - puiki padėkos dovanelė svečiams.
+(spalvas bei kvapą galite pasirinki patys)";
 
 $txtno_items_in_category = "Šioje kategorijoje prekių nėra!";
 $txtmain_page = "Pagrindinis puslapis";
@@ -131,60 +136,5 @@ $txtpayment_order = "Mokėjimo suma";
 
 $txtbuy_register_user = "Pirkti kaip registruotas vartotojas";
 $txtbuy_nonregister_user = "Pirkti kaip neregistruotas vartotojas";
-/*
-$txtmodal_about_us = "
-Sveiki užsukę į decorbox - tai įkvėpimo galerija svarbiai dienai. Ar tai būtų gimtadienis, krikštynos, vestuvės, įmonės vakarėlis visuomet stengiamės, jog būtų išskirtinumas ir svečiams paliktų neišdildomą įspūdį.
-<br> Šioje el. parduotuvėje rasite šventinių papuošimų, teminės atributikos ir dekoracijų. 
-<br>Juk šventės puošia mūsų gyvenimą! Tad gerų įspūdžių apsipirkinėjant ir sėkmės rengiant šventę!
-<br>DECORBOX.LT komanda.
-";
-$txtmodal_delivery = "
-Užsisakydami prekes galite rinktis iš šių pristatymo būdų:
-<br><strong>Nemokamas pristatymas visoje Lietuvoje perkant prekių už 30 &euro; ir daugiau.</strong>
-<br>- pristatymo kaina – 2,70 Eur (ši suma bus įtraukta į Jūsų sąskaitą apmokėjimui)
-<br>- pristatymas gali užtrukti iki trijų darbo dienų. Apie užsakymo išsiuntimą informuosime Jus elektroniniu paštu.
-<br>- prekes pristatys kurjeris tiesiai Jums į namus ar į darbovietę (tuo adresu, kurį pateiksite užsisakydami prekes).
- Apie užsakymo išsiuntimą informuosime Jus elektroniniu paštu.
 
-
-";
-$txtmodal_returning = "
-Prekių grąžinimas ir keitimas vykdomas vadovaujantis LR ūkio ministro 2001 m. birželio 29 d. įsakymu Nr. 217 patvirtintomis „Daiktų grąžinimo ir keitimo taisyklėmis\" bei ūkio ministro 2001 m. rugpjūčio 17 d. įsakymu Nr. 258 patvirtintomis „Daiktų pardavimo ir paslaugų teikimo, kai sutartys sudaromos naudojant ryšio priemones, taisyklėmis\".
-<br>Jei prekė Jums netiko ar nepatiko, praneškite mums per 3 dienas nuo prekės gavimo:
-<br>-prekės pavadinimas, užsakymo numeris ir data
-<br>-grąžinimo priežastis
-<br>-grąžinama prekė turi būti originalioje pakuotėje
-<br>-pristatymo išlaidos negrąžinamos.
-";
-
-$txtpayment_methods_info = "
-<strong>Mes suteikiame Jums galimybę rinktis:</strong><br>
-1. Apmokėjimas banko pavedimu, kai norite, kad prekes išsiųstume Jūsų pateiktu adresu.<br>
-Įvykdę užsakymą, ekrane pamatysite išankstinio mokėjimo sąskaitą, ją gausite ir elektroniniu paštu. Tada Jums tereiks sąskaita apmokėti. Gavę Jūsų užsakymo apmokėjimą, išsiųsime Jūsų užsakytas prekes kartu su sąskaita faktūra nurodytu adresu. Atsiskaityti galite tik eurais.
-Atliekant pavedimą, būtinai nurodykite užsakymo numerį.<br><br>
-2. Apmokėjimas grynais, kai norite prekes atsiimti mūsų parduotuvėje Alytuje.<br>
-Šiuo atveju Jums tereikia atvykti į mūsų parduotuvę ??? 85 - 202, Alytuje ir atsiskaityti už jau užsakytas elektroniniu būdu prekes. Kada galėsite atsiimti prekes, pranešime Jums elektroniniu paštu (arba, jei parašysite į pastabas, kad pageidaujate) telefonu. Gavus pranešimą, kad užsakymas paruoštas, reikia prekes iš mūsų atsiimti per 24 val. Atsiskaityti galite tik eurais ir tik grynais pinigais (deja, kortelių neaptarnaujame).
-<br><br>3. Apmokėjimas grynais, kai perkate mūsų parduotuvėje Vilniuje.<br>
-Jei atvyksite į mūsų parduotuvę ??? 85 - 202, Alytuje, Jums tereiks su savimi turėti grynųjų pinigų (deja, kortelių neaptarnaujame). Savo išsirinktas prekes gausite iš karto.
-<br><br>Parduotuvė Alytuje
-<br>???. 85 - 202,
-<br>Darbo laikas: I-VII, 10-22 val.
-
-<strong><br>Jei nespėjate apsilankyti mūsų darbo metu, visada galite skambinti mums tel. 862700354 ir mes Jus priimsime susitartą valandą.</strong>
-
-";
-
-$txtcontacts_info = "
-MB „Viskas jūsų šventei“
-Įmonės kodas 303944367 <br>
-A/S LT077300010142612531<br>
-
-PC ….. <br>
-……. g. 57, Alytus<br> 
-Darbo laikas: I-VII 10:00 - 19:00 <br>
-El. paštas: decorbox.lt@gmail.com <br>
-Telefono numeris: +370 627 00354
-
-
-";*/
 ?>

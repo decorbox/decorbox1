@@ -6,6 +6,7 @@ $display = "
  	<div class='container text-center'><p>2015 © „DECORBOX.LT“, Visos teisės saugomos</p></div>
 
  </div>
+ <p class='pull-right'>Sprendimas: DeividasM</p>
 ";
 echo $display;
 ?>

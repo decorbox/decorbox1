@@ -99,7 +99,7 @@ if(isset($_GET['cat_id']) && isset($_GET['subcat_id'])){
             <div class='col-md-3 col-sm-3 img-responsive galleryImgSize '>
                 <a href='$img'   data-gallery>
                     <img src='$img' class='galleryImgSize'>
-                </a>
+                </a> 
             </div>";
             }
         }else{

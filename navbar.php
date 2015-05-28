@@ -32,7 +32,7 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
           
           <li><a href="index.php?lang=<?php echo $_GET['lang'] ?>&nav=Ranku-darbo-gaminiai"><?php echo $txtnav_handmade; ?></a></li>
           <li><a href="index.php?lang=<?php echo $_GET['lang'] ?>&nav=Kontaktai"><?php echo $txtnav_about; ?></a></li>
-          <li class="navbar-text"><?php echo $txtnav_questions; ?> +370 62700354</li>
+          <li class="hidden-md hidden-sm hidden-xs navbar-text"><?php echo $txtnav_questions; ?> +370 62700354</li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
