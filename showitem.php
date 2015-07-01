@@ -11,6 +11,7 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
 	}else{
 		include 'content_LT.php';
 	}
+
 //create safe values for use
 $safe_item_id = @mysqli_real_escape_string($mysqli, $_GET['item_id']);
  //validate item
@@ -58,7 +59,11 @@ $display_block .= "
 
 <div class='row'>
 	<div class='col-md-6 '>
-		<div><img src='$item_image' class='img-responsive ' alt='$item_title'/></div>
+		<div>
+			
+				<img src='$item_image' class='img-responsive ' alt='$item_title'/>
+			
+			</div>
 	</div>
 	<div class='col-md-6'>";
 		if(!empty($item_price_old)){
@@ -113,9 +118,9 @@ include'navbar.php';?>
 <!--<?php echo $display_block; ?>-->
 	<div class="row">
 		<div class="col-md-9 ">
-			<?php echo $display_block; ?>
+			<?php echo $display_block; ?> 
 		</div>
-		<div class="col-md-3 right-bar-edit border-color">
+		<div class="col-md-3 hidden-xs hidden-sm right-bar-edit border-color">
 			<?php include 'login.php';
 			include 'showPriceWidget.php';
 			include_once 'contactsWidget.php';

@@ -1,4 +1,4 @@
-
+<style type="text/css">.panel2{border:none;}</style>
 <?php
 //anglu isversta
 include 'connect.php';
@@ -11,10 +11,11 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
 		include 'content_LT.php';
 	}
 
-$display_block="";
-$display_block.="
-<div class='row'>
-	<div class=' text-center panel panel-success' >
+//$display_block1="";
+$display_block1
+.="
+<div class=''> 
+	<div class='visible-sm visible-xs text-center panel panel2 panel-success' >
 		<div class='panel-heading'>
 			<h3 class='panel-title'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'></span> $txtbasket</h3>
 		</div>
@@ -39,7 +40,7 @@ if (isset($order_id)) {
 					
 	if (mysqli_num_rows($get_cart_res) < 1) {
 		//print message
-		$display_block .= "
+		$display_block1 .= "
 		<!--<div class='text-center '>-->
 		 	<label>
 				$txtno_basket_items
@@ -58,11 +59,11 @@ if (isset($order_id)) {
 			$total_price = sprintf("%.02f", $item_price * $item_qty); 
 			$full_price = sprintf("%.02f", $full_price+$total_price); //galutine kaina
 		}
-		$display_block .= "<div><p class='labelSize'>$txtqty: $full_qty </p></div>";
-		$display_block .= "<div><p class='labelSize'>$txtprice: $full_price &euro;</p></div>";
-		$display_block .= "<a href='showcart.php?lang=".$_GET['lang']."' role='button' style='width:100%' class='btn btn-primary'>$txtshow_basket</a>";	
+		$display_block1 .= "<div><p class='labelSize'>$txtqty: $full_qty </p></div>";
+		$display_block1 .= "<div><p class='labelSize'>$txtprice: $full_price &euro;</p></div>";
+		$display_block1 .= "<a href='showcart.php?lang=".$_GET['lang']."' role='button' style='width:100%' class='btn btn-primary'>$txtshow_basket</a>";	
 	}
-	$display_block.="
+	$display_block1.="
 		</div>
 	</div>
 </div>
@@ -72,7 +73,7 @@ if (isset($order_id)) {
 
 	mysqli_free_result($get_cart_res);
 }else{
-	$display_block .= "
+	$display_block1 .= "
 		<div class=' text-center'>
 		 	<label>
 				$txtno_basket_items
@@ -83,7 +84,7 @@ if (isset($order_id)) {
 </div>
 	";
 }
-echo $display_block;
+//echo $display_block1;
 
 
 ?>

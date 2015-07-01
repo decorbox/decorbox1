@@ -24,7 +24,9 @@ $txtcompany = "Company";
 $txtbank_acc = "Bank account";
 $txtcompany_code = "Company code";
 $txtbuyer = "Buyer";
- 
+$txtsubnav_baloon="Balloon composition"; 
+$txtsubnav_wood="Wood products";
+$txtsubnav_soap="Soap";
 $txtcategory_rent="Equipment rental";
 $txtcategory_rent_subtxt="For rentals please pre-book by phone or e-mail.";
 $txtnav_subtxt = "Natural handmade soap - great thanks freebie guests.

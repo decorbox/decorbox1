@@ -1,7 +1,8 @@
 <?php //kodas kopijuotas nuo kito puslapio
 $display_block.= "<h1 class='text-center'>Rankų darbo gaminiai</h1>";
-	 						$display_block.="<div class='row'> <div class='col-md-2 col-md-offset-10'>				
+	 						$display_block.="<div class='row'> <div class='col-md-3 col-md-offset-9'>				
 	 							<button type='button' name='buttonAddItem' class='btn btn-primary' data-toggle='modal' onclick='addRichTextEditor(this);' data-target='#addItem'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Įdėti prekę</button>
+	 							<button type='button' name='buttonAddDesc' class='btn btn-primary' data-toggle='modal' data-target='#navDesc'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span>Aprašymai</button>
 	 						</div></div>";
 
 	
@@ -13,7 +14,7 @@ $display_block.="<!-- add item Modal -->
 				<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
 				<h4 class='modal-title text-center'>Įdėti naują prekę</h4>
 			</div>
-
+ 
 			<form class='form-horizontal'  method='post' enctype='multipart/form-data'>
 				<div class='modal-body'>
 					<div class='form-group'>
@@ -54,6 +55,17 @@ $display_block.="<!-- add item Modal -->
 							</div>
 						</div>
 
+						<div class='row margin-top'>
+							<label class='col-md-4 control-label'>Skiltis<span style='color: red; padding-left: 2px;'>*</span></label>
+							<div class='col-md-8'>
+								<select class='selectOption' id='addNavbarItem' style='width:100%'  name='addItemNavBar'>
+									<option  value='2'>Rankų darbo gaminiai</option>
+									<option  value='3'>Muiliukai</option>
+									<option  value='4'>Medžio gaminiai</option>
+									<option  value='5'>Balionų kompozicijos</option>
+								</select>
+							</div>
+						</div>
 
 						<div class='row margin-top'>	
 							<label for='inputDescription' class='col-md-4 control-label'>Apibūdinimas LT</label>
@@ -80,6 +92,95 @@ $display_block.="<!-- add item Modal -->
 	</div>
 </div>";	
 
+$display_block.="<!-- nav description Modal -->
+<div class='modal fade' id='navDesc' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+	<div class='modal-dialog modal-lg'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+				<h4 class='modal-title text-center'>Aprašymai</h4>
+			</div>
+ 
+			<form class='form-horizontal'  method='post'>
+				<div class='modal-body'>
+					<div class='form-group'>";
+
+					$sql_desc_sql = "SELECT txt_title, txt_title_EN from navbar_submenu_text where submenu_id=3";
+					$sql_desc3 = mysqli_query($mysqli, $sql_desc_sql) or die(mysqli_error($mysqli));
+					while($item = mysqli_fetch_array($sql_desc3)){
+						$txt_lt = $item['txt_title'];
+						$txt_en = $item['txt_title_EN'];
+					}
+
+					$sql_desc_sql1 = "SELECT txt_title, txt_title_EN from navbar_submenu_text where submenu_id=4";
+					$sql_desc4 = mysqli_query($mysqli, $sql_desc_sql1) or die(mysqli_error($mysqli));
+					while($item = mysqli_fetch_array($sql_desc4)){
+						$txt_lt1 = $item['txt_title'];
+						$txt_en1 = $item['txt_title_EN'];
+					}
+
+					$sql_desc_sql2 = "SELECT txt_title, txt_title_EN from navbar_submenu_text where submenu_id=5";
+					$sql_desc5 = mysqli_query($mysqli, $sql_desc_sql2) or die(mysqli_error($mysqli));
+					while($item = mysqli_fetch_array($sql_desc5)){
+						$txt_lt2 = $item['txt_title'];
+						$txt_en2 = $item['txt_title_EN'];
+					}
+
+
+					$display_block.="	
+						<div class='row margin-top'>
+							<label for='inputName3' class='col-md-4 control-label'>Muiliukai LT</label>
+							<div class='col-md-8'>
+								<textarea  name='addMuiliukai' class='form-control' >$txt_lt </textarea>							
+							</div>
+						</div>
+
+						<div class='row margin-top'>
+							<label for='inputName5' class='col-md-4 control-label'>Muiliukai EN</label>
+							<div class='col-md-8'>
+								<textarea  name='addMuiliukaiEn' class='form-control' >$txt_en	</textarea>						
+							</div>
+						</div>
+
+						<div class='row margin-top'>
+							<label for='inputName3' class='col-md-4 control-label'>Medžio dirbiniai LT</label>
+							<div class='col-md-8'>
+								<textarea  name='addWood' class='form-control'>$txt_lt1 </textarea>							
+							</div>
+						</div>
+
+						<div class='row margin-top'>
+							<label for='inputName5' class='col-md-4 control-label'>Medžio dirbiniai EN</label>
+							<div class='col-md-8'>
+								<textarea  name='addWoodEn' class='form-control' >$txt_en1</textarea>						
+							</div>
+						</div>
+
+						<div class='row margin-top'>
+							<label for='inputName3' class='col-md-4 control-label'>Balionų kompozicijos LT</label>
+							<div class='col-md-8'>
+								<textarea  name='addBallon' class='form-control'> $txt_lt2 </textarea>							
+							</div>
+						</div>
+
+						<div class='row margin-top'>
+							<label for='inputName5' class='col-md-4 control-label'>Balionų kompozicijos EN</label>
+							<div class='col-md-8'>
+								<textarea  name='addBallonEn'  class='form-control'>$txt_en2</textarea>						
+							</div>
+						</div>
+
+						
+					</div>
+				</div>
+				<div class='modal-footer'>
+				 	<button type='button' class='btn btn-default' data-dismiss='modal'>Uždaryti</button>
+				 	<button type='submit' name='submitAddDesc' value='Submit' class='btn btn-primary'>Pridėti</button>
+				</div>
+		 	</form>
+		</div>
+	</div>
+</div>";	
 
 	//submit edit form	Upload image only	
 if(isset($_POST["submitAddItem"])) {
@@ -145,7 +246,7 @@ if(isset($_POST["submitAddItem"])) {
 					'".$_POST['addDescriptionEN']."',
 					'".$_POST['addqty']."',
 					NULL,
-					'2')";//2 - nav prekes categ
+					'".$_POST['addItemNavBar']."')";//2 - nav prekes categ
 	
 					$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 				
@@ -160,7 +261,16 @@ if(isset($_POST["submitAddItem"])) {
 		 }		        
 					
 }//end of add new item
+//submenu items semi-title description
+if(isset($_POST["submitAddDesc"])) {
+	$update_desc3 = "UPDATE navbar_submenu_text set txt_title='".$_POST['addMuiliukai']."', txt_title_EN='".$_POST['addMuiliukaiEn']."' where submenu_id=3";
+	$update_desc4 = "UPDATE navbar_submenu_text set txt_title='".$_POST['addWood']."', txt_title_EN='".$_POST['addWoodEn']."' where submenu_id=4";
+	$update_desc5 = "UPDATE navbar_submenu_text set txt_title='".$_POST['addBallon']."', txt_title_EN='".$_POST['addBallonEn']."' where submenu_id=5";
 
+	$update_store_item_res = mysqli_query($mysqli, $update_desc3); 
+	$update_store_item_res = mysqli_query($mysqli, $update_desc4);
+	$update_store_item_res = mysqli_query($mysqli, $update_desc5);
+}
 	 		$display_block.="<div class='row'>
 	 						   <table class='table tableStuff text-center table-responsive table-striped table-bordered' cellspacing='0' width='100%'>
 							        <thead>
@@ -169,6 +279,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <th>Pavadinimas</th>
 							                <th>Kaina</th>
 							                <th>Sena kaina</th>
+							                <th>Skiltis</th>
 							                <th>Kiekis</th>
 							                <th>Veiksmai</th>
 							            </tr>
@@ -180,6 +291,7 @@ if(isset($_POST["submitAddItem"])) {
 							                <th>Pavadinimas</th>
 							                <th>Kaina</th>
 							                <th>Sena kaina</th>
+							                <th>Skiltis</th>
 							                <th>Kiekis</th>
 							                <th>Veiksmai</th>
 							            </tr>
@@ -208,13 +320,22 @@ if(isset($_POST["submitAddItem"])) {
 	 								$nav_title = "Kūrybinės dirbtuvės";
 	 							}
 	 							
-
+	 							if($item_nav_id=='2'){
+	 								$skiltis="Rankų darbo gaminiai";
+	 							}else if($item_nav_id=='3'){
+	 								$skiltis="Muiliukai";
+	 							}else if ($item_nav_id=='4') {
+	 								$skiltis="Medžio gaminiai";
+	 							}else if ($item_nav_id=='5') {
+									$skiltis="Balionų kompozicijos"; 							
+		 							}
 	 							
 						$display_block.="<tr>
 							                <td><img class='adminImgSize' src='$item_image'></td>
 							                <td><a href='showitem.php?lang=".$_GET['lang']."&item_id=$item_id' target='_blank'>$item_title</a></td>
 							                <td>$item_price &euro;</td>
 							                <td>$item_price_old &euro;</td>
+							                <td>$skiltis</td>
 							                <td>$item_qty</td>
 							                
 							                <td> <button type='button' class='btn btn-primary' onclick='addRichTextEditor(this);' data-toggle='modal' data-target='#".$item_id."'>
@@ -300,6 +421,21 @@ $display_block.="<!-- edit item Modal -->
 									<label for='inputqty' class='col-md-4 control-label'>Kiekis<span style='color: red; padding-left: 2px;'>*</span></label>
 									<div class='col-md-8'>
 										<input type='number' min='0' step='any' required name='qty' value='$item_qty' class='form-control' id='inputPrice' >
+									</div>
+								</div>
+								
+
+								<div class='row margin-top'>
+									<label class='col-md-4 control-label'>Skiltis<span style='color: red; padding-left: 2px;'>*</span></label>
+									<div class='col-md-8'>
+										<select class='selectOption' id='addNavbarItem' style='width:100%'  name='editItemNavBar'>";
+
+										$display_block.="
+											<option  value='2'>Rankų darbo gaminiai</option>
+											<option  value='3'>Muiliukai</option>
+											<option  value='4'>Medžio gaminiai</option>
+											<option  value='5'>Balionų kompozicijos</option>
+										</select>
 									</div>
 								</div>
 
@@ -418,7 +554,7 @@ if(isset($_POST["submitEditItem"])) {
 
 	if(isset($_POST['priceOld']) && $_POST['priceOld']=='' && $uploadOk == 1){
 		
-			$update_store_item = "UPDATE store_items SET nav_id = '2', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
+			$update_store_item = "UPDATE store_items SET nav_id = '".$_POST['editItemNavBar']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
 			item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', qty = '".$_POST['qty']."', item_price_old=NULL WHERE id='".$_POST['getItem_id']."'";
 			$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 		
@@ -427,7 +563,7 @@ if(isset($_POST["submitEditItem"])) {
 		{
 		if($uploadOk == 1){
 			
-				$update_store_item = "UPDATE store_items SET nav_id = '2', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
+				$update_store_item = "UPDATE store_items SET nav_id = '".$_POST['editItemNavBar']."', item_title = '".$_POST['title']."', item_title_EN = '".$_POST['titleEN']."',
 				item_price = '".$_POST['price']."', item_desc = '".$_POST['description']."', item_desc_EN = '".$_POST['descriptionEN']."', qty = '".$_POST['qty']."',item_price_old='".$_POST['priceOld']."' WHERE id='".$_POST['getItem_id']."'";
 				$update_store_item_res = mysqli_query($mysqli, $update_store_item);
 			

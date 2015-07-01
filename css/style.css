@@ -345,3 +345,7 @@ textarea{
 .navbar-default{
 	border-radius: 20px;
 }
+
+.navbar-default .navbar-form{
+	border:none;
+}

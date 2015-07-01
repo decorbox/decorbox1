@@ -76,7 +76,7 @@ if(isset($_COOKIE['ID_my_site']))
 			/*<!-- Button  modal -->*/
 			echo"		
 			<!-- Modal -->
-				<div class='modal fade' id='myModal1' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+				<div class='modal fade' id='myModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 				  <div class='modal-dialog modal-lg'>
 				    <div class='modal-content'>
 				     	<div class='modal-header'>
@@ -86,13 +86,13 @@ if(isset($_COOKIE['ID_my_site']))
 
 				     	<div class='modal-body'>     <!--TABS--> 	
 							<ul class='nav nav-tabs' id='tabContent'>
-				        		<li class='active'><a href='#profile' data-toggle='tab'>$txtmy_profile</a></li>
-				        		<li><a href='#užsakymai' data-toggle='tab'>$txtorders</a></li>
-				        		<li><a href='#pass' data-toggle='tab'>$txtchange_password</a></li>
+				        		<li class='active'><a href='#profile1' data-toggle='tab'>$txtmy_profile</a></li>
+				        		<li><a href='#užsakymai1' data-toggle='tab'>$txtorders</a></li>
+				        		<li><a href='#pass1' data-toggle='tab'>$txtchange_password</a></li>
 				        		
 							</ul>
 				      		<div class='tab-content'>
-				        		<div class='tab-pane active' id='profile'> 
+				        		<div class='tab-pane active' id='profile1'> 
 				        <!--PROFILIS-->
 				        			<div class=' border-color'> <!--forma-->
 
@@ -184,7 +184,7 @@ if(isset($_COOKIE['ID_my_site']))
 		
 				      			</div> <!-- end of profile tab -->
 				     <!--UZSAKYMAI-->   
-				        		<div class='tab-pane' id='užsakymai'>
+				        		<div class='tab-pane' id='užsakymai1'>
 				       			<table class='table tableStuff table-bordered table-hover table-condensed'>
 				       				<thead>
 										<tr>
@@ -237,7 +237,7 @@ if(isset($_COOKIE['ID_my_site']))
 
 				        		
 							
-							<div class='tab-pane' id='pass'> 
+							<div class='tab-pane' id='pass1'> 
 				        <!--Password-->
 				        		<div class=' border-color'> <!--forma-->
 									<form class='form-horizontal' method='post'> 
@@ -325,7 +325,7 @@ if(isset($_POST['newPassword'])){
 			 		<h3 class=' panel-title text-center'><span class='glyphicon glyphicon-user' aria-hidden='true'></span> $txthello, $username</h3>
 				</div>	
 				<div class='panel-body'>
-					<button type='button' class='btn btn-primary btn-lg' style='display: block; width: 100%;' data-toggle='modal' data-target='#myModal1'>
+					<button type='button' class='btn btn-primary btn-lg' style='display: block; width: 100%;' data-toggle='modal' data-target='#myModal'>
 						$txtmy_menu
 					</button><br>
 

@@ -29,8 +29,17 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
             
           </ul>
         </li>
-          
-          <li><a href="index.php?lang=<?php echo $_GET['lang'] ?>&nav=Ranku-darbo-gaminiai"><?php echo $txtnav_handmade; ?></a></li>
+
+        <li class="dropdown" onclick="location.href='index.php?lang=<?php echo $_GET['lang'] ?>&nav=Ranku-darbo-gaminiai'">  
+           <a href="#"  class="dropdown-toggle"  data-toggle="dropdown">
+          <?php echo $txtnav_handmade; ?> <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+             <li><a href="index.php?lang=<?php echo $_GET['lang'] ?>&submenu=Muiliukai"><?php echo "Muiliukai" ?> </a></li>
+            <li><a href="index.php?lang=<?php echo $_GET['lang'] ?>&submenu=Medžio-gaminiai"><?php echo "Medžio gaminiai" ?></a></li>
+            <li><a href="index.php?lang=<?php echo $_GET['lang'] ?>&submenu=Balionų-kompozicijos"><?php echo "Balionų kompozicijos" ?></a></li>
+         </ul> 
+        </li>
+          <!--<li><a href="index.php?lang=<?php echo $_GET['lang'] ?>&nav=Ranku-darbo-gaminiai"><?php echo $txtnav_handmade; ?></a></li>-->
           <li><a href="index.php?lang=<?php echo $_GET['lang'] ?>&nav=Kontaktai"><?php echo $txtnav_about; ?></a></li>
           <li class="hidden-md hidden-sm hidden-xs navbar-text"><?php echo $txtnav_questions; ?> +370 62700354</li>
         </ul>

@@ -241,10 +241,10 @@ mysqli_close($mysqli);
 
 	<div class="row">
 		<div class="col-md-9">
-			<?php echo $display_block; ?>
+			<?php echo $display_block; ?> 
 		</div>
 
-		<div class="col-md-3 right-bar-edit border-color">
+		<div class="col-md-3 hidden-sm hidden-xs right-bar-edit border-color">
 		<?php 
 			include_once 'login.php';  
 				

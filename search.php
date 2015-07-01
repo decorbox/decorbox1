@@ -103,7 +103,7 @@ if(isset($_GET['search'])){
             ?>
         </div>
 
-        <div class="col-md-3 right-bar-edit border-color">
+        <div class="col-md-3 hidden-sm hidden-xs right-bar-edit border-color">
             <?php include_once 'login.php';  
                 include_once 'showPriceWidget.php';
                 include_once 'contactsWidget.php';

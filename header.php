@@ -48,13 +48,13 @@ $display_block1.="
     </div>";
 $display_block1.="
 <div class='row header-edit'>
-    <div class='col-md-4-edit pull-left'>
+    <div class='col-md-4-edit hidden-sm hidden-xs pull-left'>
         <a href = 'index.php?lang=".$_GET['lang']."'>
             <img class='img-responsiv' width='100%' height='200px' src='images/decorbox/logo.png'>
         </a>
     </div>
 
-    <div class='col-md-8-edit '>
+    <div class='col-md-8-edit hidden-sm hidden-xs'>
         <div id='slider1' style='position: relative; top: 0px; left: 0px; width: 760px; height: 200px;'>
             <div u='slides' style='cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 760px; height: 200px;'>";
             
@@ -75,8 +75,24 @@ $display_block1.="
             </div>
         </div>
     </div>
+    <!-- responsive header-->
+    <div class=' visible-sm visible-xs'>
+        <div class='row'>
+            <div class='col-sm-6 col-xs-6'>
+                <a href = 'index.php?lang=".$_GET['lang']."'>
+                    <img class='img-responsiv' width='100%' height='200px' src='images/decorbox/logo.png'>
+                </a>
+            </div>
+            <div class='col-sm-6 col-xs-6'>"; 
+            include 'showPriceWidgetMobile.php'; 
+            
+$display_block1.="
+            </div>
+        </div>
+    </div>
             
 </div>";
 
 
 echo $display_block1;
+ 

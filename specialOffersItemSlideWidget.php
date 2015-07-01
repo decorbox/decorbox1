@@ -25,7 +25,7 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
 $display_block2="";
 $display_block2.="
 <div class='row margin-top20'>
-	<div class='hidden-xs text-center panel panel-success' >
+	<div class='hidden-xs hidden-sm text-center panel panel-success' >
 		<div class='panel-heading'>
 			<a href='?lang=".$_GET['lang']."&special=yes'>
 				<h3 class='panel-title'> $txtspecial_offers</h3>

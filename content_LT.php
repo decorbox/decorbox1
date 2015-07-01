@@ -24,6 +24,9 @@ $txtcompany = "Įmonė";
 $txtbank_acc = "Sąskaitos Nr.";
 $txtcompany_code = "Įmonės kodas";
 $txtbuyer = "Pirkėjas";
+$txtsubnav_baloon="Balionų kompozicijos";
+$txtsubnav_wood="Medžio gaminiai";
+$txtsubnav_soap="Muiliukai";
  
 $txtcategory_rent="Inventoriaus nuoma";
 $txtcategory_rent_subtxt="Dėl nuomos prašome iš anksto užsisakyti telefonu arba el. paštu.";

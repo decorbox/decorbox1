@@ -2,7 +2,7 @@
 <?php
 include 'connect.php';
 //include 'library.php';
-
+ 
 if(isset($_GET['lang']) && $_GET['lang']=='LT'){
         include 'content_LT.php';
     }else if(isset($_GET['lang']) && $_GET['lang']=='EN'){
@@ -67,8 +67,8 @@ if(isset($_GET['cat_id']) && isset($_GET['subcat_id'])){
             
            
             $display_block.="
-            <div class='col-md-3 col-sm-3 img-responsive galleryImgSize '>
-                <a href='$img'  data-gallery>
+            <div class='col-md-3 col-sm-3 col-xs-3 img-responsive galleryImgSize '>
+                <a href='$img'  data-gallery> 
                     <img src='$img' class='galleryImgSize' >
                 </a>
             </div>";
@@ -96,7 +96,7 @@ if(isset($_GET['cat_id']) && isset($_GET['subcat_id'])){
             }
             
             $display_block.="
-            <div class='col-md-3 col-sm-3 img-responsive galleryImgSize '>
+            <div class='col-md-3 col-sm-3 col-xs-3 img-responsive galleryImgSize '>
                 <a href='$img'   data-gallery>
                     <img src='$img' class='galleryImgSize'>
                 </a> 

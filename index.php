@@ -26,10 +26,13 @@ if(isset($_GET['lang']) && $_GET['lang']=='LT'){
 		<link rel="shortcut icon" type="image/x-icon" href="images/decorbox/favicon.ico" />
 
 	</head>
-	<body>
+	<body> 
 <div class="container">
 	
 	<?php include 'header.php'; 
+		echo "<div class='visible-xs visible-sm'>";
+			include 'loginMobile.php';
+		echo "</div>";	
 		 include 'navbar.php';
 		include 'displayCategories.php';
 	?>

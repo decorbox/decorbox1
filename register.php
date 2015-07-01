@@ -355,8 +355,8 @@ if($input_error!=true){
 	include 'header.php';
 	include 'navbar.php';
 	echo $display_block; ?>	
-
-	<div class="col-md-3 right-bar-edit border-color">
+ 
+	<div class="col-md-3 hidden-xs hidden-sm right-bar-edit border-color">
 		<?php 
 			include_once 'login.php';  
 			include 'showPriceWidget.php';

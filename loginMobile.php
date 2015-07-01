@@ -81,7 +81,7 @@ else if (isset($_POST['submitLog'])) { // if form has been submitted
 } //end of, if form submitted
 
 echo "<!-- Reset pass Modal -->
-<div class='modal fade' id='resetPass1' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+<div class='modal fade' id='resetPass' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 	<div class='modal-dialog '>
 		<div class='modal-content'>
 			<div class='modal-header'>
@@ -158,7 +158,7 @@ if(isset($_GET['token'])){//redirect to reset password page
 }
 
 if(isset($_COOKIE['ID_my_site'])){
-	include 'members.php';
+	include 'membersMobile.php';
 }	 
 else{
  ?> 
@@ -194,7 +194,7 @@ else{
 							<a href="register.php?lang=<?php echo $_GET['lang'] ?>" role='button' class='btn btn-success'><?php echo $txtregister; ?></a>
 							<button type="submit" value"Register" name="submitLog" class="btn btn-success"><?php echo $txtlogin; ?></button>
 							<div>
-							<a href="#resetPass" data-toggle='modal' data-target='#resetPass1'><?php echo $txtforget_pass; ?></a>
+							<a href="#resetPass" data-toggle='modal' data-target='#resetPass'><?php echo $txtforget_pass; ?></a>
 							</div>
 						</div>
 					</div>

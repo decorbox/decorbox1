@@ -113,7 +113,7 @@ $display_block.="
 			</label>
 		</div>
 
-	</div>";	
+	</div>";	 
 
 //free results
 mysqli_free_result($get_cats_res);
@@ -131,19 +131,21 @@ mysqli_close($mysqli);
 					echo $display_block;	
 				?>	
 			</div>
+			<div class="hidden-sm hidden-xs">
 			<?php include 'specialOffersItemSlideWidget.php'; ?>
-		</div>
+			</div>
+		</div> 
 
-		<div class="col-md-6 col-md-6-edit ">
+		<div class="  col-md-6-editBLOGAS col-md-6 col-sm-9 "> 
 			<?php  
-				include_once 'showCategoriesItems.php';
+				include_once 'showCategoriesItems.php'; 
 
 			?>
 		</div>
 
-		<div class="col-md-3 col-lg-3  right-bar-edit border-color">
-			<?php include_once 'login.php';  
-				include_once 'showPriceWidget.php';
+		<div class="col-md-3 col-lg-3 hidden-sm hidden-xs right-bar-edit border-color">
+			<?php include 'login.php';  
+				include 'showPriceWidget.php'; 
 				include_once 'contactsWidget.php';
 				include_once 'deliveryWidget.php';
 				include_once 'facebookWidget.php';
